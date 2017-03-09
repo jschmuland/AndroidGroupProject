@@ -3,4 +3,7 @@
     <string name="sleepTitle">Sleep</string>
     <string name="progressBarDescription">daily calorie progress bar</string>
     <string name="title_activity_sleep_tracker">Sleep Tracker</string>
+    <string name="exercise">Exercise Tracker</string>
+    <string name="foodTitle">Food</string>
+    <string name="mealTitle">Meal Planner</string>
 </resources>
