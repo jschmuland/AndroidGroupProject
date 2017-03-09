@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,8 +11,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.MainActivity">
 
-    <TextView
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        android:layout_marginBottom="78dp"
+        android:id="@+id/imageView"
+        android:layout_above="@+id/progressBar"
+        android:layout_toStartOf="@+id/progressBar"
+        android:layout_marginEnd="35dp"
+        android:contentDescription="@+id/progressBarDescription"/>
+
+    <TextView
+        android:text="@string/sleepTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="40dp"
+        android:id="@+id/sleepTitle"
+        android:layout_alignStart="@+id/imageView" />
+
 </RelativeLayout>

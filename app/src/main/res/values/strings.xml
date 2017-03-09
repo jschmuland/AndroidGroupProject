@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AndroidGroupProject</string>
+    <string name="app_name">Something About Life</string>
+    <string name="sleepTitle">Sleep</string>
+    <string name="progressBarDescription">daily calorie progress bar</string>
 </resources>
