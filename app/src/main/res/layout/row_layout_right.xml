@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/text_position"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:text="Breakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_alignBaseline="@+id/Bf"
+        android:layout_alignBottom="@+id/Bf"
+        android:layout_alignParentStart="true" />
+
+
+    <AutoCompleteTextView
+        android:text="Enter Food Item Here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Bf"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/mealsubmitbutton" />
+
+    <EditText
+        android:text="Enter Food Item Here"
+        android:id="@+id/Breakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"/>
+    <CheckBox
+        android:text="+ Add Items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:id="@+id/morefoods"
+        android:layout_weight="1" />
+
+
+</LinearLayout>
