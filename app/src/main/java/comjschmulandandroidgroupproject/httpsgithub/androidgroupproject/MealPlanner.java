@@ -2,6 +2,7 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,15 @@ import java.util.ArrayList;
 
 public class MealPlanner extends AppCompatActivity {
 
-   ListView theList= (ListView)findViewById(R.id.theList);
+   /*ListView theList= (ListView)findViewById(R.id.theList);
     Button button=(Button)findViewById(R.id.mealsubmitbutton);
     EditText editText=(EditText)findViewById(R.id.editText);
-    ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);
+    ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);*/
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_template);
 
+
+    }
 }
