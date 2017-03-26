@@ -6,4 +6,9 @@
     <string name="exercise">Exercise Tracker</string>
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
+    <string name="MealPlan">Meal Plan</string>
+    <string name="mealsubmitbutton">Submit Meal Plan</string>
+    <string name="Breakfast">Breakfast</string>
+    <string name="Lunch">Lunch</string>
+    <string name="Dinner">Dinner</string>
 </resources>
