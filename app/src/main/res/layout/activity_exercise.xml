@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.Exercise">
 
-</android.support.constraint.ConstraintLayout>
+    <ListView
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:id="@+id/exerciseListView"
+        android:background="#7f7c80"
+        android:layout_alignTop="@+id/spinner"
+        android:layout_alignParentEnd="true" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/exerciseListView" />
+
+    <TextView
+        android:id="@+id/exerciseChoice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/exerciseListView"
+        android:layout_marginBottom="24dp"
+        android:layout_toEndOf="@+id/spinner"
+        android:text="@string/exerciseTextView"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

@@ -6,4 +6,21 @@
     <string name="exercise">Exercise Tracker</string>
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
+
+
+    <!-- Strings for the Exercise Activity -->
+
+    <string name="menu_settings">Menu Settings</string>
+    <string name="exerciseTextView">Choose your Exercise on the List bellow</string>
+
+    <string-array name="exercises_array">
+        <item>Basketball</item>
+        <item>Bike</item>
+        <item>Boxe</item>
+        <item>Running</item>
+        <item>Swimming</item>
+        <item>Other</item>
+    </string-array>
+
+
 </resources>
