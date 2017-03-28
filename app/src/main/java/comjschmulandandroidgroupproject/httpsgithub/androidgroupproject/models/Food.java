@@ -4,23 +4,23 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
  * Created by James Thibaudeau on 2017-03-24.
  */
 
-public class FoodEaten {
+public class Food {
 
     private String foodName;
     private String date;
     private int calories;
     private int id;
 
-    public FoodEaten(){
+    public Food(){
     }
 
-    public FoodEaten(String foodName, String date, int calories){
+    public Food(String foodName, String date, int calories){
         this.foodName = foodName;
         this.date = date;
         this.calories = calories;
     }
 
-    public FoodEaten(String foodName, String date, int calories, int id){
+    public Food(String foodName, String date, int calories, int id){
         this.id = id;
         this.foodName = foodName;
         this.date = date;
