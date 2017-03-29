@@ -3,6 +3,7 @@
     <string name="sleepTitle">Sleep</string>
     <string name="progressBarDescription">daily calorie progress bar</string>
     <string name="title_activity_sleep_tracker">Sleep Tracker</string>
+    <string name="title_activity_food_tracker">Food Tracker</string>
     <string name="exercise">Exercise Tracker</string>
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
@@ -14,7 +15,8 @@
     <string name="exerciseTextView">Choose your Exercise on the List bellow</string>
     <string name="timeInMinutes">0000</string>
     <string name="timeInMinutesView">Time (in minutes) Spent doing an Exercise</string>
-    <string name="okTimeButtom">Set Time</string>
+    <string name="okSendButtom">Save on the Database</string>
+    <string name="viewMinutes">Minutes</string>
 
     <string-array name="exercises_array">
         <item>Basketball</item>
