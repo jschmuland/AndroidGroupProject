@@ -14,7 +14,7 @@
     <string name="exerciseTextView">Choose your Exercise on the List bellow</string>
     <string name="timeInMinutes">0000</string>
     <string name="timeInMinutesView">Time (in minutes) Spent doing an Exercise</string>
-    <string name="okTimeButtom">Set Time</string>
+    <string name="okSendButtom">Save on the Database</string>
 
     <string-array name="exercises_array">
         <item>Basketball</item>

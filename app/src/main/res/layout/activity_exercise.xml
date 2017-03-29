@@ -46,14 +46,6 @@
         android:layout_below="@+id/textTimeSpentView"
         android:layout_toStartOf="@+id/exerciseListView" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/okTimeButtom"
-        android:layout_marginEnd="56dp"
-        android:layout_alignTop="@+id/timeEditText"
-        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/textTimeSpentView"
