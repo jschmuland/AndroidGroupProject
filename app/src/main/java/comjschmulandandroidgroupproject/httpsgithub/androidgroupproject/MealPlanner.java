@@ -23,14 +23,15 @@ import java.util.ArrayList;
 
 public class MealPlanner extends AppCompatActivity {
 
-   /*ListView theList= (ListView)findViewById(R.id.theList);
-    Button button=(Button)findViewById(R.id.mealsubmitbutton);
-    EditText editText=(EditText)findViewById(R.id.editText);
-    ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_template);
+        setContentView(R.layout.activity_meal_planner);
+        ListView theList= (ListView)findViewById(R.id.theList);
+        Button button=(Button)findViewById(R.id.mealsubmitbutton);
+        EditText editText=(EditText)findViewById(R.id.editText);
+        ProgressBar progressBar=(ProgressBar)findViewById(R.id.progressBar);
 
 
     }
