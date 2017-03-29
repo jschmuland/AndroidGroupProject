@@ -7,7 +7,7 @@ import java.util.Date;
  */
 
 public class FoodEaten extends Food {
-    Date date;
+    private Date date;
 
     public FoodEaten(Food food, Date date){
         super(food);

@@ -3,9 +3,9 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 import java.util.ArrayList;
 
 public class Meal {
-    int id;
-    String mealName;
-    ArrayList<Food> foods;
+    private int id;
+    private String mealName;
+    private ArrayList<Food> foods;
 
     public Meal(){
         this.mealName = "";
