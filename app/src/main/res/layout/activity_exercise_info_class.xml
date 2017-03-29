@@ -26,4 +26,24 @@
         android:text=""
         android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/textViewTimeInExercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewExerciseInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text=""
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/textViewTotalCalories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTimeInExercise"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:text=""
+        android:gravity="center" />
+
 </RelativeLayout>

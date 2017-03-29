@@ -26,12 +26,46 @@
         android:id="@+id/exerciseChoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/exerciseListView"
-        android:layout_marginBottom="24dp"
-        android:layout_toEndOf="@+id/spinner"
         android:text="@string/exerciseTextView"
         android:textSize="18dp"
         android:textStyle="bold"
-        android:layout_alignParentStart="true" />
+        android:textAlignment="center"
+        android:layout_above="@+id/exerciseListView"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp" />
+
+    <EditText
+        android:id="@+id/timeEditText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:maxLength="4"
+        android:hint="@string/timeInMinutes"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/textTimeSpentView"
+        android:layout_toStartOf="@+id/exerciseListView" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/okTimeButtom"
+        android:layout_marginEnd="56dp"
+        android:layout_alignTop="@+id/timeEditText"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textTimeSpentView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/timeInMinutesView"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+
+        android:layout_below="@+id/exerciseListView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp" />
 
 </RelativeLayout>

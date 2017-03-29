@@ -1,12 +1,15 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,13 +19,15 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
 
 
     public static String exerciseName;
-    public static String exerciseInfo;
+    public static String exerciseCal;
 
     protected static final String ACTIVITY_NAME = "Exercise";
     ListView list;
-    // String[] exercisesList = {"Basketball", "Bike", "Boxe", "Running", "Swimming", "Other"};
 
-    String[] exercisesList;
+    String[] exercisesListArray;
+    String[] exercisesInfoArray;
+    EditText setTimeInExercise;
+    Double timeInExercise;
 
     public String getExerciseName() {
         return exerciseName;
@@ -32,12 +37,12 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         this.exerciseName = exerciseName;
     }
 
-    public String getExerciseInfo() {
-        return exerciseInfo;
+    public String getExerciseCal() {
+        return exerciseCal;
     }
 
-    public void setExerciseInfo(String exerciseInfo) {
-        this.exerciseInfo = exerciseInfo;
+    public void setExerciseCal(String exerciseCal) {
+        this.exerciseCal = exerciseCal;
     }
 
 
@@ -47,14 +52,15 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         setContentView(R.layout.activity_exercise);
 
         list = (ListView) findViewById(R.id.exerciseListView);
-        exercisesList = getResources().getStringArray(R.array.exercises_array);
+        exercisesListArray = getResources().getStringArray(R.array.exercises_array);
+        exercisesInfoArray = getResources().getStringArray(R.array.exercises_calories_array);
 
 
         Spinner spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(this);
 
         //Creating the ArrayAdapter instance having the country list
-        ArrayAdapter exercisesArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, exercisesList);
+        ArrayAdapter exercisesArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, exercisesListArray);
         exercisesArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(exercisesArrayAdapter);
@@ -66,40 +72,17 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getApplicationContext(), exercisesList[position], Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), exercisesListArray[position], Toast.LENGTH_LONG).show();
 
-        String exerciseInfo = "More Info";
-        
-        switch (position) {
-            case 0:
-                setExerciseName("Basketball");
-                setExerciseInfo("Calories per 30 min = 300");
-                break;
-            case 1:
-                setExerciseName("Bike");
-                setExerciseInfo("Calories per 30 min = 310");
-                break;
-            case 2:
-                setExerciseName("Boxe");
-                setExerciseInfo("Calories per 30 min = 320");
-                break;
-            case 3:
-                setExerciseName("Running");
-                setExerciseInfo("Calories per 30 min = 330");
-                break;
-            case 4:
-                setExerciseName("Swimming");
-                setExerciseInfo("Calories per 30 min = 340");
-                break;
-            case 5:
-                setExerciseName("Other");
-                setExerciseInfo("Calories per 30 min = ???");
-                break;
-        }
+        String exerciseInfo = "Cal/min: " + exercisesInfoArray[position];
+
+
+        setExerciseName(exercisesListArray[position]);
+        setExerciseCal(exercisesInfoArray[position]);
 
 
         //temp string array to collect just one item
-        String[] tempExercise = {exercisesList[position], "", exerciseInfo};
+        String[] tempExercise = {exercisesListArray[position], "", exerciseInfo};
 
         //adapter object
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, tempExercise);
@@ -117,9 +100,19 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            setTimeInExercise = (EditText) findViewById(R.id.timeEditText);
+
+             try {
+             timeInExercise = Double.valueOf(setTimeInExercise.getText().toString());
+            } catch (NumberFormatException e){
+              timeInExercise = 0.00;
+             }
+
             Intent i = new Intent(Exercise.this, Exercise_info_class.class);
-            i.putExtra(exerciseInfo, getExerciseInfo());
+            i.putExtra(exerciseCal, getExerciseCal());
             i.putExtra(exerciseName, getExerciseName());
+            i.putExtra("setTime", timeInExercise);
             startActivity(i);
         }
     };

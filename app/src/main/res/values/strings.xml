@@ -12,15 +12,28 @@
 
     <string name="menu_settings">Menu Settings</string>
     <string name="exerciseTextView">Choose your Exercise on the List bellow</string>
+    <string name="timeInMinutes">0000</string>
+    <string name="timeInMinutesView">Time (in minutes) Spent doing an Exercise</string>
+    <string name="okTimeButtom">Set Time</string>
 
     <string-array name="exercises_array">
         <item>Basketball</item>
-        <item>Bike</item>
         <item>Boxe</item>
+        <item>Cycling</item>
         <item>Running</item>
         <item>Swimming</item>
         <item>Other</item>
     </string-array>
+
+    <string-array name="exercises_calories_array">
+        <item>10.00</item>
+        <item>11.00</item>
+        <item>6.00</item>
+        <item>10.00</item>
+        <item>9.00</item>
+        <item>0.00</item>
+    </string-array>
+
 
 
 </resources>
