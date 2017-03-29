@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 
 public class MealPlan {
-    int id;
-    String planName;
-    HashMap<String, Meal> meals;
+    private int id;
+    private String planName;
+    private HashMap<String, Meal> meals;
 
     public MealPlan(){
         this.id = 0;
