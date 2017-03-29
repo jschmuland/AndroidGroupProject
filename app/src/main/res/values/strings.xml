@@ -17,6 +17,7 @@
     <string name="timeInMinutesView">Time (in minutes) Spent doing an Exercise</string>
     <string name="okSendButtom">Save on the Database</string>
     <string name="viewMinutes">Minutes</string>
+    <string name="mealsubmitbutton">Meal Submit Button</string>
 
     <string-array name="exercises_array">
         <item>Basketball</item>
