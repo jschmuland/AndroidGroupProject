@@ -8,6 +8,15 @@
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
 
+    <!-- Strings for the Sleep Activity -->
+  
+    <string name="Sleeping">Sleeping</string>
+    <string name="Awake">Awake</string>
+    <string name="InputSleepTime">Input Sleep Time</string>
+    <string name="Set">Set</string>
+    <string name="enter_number_only">Please enter only a number</string>
+
+
 
     <!-- Strings for the Exercise Activity -->
 
