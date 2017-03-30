@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         excercisebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("StartActivity","User cliked Weather Button");
-                Intent intent = new Intent(MainActivity.this, SleepTracker.class);
+                Log.i("StartActivity","User cliked the Exercise Button");
+                Intent intent = new Intent(MainActivity.this, Exercise.class);
                 startActivity(intent);
             }
         });

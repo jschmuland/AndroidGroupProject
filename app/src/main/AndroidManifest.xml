@@ -18,6 +18,9 @@
         <activity
             android:name=".SleepTracker"
             android:label="@string/title_activity_sleep_tracker"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Exercise" />
+        <activity android:name=".Exercise_info_class"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
