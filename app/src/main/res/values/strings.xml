@@ -7,4 +7,9 @@
     <string name="exercise">Exercise Tracker</string>
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
+    <string name="Sleeping">Sleeping</string>
+    <string name="Awake">Awake</string>
+    <string name="InputSleepTime">Input Sleep Time</string>
+    <string name="Set">Set</string>
+    <string name="enter_number_only">Please enter only a number</string>
 </resources>
