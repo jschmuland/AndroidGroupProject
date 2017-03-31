@@ -46,12 +46,12 @@
             android:clickable="true">
 
             <ImageButton
+                android:id="@+id/sleep_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/sym_def_app_icon"
-                android:id="@+id/imageButton0"
+                android:layout_gravity="center_horizontal"
                 android:clickable="false"
-                android:layout_gravity="center_horizontal"/>
+                app:srcCompat="@android:drawable/sym_def_app_icon" />
 
             <TextView
                 android:text="@string/title_activity_sleep_tracker"
