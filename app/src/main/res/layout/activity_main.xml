@@ -50,8 +50,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
                 android:clickable="false"
-                app:srcCompat="@android:drawable/sym_def_app_icon" />
+                app:srcCompat="@drawable/sleeping_in_bed_80px" />
 
             <TextView
                 android:text="@string/title_activity_sleep_tracker"
@@ -74,12 +75,13 @@
             android:clickable="true">
 
             <ImageButton
+                android:id="@+id/imageButton1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/sym_def_app_icon"
-                android:id="@+id/imageButton1"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
                 android:clickable="false"
-                android:layout_gravity="center_horizontal"/>
+                app:srcCompat="@drawable/sports_mode_80px" />
 
             <TextView
                 android:text="@string/exercise"
@@ -102,12 +104,12 @@
             android:clickable="true">
 
             <ImageButton
+                android:id="@+id/imageButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/sym_def_app_icon"
-                android:id="@+id/imageButton2"
+                android:layout_gravity="center_horizontal"
                 android:clickable="false"
-                android:layout_gravity="center_horizontal"/>
+                app:srcCompat="@drawable/carrot_80px" />
 
             <TextView
                 android:text="@string/foodTitle"
@@ -130,12 +132,12 @@
             android:clickable="true">
 
             <ImageButton
+                android:id="@+id/imageButton3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/sym_def_app_icon"
-                android:id="@+id/imageButton3"
+                android:layout_gravity="center_horizontal"
                 android:clickable="false"
-                android:layout_gravity="center_horizontal"/>
+                app:srcCompat="@drawable/meal_80px" />
 
             <TextView
                 android:text="@string/mealTitle"
