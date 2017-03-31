@@ -28,14 +28,18 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //Sleep table columns
     public final static String HOURS_SLEPT = "HOURS_SLEPT";
     //Meal table columns
+
     public final static String MEAL_NAME = "MEAL_NAME";
+
     //Exercise table columns
     public final static String EXERCISE_NAME = "EXERCISE_NAME";
     public final static String EXERCISE_DURATION = "DURATION";
     //Create table queries
     public final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s DATETIME, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
     public final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s DATETIME, %s TEXT, %s INTEGER);", FOOD_TABLE, KEY_ID, DATE, FOOD_ITEM, CALORIES);
+
     public final static String EXERCISE_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s DATETIME, %s TEXT, %s INTEGER, %s REAL);", EXERCISE_TABLE, KEY_ID, DATE, EXERCISE_NAME, CALORIES, EXERCISE_DURATION);
+
     //public final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s DATETIME, %s INTEGER);", SLEEP_TABLE, KEY_ID, COL_DATE, HOURS_SLEPT);
 
     //DB name
