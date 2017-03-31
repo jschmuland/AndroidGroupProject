@@ -14,6 +14,11 @@ public class FoodEaten extends Food {
         this.date = date;
     }
 
+    public FoodEaten(String foodName, int calories, Date date){
+        super(foodName, calories);
+        this.date = date;
+    }
+
     public FoodEaten(int id, String foodName, int calories, Date date){
         super(id, foodName, calories);
         this.date = date;
@@ -25,5 +30,10 @@ public class FoodEaten extends Food {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return date.toString() +" " + super.toString();
     }
 }

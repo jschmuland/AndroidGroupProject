@@ -3,6 +3,9 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
 import java.util.Date;
 
+/**
+ * Created by james on 2017-03-28.
+ */
 
 public class Sleep {
     private int id;
