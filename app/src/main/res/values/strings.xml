@@ -7,4 +7,46 @@
     <string name="exercise">Exercise Tracker</string>
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
+
+    <!-- Strings for the Sleep Activity -->
+  
+    <string name="Sleeping">Sleeping</string>
+    <string name="Awake">Awake</string>
+    <string name="InputSleepTime">Input Sleep Time</string>
+    <string name="Set">Set</string>
+    <string name="enter_number_only">Please enter only a number</string>
+
+
+
+    <!-- Strings for the Exercise Activity -->
+
+    <string name="menu_settings">Menu Settings</string>
+    <string name="exerciseTextView">Choose your Exercise on the List bellow</string>
+    <string name="timeInMinutes">0000</string>
+    <string name="timeInMinutesView">Time (in minutes) Spent doing an Exercise</string>
+    <string name="okSendButtom">Save on the Database</string>
+    <string name="viewMinutes">Minutes</string>
+
+    <string name="mealsubmitbutton">Meal Submit Button</string>
+
+    <string-array name="exercises_array">
+        <item>Basketball</item>
+        <item>Boxe</item>
+        <item>Cycling</item>
+        <item>Running</item>
+        <item>Swimming</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="exercises_calories_array">
+        <item>10.00</item>
+        <item>11.00</item>
+        <item>6.00</item>
+        <item>10.00</item>
+        <item>9.00</item>
+        <item>0.00</item>
+    </string-array>
+
+
+
 </resources>

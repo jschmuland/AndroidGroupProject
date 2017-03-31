@@ -13,13 +13,43 @@
     tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.SleepTracker"
     tools:showIn="@layout/activity_template">
 
-    <CheckBox
-        android:text="CheckBox"
+    <ListView
+        android:id="@+id/sleepListView"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+
+
+    <Button
+        android:id="@+id/sleep_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/sleepListView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/Set" />
+
+    <EditText
+        android:id="@+id/sleepInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sleepListView"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/toggleButton"
+        android:layout_toStartOf="@+id/sleep_set"
+        android:hint="@string/InputSleepTime"
+        android:inputType="number" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sleepListView"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="103dp"
-        android:layout_marginBottom="145dp"
-        android:id="@+id/checkBox" />
+        android:layout_marginBottom="10dp"
+        android:textOff="@string/Awake"
+        android:textOn="@string/Sleeping" />
+
 </RelativeLayout>
