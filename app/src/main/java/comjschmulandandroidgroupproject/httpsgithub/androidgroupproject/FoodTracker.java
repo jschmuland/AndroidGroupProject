@@ -97,7 +97,7 @@ public class FoodTracker extends AppCompatActivity {
 
         String dateTime = dateInput.getText() + " " + timeInput.getText();
 
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
         try {
             dateLong = df.parse(dateTime).getTime();

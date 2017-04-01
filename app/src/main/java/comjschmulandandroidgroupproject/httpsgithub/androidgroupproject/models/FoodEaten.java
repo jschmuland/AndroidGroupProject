@@ -4,9 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by james on 2017-03-28.
- */
 
 public class FoodEaten extends Food {
     private Date date;
@@ -36,7 +33,7 @@ public class FoodEaten extends Food {
 
     @Override
     public String toString() {
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         return df.format(date) +" " + super.toString();
     }
 }

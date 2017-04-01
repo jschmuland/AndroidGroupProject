@@ -1,10 +1,6 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
-import java.util.Date;
 
-/**
- * Created by James Thibaudeau on 2017-03-24.
- */
 
 public class Food {
 

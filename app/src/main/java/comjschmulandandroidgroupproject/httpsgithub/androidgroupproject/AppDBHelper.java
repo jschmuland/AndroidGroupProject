@@ -107,7 +107,6 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAll, null);
 
-        DateFormat df = new SimpleDateFormat("yyy-MM-dd hh:mm:ss");
         Date date = null;
         long dateLong = 0;
         int id = 0;
