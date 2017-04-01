@@ -19,8 +19,7 @@
 
 
         </activity>
-
-        <activity android:name=".FoodTracker"></activity>
+        
         <activity
             android:name=".SleepTracker"
             android:label="@string/title_activity_sleep_tracker"
