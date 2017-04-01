@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mealbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("StartActivity","User cliked Weather Button");
+                Log.i("StartActivity","User cliked MealPlanner Button");
                 Intent intent = new Intent(MainActivity.this, MealPlanner.class);
                 startActivity(intent);
             }
