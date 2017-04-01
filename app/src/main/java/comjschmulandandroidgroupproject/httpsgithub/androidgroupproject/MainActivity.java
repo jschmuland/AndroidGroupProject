@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("StartActivity","User cliked Weather Button");
-                Intent intent = new Intent(MainActivity.this, SleepTracker.class);
+                Intent intent = new Intent(MainActivity.this, MealPlanner.class);
                 startActivity(intent);
             }
         });
