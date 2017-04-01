@@ -66,6 +66,7 @@ public class MealPlanner extends AppCompatActivity {
         {
             String[] entries = new String[4];
             boolean skiptheRest = false;
+            publishProgress(1);
             try {
 
                 HttpURLConnection conn = null;
@@ -76,7 +77,7 @@ public class MealPlanner extends AppCompatActivity {
                 conn.setRequestMethod("GET");
                 conn.setDoInput(true);
                 conn.connect();
-
+                publishProgress(25);
                 JsonReader reader = new JsonReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                 reader.beginObject();
                 while (reader.hasNext()) {
@@ -93,6 +94,7 @@ public class MealPlanner extends AppCompatActivity {
                                     skiptheRest = true;
                                     double calories = reader.nextDouble();
                                     Log.d("MEALPLANNE-API-CALORIES", calories+"");
+                                    publishProgress(50);
                                 }else{
 
                                     reader.skipValue();
@@ -100,11 +102,12 @@ public class MealPlanner extends AppCompatActivity {
                                 }
                             }
                             reader.endObject();
+                            publishProgress(65);
                         }
                         reader.endArray();
                     }else{
                         reader.skipValue();
-
+                        
                     }
 
                 }
