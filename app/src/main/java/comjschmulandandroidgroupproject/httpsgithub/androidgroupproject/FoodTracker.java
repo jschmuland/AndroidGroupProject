@@ -17,6 +17,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -50,10 +53,10 @@ public class FoodTracker extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(ACTIVITY_NAME, "addItem clicked");
-                Date date = new Date(2017, 3, 29);
-                FoodEaten food = new FoodEaten("apple", 200, date);
+                FoodEaten food = new FoodEaten(getFoodName(), getCalories(), getDateFromInputs());
                 if(dbHelper.insertFoodEaten(food)){
                     Log.i(ACTIVITY_NAME, "Insert successful");
+                    clearInputs();
                 } else {
                     Log.i(ACTIVITY_NAME, "Insert Failed");
                 }
@@ -61,14 +64,19 @@ public class FoodTracker extends AppCompatActivity {
                 foodAdapter.notifyDataSetChanged();
             }
         });
+
         calorieInput = (EditText) findViewById(R.id.calorieInput);
         foodInput = (EditText) findViewById(R.id.foodInput);
+        dateInput = (EditText) findViewById(R.id.dateInput);
+        timeInput = (EditText) findViewById(R.id.timeInput);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         loadingText = (TextView) findViewById(R.id.loadingText);
         foodList = (ListView) findViewById(R.id.foodList);
 
         calorieInput.setVisibility(View.INVISIBLE);
         foodInput.setVisibility(View.INVISIBLE);
+        dateInput.setVisibility(View.INVISIBLE);
+        timeInput.setVisibility(View.INVISIBLE);
         addItemButton.setVisibility(View.INVISIBLE);
         foodList.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
@@ -84,15 +92,51 @@ public class FoodTracker extends AppCompatActivity {
 
     }
 
+    private Date getDateFromInputs() {
+        long dateLong = 0;
+
+        String dateTime = dateInput.getText() + " " + timeInput.getText();
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+
+        try {
+            dateLong = df.parse(dateTime).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return new Date(dateLong);
+    }
+
+    private String getFoodName(){
+        return foodInput.getText().toString();
+    }
+
+    private int getCalories(){
+        return Integer.parseInt(calorieInput.getText().toString());
+    }
+
+    private void clearInputs(){
+        Log.i(ACTIVITY_NAME, "clearInputs() called");
+        foodInput.setText("");
+        calorieInput.setText("");
+        dateInput.setText("");
+        timeInput.setText("");
+    }
+
     private class LoadFoodHistory extends AsyncTask {
 
         @Override
         protected Object doInBackground(Object[] params) {
             Log.i(ACTIVITY_NAME, "loading food history");
             foodObjArr = dbHelper.getAllFoodEaten();
-            Log.i(ACTIVITY_NAME, String.valueOf(foodObjArr.size()));
             foodAdapter.notifyDataSetChanged();
 
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
@@ -107,6 +151,8 @@ public class FoodTracker extends AppCompatActivity {
             foodInput.setVisibility(View.VISIBLE);
             addItemButton.setVisibility(View.VISIBLE);
             foodList.setVisibility(View.VISIBLE);
+            timeInput.setVisibility(View.VISIBLE);
+            dateInput.setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,5 +1,7 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -34,6 +36,7 @@ public class FoodEaten extends Food {
 
     @Override
     public String toString() {
-        return date.toString() +" " + super.toString();
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        return df.format(date) +" " + super.toString();
     }
 }
