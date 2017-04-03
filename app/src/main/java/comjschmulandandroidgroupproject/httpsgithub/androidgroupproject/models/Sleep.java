@@ -1,6 +1,8 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -49,4 +51,10 @@ public class Sleep {
         this.duration = duration;
     }
 
+    public String toString(){
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        return df.format(date) + " " + duration + "Hours slept";
+    }
+
 }
+
