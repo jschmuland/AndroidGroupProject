@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -59,6 +60,11 @@ public class FoodTracker extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(ACTIVITY_NAME, "addItem clicked");
+
+                if(!validateInputs()){
+                    return;
+                }
+
                 FoodEaten food = new FoodEaten(getFoodName(), getCalories(), getDateFromInputs());
                 if(dbHelper.insertFoodEaten(food)){
                     Log.i(ACTIVITY_NAME, "Insert successful");
@@ -68,6 +74,8 @@ public class FoodTracker extends AppCompatActivity {
                 }
                 foodObjArr = dbHelper.getAllFoodEaten();
                 foodAdapter.notifyDataSetChanged();
+
+                makeToast(R.string.successToast);
             }
         });
 
@@ -118,6 +126,26 @@ public class FoodTracker extends AppCompatActivity {
 
     }
 
+    private boolean validateInputs(){
+        Toast toast;
+        if(getFoodName() == null){
+            makeToast(R.string.enter_food);
+            return false;
+        } else if (getCalories() == -1) {
+            makeToast(R.string.enter_calories);
+            return false;
+        } else if (getDateFromInputs() == null) {
+            makeToast(R.string.enter_date);
+            return false;
+        }
+        return true;
+    }
+
+    private void makeToast(int message) {
+        Toast toast = Toast.makeText(FoodTracker.this, message, Toast.LENGTH_SHORT); //this is the ListActivity
+        toast.show();
+    }
+
     private DatePickerDialog datePicker(int year, int month, int day){
 
         DatePickerDialog.OnDateSetListener picker = new DatePickerDialog.OnDateSetListener() {
@@ -134,13 +162,16 @@ public class FoodTracker extends AppCompatActivity {
         TimePickerDialog.OnTimeSetListener picker = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                timeInput.setText((hourOfDay == 0 ? "00" : hourOfDay) + ":" + minute);
+                timeInput.setText((hourOfDay == 0 ? "00" : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute));
             }
         };
         return new TimePickerDialog(FoodTracker.this, picker, hour, minute, false);
     }
 
     private Date getDateFromInputs() {
+        if(dateInput.getText().toString().trim().equals("") || timeInput.getText().toString().trim().equals("")){
+            return null;
+        }
         long dateLong = 0;
 
         String dateTime = dateInput.getText() + " " + timeInput.getText();
@@ -157,10 +188,17 @@ public class FoodTracker extends AppCompatActivity {
     }
 
     private String getFoodName(){
+        if(foodInput.getText().toString().trim().equals("")){
+            return null;
+        }
         return foodInput.getText().toString();
+
     }
 
     private int getCalories(){
+        if(calorieInput.getText().toString().trim().equals("")){
+            return -1;
+        }
         return Integer.parseInt(calorieInput.getText().toString());
     }
 

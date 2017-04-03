@@ -24,6 +24,10 @@
 
     <string name="AddFood">Add Food</string>
     <string name="foodHistory">Loading Food History…</string>
+    <string name="successToast">Food added successfully!</string>
+    <string name="enter_food">Please enter food name</string>
+    <string name="enter_date">Please enter a date/time</string>
+    <string name="enter_calories">Please enter calories</string>
 
     <!-- Strings for the Exercise Activity -->
 
