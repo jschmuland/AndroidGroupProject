@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Loading Food History..."
+        android:text="@string/foodHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/loadingText"
@@ -27,12 +27,12 @@
         android:layout_centerHorizontal="true" />
 
     <ListView
+        android:id="@+id/foodList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/dateTimeLayout"
-        android:id="@+id/foodList" />
+        android:layout_alignParentTop="true"
+        android:background="@android:color/background_light" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -51,7 +51,7 @@
             android:id="@+id/foodInput"
             android:layout_weight="1"
             style="@style/Widget.AppCompat.EditText"
-            android:hint="Food" />
+            android:hint="@string/food" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -61,15 +61,13 @@
             android:id="@+id/calorieInput"
             android:layout_weight="1"
             style="@style/Widget.AppCompat.EditText"
-            android:hint="Calories" />
+            android:hint="@string/calories" />
 
         <Button
-            android:text="Add Item"
+            android:text="@string/AddFood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addItemButton"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             style="@style/Widget.AppCompat.Button" />
 
     </LinearLayout>
@@ -85,20 +83,22 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="date"
+            android:inputType="none"
             android:ems="10"
             android:id="@+id/dateInput"
+            android:focusable="false"
             android:layout_weight="1"
-            android:hint="Date" />
+            android:hint="@string/date" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="time"
+            android:inputType="none"
             android:ems="10"
             android:id="@+id/timeInput"
+            android:focusable="false"
             android:layout_weight="1"
-            android:hint="Time" />
+            android:hint="@string/time" />
     </LinearLayout>
 
 </RelativeLayout>

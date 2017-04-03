@@ -7,6 +7,10 @@
     <string name="exercise">Exercise Tracker</string>
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="calories">Calories</string>
+    <string name="food">Food</string>
 
     <!-- Strings for the Sleep Activity -->
   
@@ -16,7 +20,10 @@
     <string name="Set">Set</string>
     <string name="enter_number_only">Please enter only a number</string>
 
+    <!--Strings for the Food Tracker Activity-->
 
+    <string name="AddFood">Add Food</string>
+    <string name="foodHistory">Loading Food History…</string>
 
     <!-- Strings for the Exercise Activity -->
 
