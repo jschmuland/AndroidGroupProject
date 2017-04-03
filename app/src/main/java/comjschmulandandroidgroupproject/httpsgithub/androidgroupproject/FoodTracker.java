@@ -32,7 +32,6 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.F
 
 public class FoodTracker extends AppCompatActivity {
     private final String ACTIVITY_NAME = "FoodTracker";
-    private ArrayList<String> foodArray;
     private ArrayList<FoodEaten> foodObjArr;
     private Button addItemButton;
     private EditText calorieInput, foodInput, dateInput, timeInput;
@@ -53,7 +52,6 @@ public class FoodTracker extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
 
-        foodArray = new ArrayList<>();
         foodObjArr = new ArrayList<>();
 
         addItemButton = (Button) findViewById(R.id.addItemButton);
@@ -83,7 +81,7 @@ public class FoodTracker extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                new DatePickerDialog(FoodTracker.this, datePicker(),year, month, day).show();
+                datePicker(year, month, day).show();
             }
         });
 
@@ -93,7 +91,7 @@ public class FoodTracker extends AppCompatActivity {
             public void onClick(View v) {
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
-                new TimePickerDialog(FoodTracker.this, timePicker(), hour, minute, false).show();
+                timePicker(hour, minute).show();
             }
         });
 
@@ -120,24 +118,26 @@ public class FoodTracker extends AppCompatActivity {
 
     }
 
-    private DatePickerDialog.OnDateSetListener datePicker(){
+    private DatePickerDialog datePicker(int year, int month, int day){
+
         DatePickerDialog.OnDateSetListener picker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dateInput.setText(year + "/" + (month+1) + "/" + dayOfMonth);
             }
         };
-        return picker;
+        return new DatePickerDialog(FoodTracker.this, picker, year, month, day);
     }
 
-    private TimePickerDialog.OnTimeSetListener timePicker(){
+    private TimePickerDialog timePicker(int hour, int minute){
+
         TimePickerDialog.OnTimeSetListener picker = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                timeInput.setText(hourOfDay + ":" + minute);
+                timeInput.setText((hourOfDay == 0 ? "00" : hourOfDay) + ":" + minute);
             }
         };
-        return picker;
+        return new TimePickerDialog(FoodTracker.this, picker, hour, minute, false);
     }
 
     private Date getDateFromInputs() {
