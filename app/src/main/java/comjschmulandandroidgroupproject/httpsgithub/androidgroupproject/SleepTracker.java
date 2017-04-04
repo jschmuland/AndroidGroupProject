@@ -3,9 +3,8 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,26 +31,24 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.S
 public class SleepTracker extends AppCompatActivity {
     private final String TAG = "SleepTracker";
     final ArrayList<Sleep> sleepObjArray = new ArrayList<>();
-    protected AppDBHelper dbHelper;
     private SQLiteDatabase db;
     private Cursor results;
+    Context ctx;
+
     private int idColumn,dateColumn,durationColumn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctx = this;
+
         setContentView(R.layout.activity_template);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //getting dbHelper and adding all previous sleep to db
-            dbHelper = new AppDBHelper(this);
-        sleepObjArray.addAll(dbHelper.getAllSleep());
-        Collections.reverse(sleepObjArray);
-
-        Log.i(TAG, "onCreate:  sleepObjArray " +sleepObjArray.toString());
-
-
+        //getting Sleep array in Async Task
+        SleepQuery sq = new SleepQuery();
+        sq.execute(this);
 
         //getting listview
         ListView listView = (ListView) findViewById(R.id.sleepListView);
@@ -76,7 +73,10 @@ public class SleepTracker extends AppCompatActivity {
                     Log.i(TAG, "onClick: current time = "+tempDate);
                     //make new sleep obj
                     Sleep setCurrentSleep = new Sleep(tempDate, tempSleepDuration);
-                    dbHelper.insertSleepSession(setCurrentSleep);//update the database
+                    //add sleep object to db in async task
+                    SleepInsert si = new SleepInsert();
+                    si.execute(setCurrentSleep);
+                    //add sleep object to sleep array
                     sleepObjArray.add(0,setCurrentSleep);
                     messageAdapter.notifyDataSetChanged();//update the listview
 
@@ -85,7 +85,7 @@ public class SleepTracker extends AppCompatActivity {
                 }catch (Exception e){
                     //notify user of constraints
                     Context ct = getApplicationContext();
-                    CharSequence text = "Please enter a number only";
+                    CharSequence text = "Please enter a sleep number in sec only";
                     int d2 = Toast.LENGTH_LONG;
                     Toast t = Toast.makeText(ct,text,d2);
                     t.show();
@@ -104,6 +104,29 @@ public class SleepTracker extends AppCompatActivity {
 
     }// end onCreate
 
+    protected class SleepQuery extends AsyncTask<Context,Integer,String>{
+
+        @Override
+        protected String doInBackground(Context...args){
+            AppDBHelper dbHelper = new AppDBHelper(args[0]);
+            sleepObjArray.addAll(dbHelper.getAllSleep());
+            Collections.reverse(sleepObjArray);
+
+            dbHelper.close();
+            return "done";
+        }
+
+    }
+
+    protected class SleepInsert extends AsyncTask<Sleep,Integer,String>{
+        @Override
+        protected String doInBackground(Sleep...args){
+            AppDBHelper dbHelper = new AppDBHelper(ctx);
+            dbHelper.insertSleepSession(args[0]);//update the database
+            dbHelper.close();
+            return "done";
+        }
+    }
 
     /*inner class for array adapter*/
     private class SleepAdapter extends ArrayAdapter<Sleep>{
@@ -126,7 +149,7 @@ public class SleepTracker extends AppCompatActivity {
             int tempduration = tempSleep.getDuration();
             Log.i(TAG, "getView: date = "+tempSleep.getDate() +" duration = "+tempduration);
             LayoutInflater inflater = SleepTracker.this.getLayoutInflater();
-            View generatedView = inflater.inflate(R.layout.row_layout_sleep,null);
+            View generatedView = inflater.inflate(R.layout.sleep_row_layout,null);
             //get and set date in listview
             TextView viewDate = (TextView)generatedView.findViewById(R.id.sleepDate);
             viewDate.setText(tempSleep.getDate().toString());

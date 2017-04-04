@@ -13,13 +13,15 @@
     tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.SleepTracker"
     tools:showIn="@layout/activity_template">
 
+
+
+
     <ListView
         android:id="@+id/sleepListView"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:stackFromBottom="false"/>
+        android:layout_alignParentStart="true"/>
 
 
 
@@ -53,4 +55,12 @@
         android:textOff="@string/Awake"
         android:textOn="@string/Sleeping" />
 
+    <FrameLayout
+        android:id="@+id/sleepFragmentHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/sleepInput"
+        android:layout_marginBottom="10dp"
+        />
 </RelativeLayout>
