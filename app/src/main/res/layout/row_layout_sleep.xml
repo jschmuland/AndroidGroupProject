@@ -23,7 +23,8 @@
         android:minWidth="80dp"
         android:text="9hr13min"
         android:layout_centerVertical="true"
-        android:textAppearance="@android:style/TextAppearance.Holo.Large" />
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textAlignment="textEnd"/>
 
     <TextView
         android:id="@+id/sleepDate"
