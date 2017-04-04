@@ -1,44 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="45dp">
 
     <ImageView
         android:id="@+id/sleep_target_made"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/checkbox_on_background"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
         android:visibility="invisible"
-        />
+        app:srcCompat="@android:drawable/star_big_on" />
 
     <TextView
         android:id="@+id/sleepTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@id/sleep_target_made"
         android:minWidth="80dp"
         android:text="9hr13min"
-        android:textAppearance="@android:style/TextAppearance.Holo.Large" />
+        android:layout_centerVertical="true"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textAlignment="textEnd"/>
 
     <TextView
         android:id="@+id/sleepDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_toStartOf="@id/sleepTime"
+        android:layout_centerVertical="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:text="Test"/>
-
-
 
 
 </RelativeLayout>

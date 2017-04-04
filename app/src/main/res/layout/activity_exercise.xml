@@ -34,18 +34,18 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp" />
 
+
     <EditText
         android:id="@+id/timeEditText"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textTimeSpentView"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:maxLength="4"
-        android:hint="@string/timeInMinutes"
         android:layout_marginTop="12dp"
-        android:layout_below="@+id/textTimeSpentView"
-        android:layout_toStartOf="@+id/exerciseListView" />
-
+        android:layout_toStartOf="@+id/exerciseListView"
+        android:hint="@string/timeInMinutes"
+        android:maxLength="4" />
 
     <TextView
         android:id="@+id/textTimeSpentView"
