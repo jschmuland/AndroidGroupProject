@@ -79,18 +79,17 @@
             android:id="@+id/exerciseListView2"
             android:layout_width="150dp"
             android:layout_height="400dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="29dp"
+            android:layout_below="@+id/textViewDate"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:text="TextView"
-            android:layout_marginBottom="43dp"
+            android:layout_marginBottom="25dp"
             android:layout_alignBottom="@+id/progressBarExercise"
             android:layout_centerHorizontal="true" />
 
@@ -99,7 +98,8 @@
             android:layout_height="match_parent"
             android:id="@+id/exerciseFrameLayout"
             android:layout_toEndOf="@+id/exerciseListView2"
-            android:layout_alignTop="@+id/exerciseListView2">
+            android:layout_alignTop="@+id/exerciseListView2"
+            android:layout_alignBottom="@+id/exerciseListView2">
 
         </FrameLayout>
 
