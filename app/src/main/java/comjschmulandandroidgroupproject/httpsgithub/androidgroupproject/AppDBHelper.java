@@ -28,19 +28,19 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String MEALPLAN_HAS_MEALS = "MEALPLAN_HAS_MEALS";
     private final static String MEALS_HAS_FOOD = "MEALS_HAS_FOOD";
     private final static String EXERCISE_TABLE = "EXERCISE";
-    private final static String SLEEP_TABLE = "SLEEP";
+    protected final static String SLEEP_TABLE = "SLEEP";
     private final static String FOOD_EATEN_TABLE = "FOOD_EATEN";
     private final static String FOOD_TABLE = "FOOD";
     //Common columns
-    private final static String KEY_ID = "_ID";
-    private final static String DATE = "DATE";
+    protected final static String KEY_ID = "_ID";
+    protected final static String DATE = "DATE";
     private final static String CALORIES = "CALORIES";
     private final static String FOOD_ITEM = "FOOD_ITEM";
     private final static String KEY_MEAL_ID = "MEAL_ID";
     private final static String KEY_FOOD_ID = "FOOD_ID";
     private final static String KEY_MP_ID = "MEALPLAN_ID";
     //Sleep table columns
-    private final static String HOURS_SLEPT = "HOURS_SLEPT";
+    protected final static String HOURS_SLEPT = "HOURS_SLEPT";
     //Meal table columns
     private final static String MEAL_NAME = "MEAL_NAME";
     //Exercise table columns
@@ -51,7 +51,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //Create table queries
     private final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
     private final static String FOOD_EATEN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER);", FOOD_EATEN_TABLE, KEY_ID, DATE, FOOD_ITEM, CALORIES);
-    private final static String EXERCISE_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER, %s REAL);", EXERCISE_TABLE, KEY_ID, DATE, EXERCISE_NAME, CALORIES, EXERCISE_DURATION);
+    private final static String EXERCISE_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s REAL, %s REAL);", EXERCISE_TABLE, KEY_ID, DATE, EXERCISE_NAME, CALORIES, EXERCISE_DURATION);
     private final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", FOOD_TABLE, KEY_ID, FOOD_ITEM, CALORIES);
     private final static String MEALS_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALS_TABLE, KEY_ID, MEAL_NAME);
     private final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALPLAN_TABLE, KEY_ID, MEALPLAN_NAME);
@@ -174,4 +174,5 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return false;
 
     }
+
 }

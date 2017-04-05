@@ -54,33 +54,32 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="645dp">
 
         <Button
             android:id="@+id/exerciseButtonSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
             android:text="@string/okSendButtom"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/listView"
-            android:layout_marginStart="40dp" />
+            android:layout_above="@+id/exerciseListView2"
+            android:layout_centerHorizontal="true" />
 
         <ProgressBar
             android:id="@+id/progressBarExercise"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/exerciseButtonSend"
-            android:layout_marginTop="30dp"
-            android:visibility="visible" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:layout_alignParentTop="true"
+            android:visibility="visible"/>
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/exerciseListView2"
             android:layout_width="150dp"
             android:layout_height="400dp"
             android:layout_alignParentBottom="true"
-
             android:layout_alignParentStart="true"
             android:layout_marginStart="25dp"
             android:layout_marginTop="24dp" />
@@ -89,10 +88,20 @@
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/exerciseButtonSend"
-            android:layout_marginTop="43dp"
-            android:text="TextView" />
+
+            android:text="TextView"
+            android:layout_marginBottom="43dp"
+            android:layout_alignBottom="@+id/progressBarExercise"
+            android:layout_centerHorizontal="true" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/exerciseFrameLayout"
+            android:layout_toEndOf="@+id/exerciseListView2"
+            android:layout_alignTop="@+id/exerciseListView2">
+
+        </FrameLayout>
 
     </RelativeLayout>
 
