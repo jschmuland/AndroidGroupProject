@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,6 +33,8 @@ import java.util.Date;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.SleepFragment;
 
+import static android.os.SystemClock.elapsedRealtime;
+
 public class SleepTracker extends AppCompatActivity {
     private final String TAG = "SleepTracker";
     final ArrayList<Sleep> sleepObjArray = new ArrayList<>();
@@ -39,6 +42,7 @@ public class SleepTracker extends AppCompatActivity {
     private Cursor results;
     Context ctx;
     int tempSleepDuration;
+    int sleepTarget = 7*60*60;
 
     private int idColumn,dateColumn,durationColumn;
 
@@ -73,6 +77,7 @@ public class SleepTracker extends AppCompatActivity {
                 bun.putLong("Date",sleepObj.getDate().getTime());
                 bun.putInt("Duration",sleepObj.getDuration());
                 bun.putInt("ID",sleepObj.getId());
+                bun.putInt("Target",sleepTarget);
 
                 SleepFragment frag = new SleepFragment();
                 frag.setArguments(bun);
@@ -142,13 +147,6 @@ public class SleepTracker extends AppCompatActivity {
                     alertDialog.show();
 
 
-
-
-
-
-
-
-
                 }catch (Exception e){
                     //notify user of constraints
                     Context ct = getApplicationContext();
@@ -165,6 +163,17 @@ public class SleepTracker extends AppCompatActivity {
         sleepToggelBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Chronometer timer = (Chronometer) findViewById(R.id.chronometer);
+
+                if(isChecked){
+                    timer.setBase(elapsedRealtime());
+                    timer.start();
+                }
+                if(!isChecked){
+                    timer.stop();
+                    Log.i(TAG, "onCheckedChanged: "+timer.getText());
+                }
+
 
             }
         });
@@ -185,13 +194,22 @@ public class SleepTracker extends AppCompatActivity {
 
     }
 
-    protected class SleepInsert extends AsyncTask<Sleep,Integer,String>{
+    private class SleepInsert extends AsyncTask<Sleep,Integer,String>{
         @Override
         protected String doInBackground(Sleep...args){
             AppDBHelper dbHelper = new AppDBHelper(ctx);
             dbHelper.insertSleepSession(args[0]);//update the database
             dbHelper.close();
             return "done";
+        }
+
+        protected void onPostExecute(String args){
+            //notify user of constraints
+            Context ct = getApplicationContext();
+            CharSequence text = "Sleep added to the Database";
+            int d2 = Toast.LENGTH_LONG;
+            Toast t = Toast.makeText(ct,text,d2);
+            t.show();
         }
     }
 

@@ -43,15 +43,15 @@
         android:text="@string/Set" />
 
     <Chronometer
-        android:id="@+id/chronometer5"
+        android:id="@+id/chronometer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@id/sleepToggleBtn"
         android:layout_alignTop="@id/sleepToggleBtn"
         android:layout_toEndOf="@+id/sleepToggleBtn"
         android:layout_toStartOf="@id/sleep_set"
-        android:format="HH:MM:SS"
         android:gravity="center" />
+    <!--android:format="HH:MM:SS"-->
 
     <FrameLayout
         android:id="@+id/sleepFragmentHolder"

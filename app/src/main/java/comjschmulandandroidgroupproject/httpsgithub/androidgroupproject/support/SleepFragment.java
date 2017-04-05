@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.S
 public class SleepFragment extends Fragment {
     private static final String TAG = "SleepFragment";
     Context parent;
-    int durr,id;
+    int durr,id,target;
     Date date;
 
     @Override
@@ -32,6 +33,7 @@ public class SleepFragment extends Fragment {
         date = new Date(bun.getLong("Date"));
         durr = bun.getInt("Duration");
         id = bun.getInt("ID");
+        target = bun.getInt("Target");
     }
 
     @Override
@@ -52,6 +54,10 @@ public class SleepFragment extends Fragment {
 
         TextView startText = (TextView) gui.findViewById(R.id.start_time);
         durText.setText(""+durr);
+
+        ProgressBar sleepProgress = (ProgressBar) gui.findViewById(R.id.sleep_progress_bar);
+
+        sleepProgress.setProgress(100*durr/target);
 
         return gui;
     }
