@@ -128,6 +128,22 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return sleepList;
     }
 
+    public boolean insertSleepSession(Sleep sleepSession){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(HOURS_SLEPT,sleepSession.getDuration());
+        values.put(DATE,sleepSession.getDate().getTime());
+
+        if(db.insert(SLEEP_TABLE, null, values) >= 0){
+            db.close();
+            return true;
+        }
+
+        db.close();//closing resources
+        return false;
+    }
+
     public ArrayList<FoodEaten> getAllFoodEaten() {
         Log.i(ACTIVITY_NAME, "Called getAllFoodEaten()");
         ArrayList<FoodEaten> foodEatenList = new ArrayList<FoodEaten>();

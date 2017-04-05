@@ -14,14 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
@@ -41,26 +44,10 @@ public class SleepTracker extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //getting writable database
+        //getting dbHelper and adding all previous sleep to db
             dbHelper = new AppDBHelper(this);
-        db = dbHelper.getWritableDatabase();
-        //query database
-        results = db.query(false,AppDBHelper.SLEEP_TABLE,
-                new String[]{AppDBHelper.KEY_ID, AppDBHelper.DATE, AppDBHelper.HOURS_SLEPT},
-                null,null,null,null,null,null);
-        //number of rows
-        int rows = results.getCount();
-        idColumn = results.getColumnIndex(AppDBHelper.KEY_ID);
-        dateColumn = results.getColumnIndex(AppDBHelper.DATE);
-        durationColumn = results.getColumnIndex(AppDBHelper.HOURS_SLEPT);
-
-        results.moveToFirst();
-        //put results into the array list
-        while(!results.isAfterLast()){
-            Date tempDate = new Date(results.getLong(dateColumn));
-            sleepObjArray.add(new Sleep(results.getInt(idColumn),tempDate,results.getInt(durationColumn)));
-            results.moveToNext();
-        }
+        sleepObjArray.addAll(dbHelper.getAllSleep());
+        Collections.reverse(sleepObjArray);
 
         Log.i(TAG, "onCreate:  sleepObjArray " +sleepObjArray.toString());
 
@@ -89,18 +76,29 @@ public class SleepTracker extends AppCompatActivity {
                     Log.i(TAG, "onClick: current time = "+tempDate);
                     //make new sleep obj
                     Sleep setCurrentSleep = new Sleep(tempDate, tempSleepDuration);
-                    sleepObjArray.add(setCurrentSleep);
-                    messageAdapter.notifyDataSetChanged();
+                    dbHelper.insertSleepSession(setCurrentSleep);//update the database
+                    sleepObjArray.add(0,setCurrentSleep);
+                    messageAdapter.notifyDataSetChanged();//update the listview
 
                     sleepInputHndl.setText("");
 
                 }catch (Exception e){
+                    //notify user of constraints
                     Context ct = getApplicationContext();
                     CharSequence text = "Please enter a number only";
                     int d2 = Toast.LENGTH_LONG;
                     Toast t = Toast.makeText(ct,text,d2);
                     t.show();
                 }
+            }
+        });
+
+        //When timer is pressed
+        ToggleButton sleepToggelBtn = (ToggleButton)findViewById(R.id.sleepToggleBtn);
+        sleepToggelBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
             }
         });
 
@@ -125,7 +123,8 @@ public class SleepTracker extends AppCompatActivity {
         // get view, set items, return view
         public View getView(int position, View convertView, ViewGroup parent){
             Sleep tempSleep = getItem(position);
-            Log.i(TAG, "getView: date = "+tempSleep.getDate() +" duration = "+tempSleep.getDuration());
+            int tempduration = tempSleep.getDuration();
+            Log.i(TAG, "getView: date = "+tempSleep.getDate() +" duration = "+tempduration);
             LayoutInflater inflater = SleepTracker.this.getLayoutInflater();
             View generatedView = inflater.inflate(R.layout.row_layout_sleep,null);
             //get and set date in listview
@@ -133,9 +132,19 @@ public class SleepTracker extends AppCompatActivity {
             viewDate.setText(tempSleep.getDate().toString());
             //get and set duration in listview
             TextView viewDuration = (TextView) generatedView.findViewById(R.id.sleepTime);
-            viewDuration.setText(""+tempSleep.getDuration());
+            //for looks
+
+            int hours = (int) tempduration/3600;
+            int min = (tempduration%3600)/60;
+            int sec = tempduration%60;
+
+            if (hours>1){
+                viewDuration.setText(hours + "h "+min+"m "+sec+"s");
+            }else {
+                viewDuration.setText(min+"m "+sec+"s");
+            }
             // set checkmark if over 6 hours of sleep.
-            if(tempSleep.getDuration()/60>6){
+            if(tempduration/60>6){
                 ImageView checkMark = (ImageView)generatedView.findViewById(R.id.sleep_target_made);
                 checkMark.setVisibility(View.VISIBLE);
             }
