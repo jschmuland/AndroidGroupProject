@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/loadingAPIText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/APIProgessBar"
+        android:layout_centerHorizontal="true"
+        android:text="@string/loadingFoodAPI" />
+
+    <ProgressBar
+        android:id="@+id/APIProgessBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/list"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/searchFood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/enter_food"
+        android:inputType="textPersonName" />
+
+    <ImageView
+        android:id="@+id/searchImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_search_category_default"
+        android:layout_alignBottom="@+id/searchFood"
+        android:layout_toStartOf="@+id/searchFood"
+        android:layout_alignTop="@+id/searchFood" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignEnd="@+id/searchFood"
+        android:layout_below="@+id/searchFood"
+        android:layout_marginTop="49dp"
+        android:layout_toEndOf="@+id/searchImageView"
+        android:background="@android:color/background_light"
+        android:layout_above="@+id/linearLayout" />
+
+</RelativeLayout>

@@ -50,6 +50,7 @@
             android:ems="10"
             android:id="@+id/foodInput"
             android:layout_weight="1"
+            android:focusable="false"
             style="@style/Widget.AppCompat.EditText"
             android:hint="@string/food" />
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tp_foodName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginRight="128dp"
+        android:layout_alignBaseline="@+id/tp_foodCal"
+        android:layout_alignBottom="@+id/tp_foodCal"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="69dp" />
+
+    <TextView
+        android:id="@+id/tp_foodCal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:text="TextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="36dp" />
+</RelativeLayout>
