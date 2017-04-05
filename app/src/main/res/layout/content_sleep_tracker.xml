@@ -24,27 +24,6 @@
         android:layout_alignParentStart="true"/>
 
 
-
-    <Button
-        android:id="@+id/sleep_set"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/sleepListView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/Set" />
-
-    <EditText
-        android:id="@+id/sleepInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/sleepListView"
-        android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/sleepToggleBtn"
-        android:layout_toStartOf="@+id/sleep_set"
-        android:hint="@string/InputSleepTime"
-        android:inputType="number" />
-
     <ToggleButton
         android:id="@+id/sleepToggleBtn"
         android:layout_width="wrap_content"
@@ -54,13 +33,37 @@
         android:layout_marginBottom="10dp"
         android:textOff="@string/Awake"
         android:textOn="@string/Sleeping" />
+    <Button
+        android:id="@+id/sleep_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/sleepToggleBtn"
+        android:layout_alignTop="@id/sleepToggleBtn"
+        android:layout_alignParentEnd="true"
+        android:text="@string/Set" />
+
+    <Chronometer
+        android:id="@+id/chronometer5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/sleepToggleBtn"
+        android:layout_alignTop="@id/sleepToggleBtn"
+        android:layout_toEndOf="@+id/sleepToggleBtn"
+        android:layout_toStartOf="@id/sleep_set"
+        android:format="HH:MM:SS"
+        android:gravity="center" />
 
     <FrameLayout
         android:id="@+id/sleepFragmentHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/sleepInput"
+        android:layout_above="@+id/sleepToggleBtn"
         android:layout_marginBottom="10dp"
-        />
+        >
+
+    </FrameLayout>
+
+
+
 </RelativeLayout>
