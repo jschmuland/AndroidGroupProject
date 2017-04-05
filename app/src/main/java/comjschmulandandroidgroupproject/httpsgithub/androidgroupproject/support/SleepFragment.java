@@ -3,17 +3,16 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R;
-import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
 
 /**
  * Created by user on 4/4/2017.
@@ -23,15 +22,20 @@ public class SleepFragment extends Fragment {
     private static final String TAG = "SleepFragment";
     Context parent;
     int durr,id,target;
-    Date date;
+    long dateLong;
+    Date dateEnd, dateStart;
+    SimpleDateFormat formatDate = new SimpleDateFormat("h:mm");
+    SimpleDateFormat formatDay = new SimpleDateFormat("EEEE, MMM dd");
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         Bundle bun = getArguments();
-        date = new Date(bun.getLong("Date"));
+        dateLong = bun.getLong("Date");
+        dateEnd = new Date(dateLong);
         durr = bun.getInt("Duration");
+        dateStart = new Date(dateLong - (durr*1000));
         id = bun.getInt("ID");
         target = bun.getInt("Target");
     }
@@ -48,15 +52,19 @@ public class SleepFragment extends Fragment {
         View gui = inflater.inflate(R.layout.sleep_detail_frag,null);
 
         TextView durText = (TextView) gui.findViewById(R.id.sleep_duration);
-        durText.setText(""+durr);
-
-//        date.
+        durText.setText(((int)durr/3600)+"hr "+((durr%3600)/60)+"min");
 
         TextView startText = (TextView) gui.findViewById(R.id.start_time);
-        durText.setText(""+durr);
+        startText.setText(formatDate.format(dateStart));
 
+        TextView endText = (TextView) gui.findViewById(R.id.end_time);
+        endText.setText("till " +formatDate.format(dateEnd));
+
+        TextView dayText = (TextView) gui.findViewById(R.id.day_of_week);
+        dayText.setText(formatDay.format(dateEnd));
+
+        //update progress bar
         ProgressBar sleepProgress = (ProgressBar) gui.findViewById(R.id.sleep_progress_bar);
-
         sleepProgress.setProgress(100*durr/target);
 
         return gui;
