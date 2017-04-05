@@ -3,9 +3,9 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -60,19 +60,19 @@ public class FoodPicker extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.food_picker_layout, container, false);
 
-
             Food food = new Food("apple", 200);
             foods.add(food);
 
             ListView listView = (ListView) view.findViewById(R.id.list);
-            FoodPickerAdapter adapter = new FoodPickerAdapter(getActivity());
+            final FoodPickerAdapter adapter = new FoodPickerAdapter(getActivity());
             listView.setAdapter(adapter);
             listView.setVisibility(View.INVISIBLE);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    confirmationDialog();
+                    Food food = adapter.getItem(position);
+                    confirmationDialog(food);
                 }
             });
 
@@ -84,13 +84,18 @@ public class FoodPicker extends AppCompatActivity {
             return view;
         }
 
-        private void confirmationDialog(){
+        private void confirmationDialog(Food food){
+            final Food f = food;
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.confirmation);
 
             builder.setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     // User clicked OK button
+                    Intent intent = new Intent(getActivity(), FoodTracker.class);
+                    intent.putExtra("FOOD", f.getFoodName());
+                    intent.putExtra("CALORIES", f.getCalories());
+                    getActivity().setResult(5, intent);
                     getActivity().finish();
                 }
             });

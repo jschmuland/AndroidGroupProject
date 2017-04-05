@@ -130,9 +130,18 @@ public class FoodTracker extends AppCompatActivity {
         LoadFoodHistory history = new LoadFoodHistory();
         history.execute();
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode == 5) {
+            Bundle bundle = data.getExtras();
 
+            foodInput.setText(bundle.get("FOOD").toString());
+            calorieInput.setText(String.valueOf(bundle.get("CALORIES")));
+        }
     }
 
     private boolean validateInputs(){
@@ -176,7 +185,7 @@ public class FoodTracker extends AppCompatActivity {
         TimePickerDialog.OnTimeSetListener picker = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                timeInput.setText((hourOfDay == 0 ? "00" : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute));
+                timeInput.setText((hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute));
             }
         };
         return new TimePickerDialog(FoodTracker.this, picker, hour, minute, false);
