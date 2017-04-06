@@ -36,7 +36,7 @@
     <string name="confirmation">Confirm your choice</string>
 
 
-    <!-- Strings for the Exercise Activity -->
+    <!-- Strings for the ExerciseRecords Activity -->
 
 
     <string name="exerciseTextView">Choose your Exercise on the List bellow</string>

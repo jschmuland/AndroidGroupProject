@@ -23,11 +23,13 @@ import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.net.URL;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
+
 
 public class Exercise extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static String exerciseName, exerciseCal;
-    protected static final String ACTIVITY_NAME = "Exercise";
+    protected static final String ACTIVITY_NAME = "ExerciseRecords";
     protected ListView list;
     protected String[] exercisesListArray, exercisesInfoArray;
     protected EditText setTimeInExercise;
@@ -239,5 +241,5 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
     }//end getExerciseImage class
 
 
-}//end Exercise Class
+}//end ExerciseRecords Class
 
