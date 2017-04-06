@@ -45,6 +45,7 @@ public class Exercise_info_class extends AppCompatActivity {
     protected ListView listView;
     final ArrayList<ExerciseRecords> exerciseObjArray = new ArrayList<>();
     ExerciseAdapter exerciseAdapter;
+    AppDBHelper dbHelper;
 
 
     @Override
@@ -68,8 +69,12 @@ public class Exercise_info_class extends AppCompatActivity {
         textViewDate = (TextView) findViewById(R.id.textViewDate);
         totalCalories = (TextView) findViewById(R.id.textViewTotalCalories);
         bar = (ProgressBar) findViewById(R.id.progressBarExercise);
+        bar.getProgress();
         bar.setVisibility(View.VISIBLE);
 
+        //getting Sleep array in Async Task
+        ExerciseQuery sq = new ExerciseQuery();
+        sq.execute(this);
         isTablet = (findViewById(R.id.exerciseFrameLayout) != null); //find out if this is a phone or tablet
 
         /**-----------------LISTVIEW UPDATE----------------------*/
@@ -94,6 +99,8 @@ public class Exercise_info_class extends AppCompatActivity {
                 bun.putDouble("CALORIES", exerciseObj.getCalories());
                 bun.putDouble("DURATION", exerciseObj.getDuration());
 
+
+
                 if(isTablet) {
 
                     ExerciseFragment frag = new ExerciseFragment();
@@ -102,7 +109,7 @@ public class Exercise_info_class extends AppCompatActivity {
                             .replace(R.id.exerciseFrameLayout, frag).addToBackStack("ID").commit();
 
                 }
-
+                exerciseObj.notify();
             }
         });
 
@@ -165,13 +172,21 @@ public class Exercise_info_class extends AppCompatActivity {
         });
 
 
-
-
-
-
-
     }//end onCreate
 
+    protected class ExerciseQuery extends AsyncTask<Context,Integer,String>{
+
+        @Override
+        protected String doInBackground(Context...args){
+            AppDBHelper dbHelper = new AppDBHelper(args[0]);
+            exerciseObjArray.addAll(dbHelper.getAllExerciseRecords());
+            Collections.reverse(exerciseObjArray);
+
+            dbHelper.close();
+            return "done";
+        }
+
+    }
 
     /**
      * Method used to return the total calories burned in exercise
@@ -196,7 +211,7 @@ public class Exercise_info_class extends AppCompatActivity {
     private class ExerciseInsert extends AsyncTask<ExerciseRecords,Integer,String>{
         @Override
         protected String doInBackground(ExerciseRecords...args){
-            AppDBHelper dbHelper = new AppDBHelper(ctx);
+            dbHelper = new AppDBHelper(ctx);
             dbHelper.insertExerciseSession(args[0]);//update the database
             dbHelper.close();
             return "done";
@@ -252,7 +267,8 @@ public class Exercise_info_class extends AppCompatActivity {
 
             return resultView;
         }
-    }
+    }//end ExerciseAdapter
+
 
 
 }//end Class
