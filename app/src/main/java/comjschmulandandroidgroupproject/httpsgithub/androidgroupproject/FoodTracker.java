@@ -3,9 +3,11 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,7 +35,6 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.F
 
 public class FoodTracker extends AppCompatActivity {
     private final String ACTIVITY_NAME = "FoodTracker";
-    private ArrayList<String> foodArray;
     private ArrayList<FoodEaten> foodObjArr;
     private Button addItemButton;
     private EditText calorieInput, foodInput, dateInput, timeInput;
@@ -53,7 +55,6 @@ public class FoodTracker extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
 
-        foodArray = new ArrayList<>();
         foodObjArr = new ArrayList<>();
 
         addItemButton = (Button) findViewById(R.id.addItemButton);
@@ -61,6 +62,11 @@ public class FoodTracker extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(ACTIVITY_NAME, "addItem clicked");
+
+                if(!validateInputs()){
+                    return;
+                }
+
                 FoodEaten food = new FoodEaten(getFoodName(), getCalories(), getDateFromInputs());
                 if(dbHelper.insertFoodEaten(food)){
                     Log.i(ACTIVITY_NAME, "Insert successful");
@@ -70,11 +76,20 @@ public class FoodTracker extends AppCompatActivity {
                 }
                 foodObjArr = dbHelper.getAllFoodEaten();
                 foodAdapter.notifyDataSetChanged();
+                
+                makeSnackBar(R.string.successToast);
             }
         });
 
         calorieInput = (EditText) findViewById(R.id.calorieInput);
         foodInput = (EditText) findViewById(R.id.foodInput);
+        foodInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FoodTracker.this, FoodPicker.class);
+                startActivityForResult(intent, 5);
+            }
+        });
 
         dateInput = (EditText) findViewById(R.id.dateInput);
         dateInput.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +98,7 @@ public class FoodTracker extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                new DatePickerDialog(FoodTracker.this, datePicker(),year, month, day).show();
+                datePicker(year, month, day).show();
             }
         });
 
@@ -93,7 +108,7 @@ public class FoodTracker extends AppCompatActivity {
             public void onClick(View v) {
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
-                new TimePickerDialog(FoodTracker.this, timePicker(), hour, minute, false).show();
+                timePicker(hour, minute).show();
             }
         });
 
@@ -115,32 +130,71 @@ public class FoodTracker extends AppCompatActivity {
         LoadFoodHistory history = new LoadFoodHistory();
         history.execute();
 
-
-
-
     }
 
-    private DatePickerDialog.OnDateSetListener datePicker(){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == 5) {
+            Bundle bundle = data.getExtras();
+
+            foodInput.setText(bundle.get("FOOD").toString());
+            calorieInput.setText(String.valueOf(bundle.get("CALORIES")));
+        }
+    }
+
+    private boolean validateInputs(){
+        Toast toast;
+        if(getFoodName() == null){
+            makeToast(R.string.enter_food);
+            return false;
+        } else if (getCalories() == -1) {
+            makeToast(R.string.enter_calories);
+            return false;
+        } else if (getDateFromInputs() == null) {
+            makeToast(R.string.enter_date);
+            return false;
+        }
+        return true;
+    }
+
+    private void makeSnackBar(int message){
+        Snackbar snack = Snackbar.make(findViewById(android.R.id.content), getText(message).toString(), Snackbar.LENGTH_SHORT);
+        snack.show();
+    }
+
+    private void makeToast(int message) {
+        Toast toast = Toast.makeText(FoodTracker.this, message, Toast.LENGTH_SHORT); //this is the ListActivity
+        toast.show();
+    }
+
+    private DatePickerDialog datePicker(int year, int month, int day){
+
         DatePickerDialog.OnDateSetListener picker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dateInput.setText(year + "/" + (month+1) + "/" + dayOfMonth);
             }
         };
-        return picker;
+        return new DatePickerDialog(FoodTracker.this, picker, year, month, day);
     }
 
-    private TimePickerDialog.OnTimeSetListener timePicker(){
+    private TimePickerDialog timePicker(int hour, int minute){
+
         TimePickerDialog.OnTimeSetListener picker = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                timeInput.setText(hourOfDay + ":" + minute);
+                timeInput.setText((hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute));
             }
         };
-        return picker;
+        return new TimePickerDialog(FoodTracker.this, picker, hour, minute, false);
     }
 
     private Date getDateFromInputs() {
+        if(dateInput.getText().toString().trim().equals("") || timeInput.getText().toString().trim().equals("")){
+            return null;
+        }
         long dateLong = 0;
 
         String dateTime = dateInput.getText() + " " + timeInput.getText();
@@ -157,10 +211,17 @@ public class FoodTracker extends AppCompatActivity {
     }
 
     private String getFoodName(){
+        if(foodInput.getText().toString().trim().equals("")){
+            return null;
+        }
         return foodInput.getText().toString();
+
     }
 
     private int getCalories(){
+        if(calorieInput.getText().toString().trim().equals("")){
+            return -1;
+        }
         return Integer.parseInt(calorieInput.getText().toString());
     }
 
