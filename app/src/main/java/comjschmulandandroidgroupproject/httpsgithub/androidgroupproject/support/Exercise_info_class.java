@@ -99,7 +99,7 @@ public class Exercise_info_class extends AppCompatActivity {
                     ExerciseFragment frag = new ExerciseFragment();
                     frag.setArguments(bun);
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.exerciseFrameLayout, frag).commit();
+                            .replace(R.id.exerciseFrameLayout, frag).addToBackStack("ID").commit();
 
                 }
 
