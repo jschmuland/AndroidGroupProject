@@ -11,7 +11,10 @@
     <string name="time">Time</string>
     <string name="calories">Calories</string>
     <string name="food">Food</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_ok">OK</string>
     <string name="menu_help">HELP</string>
+    <string name="search">Search</string>
 
     <!-- Strings for the Sleep Activity -->
   
@@ -25,6 +28,13 @@
 
     <string name="AddFood">Add Food</string>
     <string name="foodHistory">Loading Food History…</string>
+    <string name="loadingFoodAPI">Getting food results…</string>
+    <string name="successToast">Food added successfully!</string>
+    <string name="enter_food">Please enter food name</string>
+    <string name="enter_date">Please enter a date/time</string>
+    <string name="enter_calories">Please enter calories</string>
+    <string name="confirmation">Confirm your choice</string>
+
 
     <!-- Strings for the ExerciseRecords Activity -->
 
