@@ -57,14 +57,14 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="none"
+            android:inputType="number"
             android:ems="10"
             android:id="@+id/calorieInput"
-            android:focusable="false"
             android:layout_weight="1"
             style="@style/Widget.AppCompat.EditText"
             android:hint="@string/calories" />
-
+        <!--android:focusable="false"-->
+        <!--android:clickable="false"-->
         <Button
             android:text="@string/AddFood"
             android:layout_width="wrap_content"

@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/searchFoodBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/searchFood"
+        android:layout_toEndOf="@+id/searchFood"
+        android:text="@string/search" />
+
     <TextView
         android:id="@+id/loadingAPIText"
         android:layout_width="wrap_content"
@@ -23,31 +31,30 @@
         android:id="@+id/searchFood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="27dp"
         android:ems="10"
         android:hint="@string/enter_food"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/searchImageView" />
 
     <ImageView
         android:id="@+id/searchImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_search_category_default"
-        android:layout_alignBottom="@+id/searchFood"
-        android:layout_toStartOf="@+id/searchFood"
-        android:layout_alignTop="@+id/searchFood" />
+        android:layout_alignTop="@+id/searchFood"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp" />
 
     <ListView
         android:id="@+id/list"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignEnd="@+id/searchFood"
         android:layout_below="@+id/searchFood"
         android:layout_marginTop="49dp"
-        android:layout_toEndOf="@+id/searchImageView"
         android:background="@android:color/background_light"
-        android:layout_above="@+id/linearLayout" />
+        android:layout_alignEnd="@+id/searchFoodBtn"
+        android:layout_alignStart="@+id/searchImageView" />
 
 </RelativeLayout>
