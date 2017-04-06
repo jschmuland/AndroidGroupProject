@@ -4,17 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.ExerciseRecords;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.FoodEaten;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
 
@@ -43,7 +39,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     protected final static String HOURS_SLEPT = "HOURS_SLEPT";
     //Meal table columns
     private final static String MEAL_NAME = "MEAL_NAME";
-    //Exercise table columns
+    //ExerciseRecords table columns
     private final static String EXERCISE_NAME = "EXERCISE_NAME";
     private final static String EXERCISE_DURATION = "DURATION";
     //Meal Plan table columns
@@ -189,6 +185,55 @@ public class AppDBHelper extends SQLiteOpenHelper {
         }
         return false;
 
+    }
+
+    public ArrayList<ExerciseRecords> getAllExerciseRecords() {
+        Log.i(ACTIVITY_NAME, "Called getAllExerciseRecords()");
+        ArrayList<ExerciseRecords> exerciseList = new ArrayList<>();
+        String selectAll = "SELECT * FROM " + EXERCISE_TABLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectAll, null);
+
+        String date = "";
+        int id = 0;
+        double duration = 0;
+        double calories = 0;
+        String exerciseName = "";
+
+        if (c.moveToFirst()) {
+            do {
+
+                id = c.getInt(c.getColumnIndex(KEY_ID));
+                date = c.getString(c.getColumnIndex(DATE));
+                exerciseName = c.getString(c.getColumnIndex(EXERCISE_NAME));
+                calories = c.getDouble(c.getColumnIndex(CALORIES));
+                duration = c.getDouble(c.getColumnIndex(EXERCISE_DURATION));
+
+                ExerciseRecords exercise = new ExerciseRecords(id, exerciseName, duration, date, calories);
+                exerciseList.add(exercise);
+            } while (c.moveToNext());
+        }
+
+        return exerciseList;
+    }
+
+    public boolean insertExerciseSession(ExerciseRecords exerciseSession){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(DATE,exerciseSession.getDate());
+        values.put(EXERCISE_NAME, exerciseSession.getExerciseName());
+        values.put(CALORIES, exerciseSession.getCalories());
+        values.put(EXERCISE_DURATION,exerciseSession.getDuration());
+
+        if(db.insert(EXERCISE_TABLE, null, values) >= 0){
+            db.close();
+            return true;
+        }
+
+        db.close();//closing resources
+        return false;
     }
 
 }

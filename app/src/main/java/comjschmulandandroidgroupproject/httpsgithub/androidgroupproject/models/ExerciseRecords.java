@@ -3,25 +3,34 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
 import java.util.Date;
 
-public class Exercise {
-    private String exerciseName;
-    private double duration;
-    private Date date;
+public class ExerciseRecords {
+    private String exerciseName, date;
+    private double duration, calories;
     private int id;
 
-    public Exercise(){
+    public ExerciseRecords() {
 
     }
 
-    public Exercise(String exerciseName, double duration, Date date){
+    public ExerciseRecords(String exerciseName, double duration, String date, double calories) {
         this.exerciseName = exerciseName;
         this.duration = duration;
         this.date = date;
+        this.calories = calories;
     }
 
-    public Exercise(int id, String exerciseName, double duration, Date date){
-        this(exerciseName, duration, date);
+    public ExerciseRecords(int id, String exerciseName, double duration, String date, double calories) {
+        this(exerciseName, duration, date, calories);
         this.id = id;
+
+    }
+
+    public double getCalories() {
+        return calories;
+    }
+
+    public void setCalories(double calories) {
+        this.calories = calories;
     }
 
     public String getExerciseName() {
@@ -32,7 +41,7 @@ public class Exercise {
         return duration;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -48,11 +57,13 @@ public class Exercise {
         this.duration = duration;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
     public void setId(int id) {
         this.id = id;
     }
+
+
 }

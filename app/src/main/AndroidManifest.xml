@@ -25,7 +25,7 @@
             android:label="@string/title_activity_sleep_tracker"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Exercise" />
-        <activity android:name=".Exercise_info_class">
+        <activity android:name=".support.Exercise_info_class">
         </activity>
         <activity
             android:name=".FoodTracker"

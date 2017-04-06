@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.Exercise_info_class">
+    tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:visibility="visible"/>
 
         <ListView
-            android:id="@+id/exerciseListView2"
+            android:id="@+id/listViewExercise"
             android:layout_width="150dp"
             android:layout_height="400dp"
             android:layout_marginStart="25dp"
@@ -97,9 +97,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/exerciseFrameLayout"
-            android:layout_toEndOf="@+id/exerciseListView2"
-            android:layout_alignTop="@+id/exerciseListView2"
-            android:layout_alignBottom="@+id/exerciseListView2">
+            android:layout_toEndOf="@+id/listViewExercise"
+            android:layout_alignTop="@+id/listViewExercise"
+            android:layout_alignBottom="@+id/listViewExercise">
 
         </FrameLayout>
 
