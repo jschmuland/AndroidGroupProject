@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/meals_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.MealPlanner"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/headingMeal"
+            android:text="Enter Meal"
+            ></TextView>
+        <ListView
+            android:layout_width="250dp"
+            android:layout_height="70dp"
+            android:id="@+id/theListMeal"
+
+            />
+
+        <EditText
+            android:id="@+id/editTextMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+
+            android:text="Submit Name of Meal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/submitmealbutton"
+            android:layout_marginTop="30dp" />
+
+        <Button
+
+            android:text="@string/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/exitbuttonmeal"
+            android:layout_marginTop="30dp" />
+
+    </LinearLayout>
+</RelativeLayout>

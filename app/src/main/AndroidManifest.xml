@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MealPlanner"></activity>
+        <activity android:name=".MealActivity"></activity>
         <activity
             android:name=".SleepTracker"
             android:label="@string/title_activity_sleep_tracker"
