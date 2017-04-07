@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ProgressBar calorieBar = (ProgressBar)findViewById(R.id.progressBar);
-        calorieBar.setProgress(69);
+        calorieBar.setProgress(100*1234/2000);
 
         View sleepbtn = findViewById(R.id.mainSleepBtn);
         sleepbtn.setOnClickListener(new View.OnClickListener() {
