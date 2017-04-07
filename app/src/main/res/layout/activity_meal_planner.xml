@@ -41,6 +41,15 @@
         android:id="@+id/mealsubmitbutton"
         android:layout_marginTop="30dp" />
 
+        <Button
+
+            android:text="@string/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/exitbutton"
+            android:layout_marginTop="30dp" />
         <ProgressBar
             style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
             android:layout_width="wrap_content"
