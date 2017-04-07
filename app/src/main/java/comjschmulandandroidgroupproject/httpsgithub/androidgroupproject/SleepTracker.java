@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -83,7 +84,7 @@ public class SleepTracker extends AppCompatActivity {
                 frag.setArguments(bun);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.sleepFragmentHolder, frag)
-                        .addToBackStack("ID")
+//                        .addToBackStack("ID")
                         .commit();
             }
         });
@@ -172,6 +173,18 @@ public class SleepTracker extends AppCompatActivity {
                 if(!isChecked){
                     timer.stop();
                     Log.i(TAG, "onCheckedChanged: "+timer.getText());
+
+                    long elapsedMillis = SystemClock.elapsedRealtime() - timer.getBase();
+                    int tempDurr = (int)elapsedMillis/1000;
+
+                    Sleep tempSleepObj = new Sleep(new Date(),tempDurr);
+                    //add sleep object to db in async task
+                    SleepInsert si = new SleepInsert();
+                    si.execute(tempSleepObj);
+                    //add sleep object to sleep array
+                    sleepObjArray.add(0,tempSleepObj);
+                    messageAdapter.notifyDataSetChanged();//update the listview
+
                 }
 
 
