@@ -18,7 +18,7 @@ public class ExerciseFragment extends Fragment {
 
     protected static final String ACTIVITY_NAME = "Exercise Fragment";
     Context ctx;
-    protected String exerciseName, date, tempDuration, tempCalories;
+    protected String exerciseName, date, tempDuration, tempCalories, tempID;
     protected double exerciseDuration, calories;
     protected int keyID;
 
@@ -35,6 +35,7 @@ public class ExerciseFragment extends Fragment {
         tempDuration = String.valueOf(exerciseDuration);
         calories = bun.getDouble("CALORIES");
         tempCalories = String.valueOf(calories);
+        tempID = String.valueOf(keyID);
     }//end onCreate
 
 
@@ -47,19 +48,22 @@ public class ExerciseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle savedInstanceState){
         super.onCreateView(inflater,containter,savedInstanceState);
-        View gui = inflater.inflate(R.layout.exercise_row_layout,null);
+        View gui = inflater.inflate(R.layout.exercise_message_fragment,null);
 
-        TextView exerciseTextName = (TextView) gui.findViewById(R.id.exerciseRowName);
-        exerciseTextName.setText(exerciseName);
+        TextView exerciseIdView = (TextView) gui.findViewById(R.id.exerciseRowIDFragment);
+        exerciseIdView.setText("Exercise ID: " + tempID);
 
-        TextView exerciseTextDate = (TextView) gui.findViewById(R.id.exerciseRowDate);
-        exerciseTextDate.setText(date);
+        TextView exerciseTextName = (TextView) gui.findViewById(R.id.exerciseRowNameFragment);
+        exerciseTextName.setText("Exercise Name: " + exerciseName);
 
-        TextView exerciseTextDuration = (TextView) gui.findViewById(R.id.exerciseRowDuration);
-        exerciseTextDuration.setText(tempDuration);
+        TextView exerciseTextDate = (TextView) gui.findViewById(R.id.exerciseRowDateFragment);
+        exerciseTextDate.setText("Exercise Date: " + date);
 
-        TextView exerciseTextCalories = (TextView) gui.findViewById(R.id.exerciseRowCalories);
-        exerciseTextCalories.setText(tempCalories);
+        TextView exerciseTextDuration = (TextView) gui.findViewById(R.id.exerciseRowDurationFragment);
+        exerciseTextDuration.setText("Exercise Total Time: " + tempDuration);
+
+        TextView exerciseTextCalories = (TextView) gui.findViewById(R.id.exerciseRowCaloriesFragment);
+        exerciseTextCalories.setText("Exercise Calories Burned: " + tempCalories);
 
 
         return gui;

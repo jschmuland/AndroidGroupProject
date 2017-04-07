@@ -69,9 +69,7 @@ public class Exercise_info_class extends AppCompatActivity {
         exerciseTimeView = (TextView) findViewById(R.id.textViewTimeInExercise);
         textViewDate = (TextView) findViewById(R.id.textViewDate);
         totalCalories = (TextView) findViewById(R.id.textViewTotalCalories);
-        bar = (ProgressBar) findViewById(R.id.progressBarExercise);
-        bar.setMax(500);
-        bar.setVisibility(View.VISIBLE);
+
 
         //getting Sleep array in Async Task
         ExerciseQuery sq = new ExerciseQuery();
@@ -94,7 +92,7 @@ public class Exercise_info_class extends AppCompatActivity {
                 ExerciseRecords exerciseObj = messageAdapter.getItem(position);
 
                 Bundle bun = new Bundle();
-                bun.putInt("ID", exerciseObj.getId());//l is the database ID of selected item
+                bun.putInt("_ID", exerciseObj.getId());//l is the database ID of selected item
                 bun.putString("DATE", exerciseObj.getDate());
                 bun.putString("NAME", exerciseObj.getExerciseName());
                 bun.putDouble("CALORIES", exerciseObj.getCalories());
@@ -112,7 +110,7 @@ public class Exercise_info_class extends AppCompatActivity {
                 } else //isPhone
                 {
                     Intent intent = new Intent(Exercise_info_class.this, ExerciseMessageDetails.class);
-                    intent.putExtra("ID", exerciseObj.getId()); //pass the Database ID to next activity
+                    intent.putExtra("_ID", exerciseObj.getId()); //pass the Database ID to next activity
                     intent.putExtra("DATE", exerciseObj.getDate());
                     intent.putExtra("NAME", exerciseObj.getExerciseName());
                     intent.putExtra("CALORIES", exerciseObj.getCalories());
@@ -181,6 +179,10 @@ public class Exercise_info_class extends AppCompatActivity {
             }
         });
 
+        bar = (ProgressBar) findViewById(R.id.progressBarExercise);
+        bar.setMax(100);
+        bar.setProgress(messageAdapter.getCount());
+        //bar.setVisibility(View.VISIBLE);
 
     }//end onCreate
 
