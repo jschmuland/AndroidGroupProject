@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MealPlanner"></activity>
+        <activity android:name=".MealActivity"></activity>
         <activity
             android:name=".SleepTracker"
             android:label="@string/title_activity_sleep_tracker"
@@ -26,11 +27,15 @@
 
         <activity android:name=".support.Exercise_info_class">
         </activity>
+        <activity android:name=".support.ExerciseMessageDetails"></activity>
 
         <activity
             android:name=".FoodTracker"
-            android:label="@string/title_activity_food_tracker"></activity>
-        <activity android:name=".FoodPicker"></activity>
+            android:label="@string/title_activity_food_tracker"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".FoodPicker"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>
