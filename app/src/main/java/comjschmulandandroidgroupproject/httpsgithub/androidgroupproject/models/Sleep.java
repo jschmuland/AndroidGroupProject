@@ -6,33 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class Sleep {
-    private int id;
+public class Sleep extends ID {
     private Date date;
     private int duration;
 
     public Sleep(){
-        this.id = 0;
-        this.date = new Date();
-        this.duration = 0;
+        this(new Date(), 0);
     }
 
     public Sleep(Date date, int duration){
-        this.date = date;
-        this.duration = duration;
+        this(0, date, duration);
     }
 
     public Sleep(int id, Date date, int duration){
-        this(date, duration);
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.date = date;
+        this.duration = duration;
+        setId(0);
     }
 
     public Date getDate() {

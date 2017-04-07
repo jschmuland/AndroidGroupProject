@@ -2,27 +2,22 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
 
 
-public class Food {
-
+public class Food extends ID{
     private String foodName;
     private int calories;
-    private int id;
 
     public Food(){
-        this.foodName = "";
-        this.calories = 0;
-        this.id = 0;
+        this("", 0);
     }
 
     public Food(String foodName, int calories){
-        this();
-        this.foodName = foodName;
-        this.calories = calories;
+        this(0, foodName, calories);
     }
 
     public Food(int id, String foodName, int calories){
-        this(foodName, calories);
-        this.id = id;
+        setId(id);
+        this.foodName = foodName;
+        this.calories = calories;
     }
 
     public Food(Food food) {
@@ -37,20 +32,12 @@ public class Food {
         this.calories = calories;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getFoodName() {
         return foodName;
     }
 
     public int getCalories(){
         return  calories;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override
