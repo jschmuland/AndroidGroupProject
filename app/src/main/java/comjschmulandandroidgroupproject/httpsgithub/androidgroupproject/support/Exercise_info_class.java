@@ -69,7 +69,7 @@ public class Exercise_info_class extends AppCompatActivity {
         textViewDate = (TextView) findViewById(R.id.textViewDate);
         totalCalories = (TextView) findViewById(R.id.textViewTotalCalories);
         bar = (ProgressBar) findViewById(R.id.progressBarExercise);
-        bar.getProgress();
+        bar.setMax(500);
         bar.setVisibility(View.VISIBLE);
 
         //getting Sleep array in Async Task
@@ -109,7 +109,7 @@ public class Exercise_info_class extends AppCompatActivity {
                             .replace(R.id.exerciseFrameLayout, frag).addToBackStack("ID").commit();
 
                 }
-                exerciseObj.notify();
+
             }
         });
 
