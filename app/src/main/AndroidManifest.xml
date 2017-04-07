@@ -31,8 +31,11 @@
 
         <activity
             android:name=".FoodTracker"
-            android:label="@string/title_activity_food_tracker"></activity>
-        <activity android:name=".FoodPicker"></activity>
+            android:label="@string/title_activity_food_tracker"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".FoodPicker"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

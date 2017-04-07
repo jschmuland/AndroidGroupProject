@@ -8,18 +8,21 @@ import java.util.Date;
 public class FoodEaten extends Food {
     private Date date;
 
-    public FoodEaten(Food food, Date date){
-        super(food);
-        this.date = date;
+    public FoodEaten(){
+        this("", 0, new Date());
     }
 
     public FoodEaten(String foodName, int calories, Date date){
-        super(foodName, calories);
-        this.date = date;
+        this(0, foodName, calories, date);
     }
 
     public FoodEaten(int id, String foodName, int calories, Date date){
         super(id, foodName, calories);
+        this.date = date;
+    }
+
+    public FoodEaten(Food food, Date date){
+        super(food);
         this.date = date;
     }
 
