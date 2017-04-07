@@ -3,6 +3,7 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -108,6 +109,15 @@ public class Exercise_info_class extends AppCompatActivity {
                     getFragmentManager().beginTransaction()
                             .replace(R.id.exerciseFrameLayout, frag).addToBackStack("ID").commit();
 
+                } else //isPhone
+                {
+                    Intent intent = new Intent(Exercise_info_class.this, ExerciseMessageDetails.class);
+                    intent.putExtra("ID", exerciseObj.getId()); //pass the Database ID to next activity
+                    intent.putExtra("DATE", exerciseObj.getDate());
+                    intent.putExtra("NAME", exerciseObj.getExerciseName());
+                    intent.putExtra("CALORIES", exerciseObj.getCalories());
+                    intent.putExtra("DURATION", exerciseObj.getDuration());
+                    startActivityForResult(intent,1,bun);
                 }
 
             }
