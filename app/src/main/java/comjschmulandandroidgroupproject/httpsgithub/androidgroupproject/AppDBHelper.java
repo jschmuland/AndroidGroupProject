@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.ExerciseRecords;
@@ -166,6 +167,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
                 foodEatenList.add(food);
             } while (c.moveToNext());
         }
+
+        Collections.reverse(foodEatenList);
 
         return foodEatenList;
     }
