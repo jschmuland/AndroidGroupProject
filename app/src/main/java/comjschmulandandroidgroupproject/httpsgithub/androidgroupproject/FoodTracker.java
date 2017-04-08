@@ -52,6 +52,7 @@ public class FoodTracker extends AppCompatActivity {
     private FoodAdapter foodAdapter;
     private AppDBHelper dbHelper;
     private Calendar calendar;
+    private String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class FoodTracker extends AppCompatActivity {
                     return;
                 }
 
-                FoodEaten food = new FoodEaten(getFoodName(), getCalories(), getDateFromInputs());
+                FoodEaten food = new FoodEaten(getFoodName(), getCalories(), getDateFromInputs(), getDescription());
                 if(dbHelper.insertFoodEaten(food)){
                     Log.i(ACTIVITY_NAME, "Insert successful");
                     clearInputs();
@@ -206,7 +207,7 @@ public class FoodTracker extends AppCompatActivity {
         caloriesText.setText(String.valueOf(food.getCalories()));
 
         TextView descriptionText = (TextView) dialogView.findViewById(R.id.DescriptionValue);
-        descriptionText.setText("Mock description for food eaten");
+        descriptionText.setText(food.getDescription());
 
         builder2.setView(dialogView)
                 // Add action buttons
@@ -254,6 +255,8 @@ public class FoodTracker extends AppCompatActivity {
 
             foodInput.setText(bundle.get("FOOD").toString());
             calorieInput.setText(String.valueOf(bundle.get("CALORIES")));
+            description = bundle.get("DESCRIPTION").toString();
+            Log.i(ACTIVITY_NAME, description);
         }
     }
 
@@ -337,6 +340,10 @@ public class FoodTracker extends AppCompatActivity {
         }
         return foodInput.getText().toString();
 
+    }
+
+    private String getDescription(){
+        return description;
     }
 
     private int getCalories(){

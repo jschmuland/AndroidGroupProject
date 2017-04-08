@@ -137,6 +137,7 @@ public class FoodPicker extends AppCompatActivity {
                     Intent intent = new Intent(getActivity(), FoodTracker.class);
                     intent.putExtra("FOOD", f.getFoodName());
                     intent.putExtra("CALORIES", f.getCalories());
+                    intent.putExtra("DESCRIPTION", f.getDescription());
                     getActivity().setResult(5, intent);
                     getActivity().finish();
                 }
