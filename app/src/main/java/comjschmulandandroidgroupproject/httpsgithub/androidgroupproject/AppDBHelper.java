@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.ExerciseRecords;
@@ -35,6 +36,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String KEY_MEAL_ID = "MEAL_ID";
     private final static String KEY_FOOD_ID = "FOOD_ID";
     private final static String KEY_MP_ID = "MEALPLAN_ID";
+    private final static String DESCRIPTION = "DESRIPTION";
     //Sleep table columns
     protected final static String HOURS_SLEPT = "HOURS_SLEPT";
     //Meal table columns
@@ -46,7 +48,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String MEALPLAN_NAME = "MEALPLAN_NAME";
     //Create table queries
     private final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
-    private final static String FOOD_EATEN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER);", FOOD_EATEN_TABLE, KEY_ID, DATE, FOOD_ITEM, CALORIES);
+    private final static String FOOD_EATEN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER, %s TEXT);", FOOD_EATEN_TABLE, KEY_ID, DATE, FOOD_ITEM, CALORIES, DESCRIPTION);
     private final static String EXERCISE_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s REAL, %s REAL);", EXERCISE_TABLE, KEY_ID, DATE, EXERCISE_NAME, CALORIES, EXERCISE_DURATION);
     private final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", FOOD_TABLE, KEY_ID, FOOD_ITEM, CALORIES);
     private final static String MEALS_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALS_TABLE, KEY_ID, MEAL_NAME);
@@ -61,7 +63,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //DB name
     public final static String DATABASE_NAME = "Wellness.db";
     //Version
-    static int VERSION_NUM = 4;
+    static int VERSION_NUM = 6;
 
     public AppDBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
@@ -148,11 +150,12 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAll, null);
 
-        Date date = null;
-        long dateLong = 0;
-        int id = 0;
-        int calories = 0;
-        String foodName = "";
+        Date date;
+        long dateLong;
+        int id;
+        int calories;
+        String foodName;
+        String description;
 
         if (c.moveToFirst()) {
             do {
@@ -160,12 +163,15 @@ public class AppDBHelper extends SQLiteOpenHelper {
                 calories = c.getInt(c.getColumnIndex(CALORIES));
                 foodName = c.getString(c.getColumnIndex(FOOD_ITEM));
                 dateLong = c.getLong(c.getColumnIndex(DATE));
+                description = c.getString((c.getColumnIndex(DESCRIPTION)));
 
                 date = new Date(dateLong);
-                FoodEaten food = new FoodEaten(id, foodName, calories, date);
+                FoodEaten food = new FoodEaten(id, foodName, calories, date, description);
                 foodEatenList.add(food);
             } while (c.moveToNext());
         }
+
+        Collections.reverse(foodEatenList);
 
         return foodEatenList;
     }
@@ -179,8 +185,19 @@ public class AppDBHelper extends SQLiteOpenHelper {
         values.put(FOOD_ITEM, foodEaten.getFoodName());
         values.put(CALORIES, foodEaten.getCalories());
         values.put(DATE, foodEaten.getDate().getTime());
+        values.put(DESCRIPTION, foodEaten.getDescription());
 
         if (db.insert(FOOD_EATEN_TABLE, null, values) >= 0) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean deleteFoodEaten(FoodEaten foodEaten){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if(db.delete(FOOD_EATEN_TABLE, KEY_ID + "=" + String.valueOf(foodEaten.getId()), null) > 0){
             return true;
         }
         return false;
@@ -195,11 +212,11 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAll, null);
 
-        String date = "";
-        int id = 0;
-        double duration = 0;
-        double calories = 0;
-        String exerciseName = "";
+        String date;
+        int id;
+        double duration;
+        double calories;
+        String exerciseName;
 
         if (c.moveToFirst()) {
             do {
