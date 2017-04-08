@@ -74,5 +74,6 @@
 
     <!-- Strings for the Meal Activity -->
     <string name="mealsubmitbutton">Meal Submit Button</string>
+    <string name="title_activity_food_tracker2">FoodTracker2</string>
 
 </resources>
