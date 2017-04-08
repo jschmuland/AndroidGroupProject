@@ -54,9 +54,6 @@ public class FoodTracker extends AppCompatActivity {
         setTitle("Food Tracker");
         Log.i(ACTIVITY_NAME, "OnCreate called");
 
-        //status bar
-
-
         //toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
