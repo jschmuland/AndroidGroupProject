@@ -17,6 +17,7 @@
     <string name="menu_help">Help</string>
     <string name="search">Search</string>
     <string name="menu_main">Home</string>
+    <string name="delete">Delete?</string>
 
     <!-- Strings for the Sleep Activity -->
 
@@ -40,6 +41,8 @@
     <string name="foodtracker_help_text">Click on food to search for a food to add,
         once added choose a date and time. Click Add Food to add a food to your list. Click on
         food items in the list to see details about the food</string>
+    <string name="descriptionTitle">Description</string>
+    <string name="foodDetails">Details</string>
 
 
     <!-- Strings for the ExerciseRecords Activity -->

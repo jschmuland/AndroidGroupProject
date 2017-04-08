@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,6 +29,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -125,6 +128,14 @@ public class FoodTracker extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         loadingText = (TextView) findViewById(R.id.loadingText);
         foodList = (ListView) findViewById(R.id.foodList);
+        foodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String foodName = foodAdapter.getItem(position).getFoodName();
+                String calories = String.valueOf(foodAdapter.getItem(position).getCalories());
+                showDetailsAlert(foodName, calories, "Mock description of the food you ate");
+            }
+        });
 
         calorieInput.setVisibility(View.INVISIBLE);
         foodInput.setVisibility(View.INVISIBLE);
@@ -180,6 +191,39 @@ public class FoodTracker extends AppCompatActivity {
 
     }
 
+    public void showDetailsAlert(String foodName, String calories, String description){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.food_details_layout, null);
+
+        TextView foodText = (TextView) dialogView.findViewById(R.id.FoodNameValue);
+        foodText.setText(foodName);
+
+        TextView caloriesText = (TextView) dialogView.findViewById(R.id.CaloriesValue);
+        caloriesText.setText(calories);
+
+        TextView descriptionText = (TextView) dialogView.findViewById(R.id.DescriptionValue);
+        descriptionText.setText(description);
+
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteRow();
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+        });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.foodDetails);
+        dialog2.getWindow().setLayout(400, 800);
+        dialog2.show();
+    }
+
     public void createHelpDialog(){
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         // Get the layout inflater
@@ -209,6 +253,10 @@ public class FoodTracker extends AppCompatActivity {
             foodInput.setText(bundle.get("FOOD").toString());
             calorieInput.setText(String.valueOf(bundle.get("CALORIES")));
         }
+    }
+
+    private void deleteRow(){
+        Log.i(ACTIVITY_NAME, "DELETED");
     }
 
     private boolean validateInputs(){
