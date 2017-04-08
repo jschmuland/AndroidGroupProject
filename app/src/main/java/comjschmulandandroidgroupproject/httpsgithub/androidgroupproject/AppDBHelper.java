@@ -187,6 +187,16 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean deleteFoodEaten(FoodEaten foodEaten){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if(db.delete(FOOD_EATEN_TABLE, KEY_ID + "=" + String.valueOf(foodEaten.getId()), null) > 0){
+            return true;
+        }
+        return false;
+
+    }
+
     public ArrayList<ExerciseRecords> getAllExerciseRecords() {
         Log.i(ACTIVITY_NAME, "Called getAllExerciseRecords()");
         ArrayList<ExerciseRecords> exerciseList = new ArrayList<>();

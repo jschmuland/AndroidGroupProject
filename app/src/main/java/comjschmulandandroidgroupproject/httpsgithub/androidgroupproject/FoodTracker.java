@@ -131,9 +131,8 @@ public class FoodTracker extends AppCompatActivity {
         foodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String foodName = foodAdapter.getItem(position).getFoodName();
-                String calories = String.valueOf(foodAdapter.getItem(position).getCalories());
-                showDetailsAlert(foodName, calories, "Mock description of the food you ate");
+                FoodEaten food = foodAdapter.getItem(position);
+                showDetailsAlert(food, position);
             }
         });
 
@@ -191,27 +190,30 @@ public class FoodTracker extends AppCompatActivity {
 
     }
 
-    public void showDetailsAlert(String foodName, String calories, String description){
+    public void showDetailsAlert(FoodEaten food, int position){
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         // Get the layout inflater
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.food_details_layout, null);
 
+        final FoodEaten foodFinal = food;
+        final int pos = position;
+
         TextView foodText = (TextView) dialogView.findViewById(R.id.FoodNameValue);
-        foodText.setText(foodName);
+        foodText.setText(food.getFoodName());
 
         TextView caloriesText = (TextView) dialogView.findViewById(R.id.CaloriesValue);
-        caloriesText.setText(calories);
+        caloriesText.setText(String.valueOf(food.getCalories()));
 
         TextView descriptionText = (TextView) dialogView.findViewById(R.id.DescriptionValue);
-        descriptionText.setText(description);
+        descriptionText.setText("Mock description for food eaten");
 
         builder2.setView(dialogView)
                 // Add action buttons
                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        deleteRow();
+                        deleteRow(foodFinal, pos);
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
@@ -255,8 +257,12 @@ public class FoodTracker extends AppCompatActivity {
         }
     }
 
-    private void deleteRow(){
-        Log.i(ACTIVITY_NAME, "DELETED");
+    private void deleteRow(FoodEaten food, int position){
+        if(dbHelper.deleteFoodEaten(food)) {
+            Log.i(ACTIVITY_NAME, "DELETED");
+            foodObjArr.remove(position);
+            foodAdapter.notifyDataSetChanged();
+        }
     }
 
     private boolean validateInputs(){
