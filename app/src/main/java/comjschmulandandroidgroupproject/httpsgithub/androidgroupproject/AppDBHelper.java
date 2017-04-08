@@ -150,12 +150,12 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAll, null);
 
-        Date date = null;
-        long dateLong = 0;
-        int id = 0;
-        int calories = 0;
-        String foodName = "";
-        String description = "";
+        Date date;
+        long dateLong;
+        int id;
+        int calories;
+        String foodName;
+        String description;
 
         if (c.moveToFirst()) {
             do {
@@ -212,11 +212,11 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAll, null);
 
-        String date = "";
-        int id = 0;
-        double duration = 0;
-        double calories = 0;
-        String exerciseName = "";
+        String date;
+        int id;
+        double duration;
+        double calories;
+        String exerciseName;
 
         if (c.moveToFirst()) {
             do {
