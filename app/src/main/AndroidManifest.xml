@@ -17,20 +17,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MealPlanner"></activity>
-        <activity android:name=".MealActivity"></activity>
+        <activity android:name=".MealPlanner" />
+        <activity android:name=".MealActivity" />
         <activity
             android:name=".SleepTracker"
             android:label="@string/title_activity_sleep_tracker"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Exercise" />
-        <activity
-            android:name=".Exercise_info_class"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".support.Exercise_info_class" />
+        <activity android:name=".support.ExerciseMessageDetails" />
         <activity
             android:name=".FoodTracker"
-            android:label="@string/title_activity_food_tracker"></activity>
-        <activity android:name=".FoodPicker"></activity>
+            android:label="@string/title_activity_food_tracker"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FoodPicker"
+            android:label="@string/title_activity_food_picker"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

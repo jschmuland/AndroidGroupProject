@@ -2,30 +2,26 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
 import java.util.ArrayList;
 
-public class Meal {
-    private int id;
+public class Meal extends ID{
     private String mealName;
     private ArrayList<Food> foods;
 
     public Meal(){
-        this.mealName = "";
-        this.foods = new ArrayList<>();
-        this.id = 0;
+        this("");
     }
 
     public Meal(String mealName) {
-        this();
-        this.mealName = mealName;
+        this(mealName, new ArrayList<Food>() );
     }
 
     public Meal(String mealName, ArrayList<Food> foods){
-        this(mealName);
-        this.foods = foods;
+        this(0, mealName, foods);
     }
 
     public Meal(int id, String mealName, ArrayList<Food> foods){
-        this(mealName, foods);
-        this.id = id;
+        this.mealName = mealName;
+        this.foods = foods;
+        setId(id);
     }
 
     public void addFood(Food food){
@@ -40,14 +36,6 @@ public class Meal {
 
     public Food getFood(int index){
         return foods.get(index);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public ArrayList<Food> getFoods() {

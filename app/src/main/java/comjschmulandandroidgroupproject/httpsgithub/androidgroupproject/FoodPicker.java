@@ -12,8 +12,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,10 +40,11 @@ public class FoodPicker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_picker);
 
-        Bundle extras = getIntent().getExtras();
+        //toolbar
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
 
         FoodPickerFragment fragment = new FoodPickerFragment();
-        fragment.setArguments(extras);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
@@ -48,6 +52,16 @@ public class FoodPicker extends AppCompatActivity {
         ft.commit();
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_foodtracker);
+        foodItem.setVisible(false);
+
+        return true;
+    }//end onCreateOptionsMenu
 
 
     public static class FoodPickerFragment extends Fragment {
@@ -123,6 +137,7 @@ public class FoodPicker extends AppCompatActivity {
                     Intent intent = new Intent(getActivity(), FoodTracker.class);
                     intent.putExtra("FOOD", f.getFoodName());
                     intent.putExtra("CALORIES", f.getCalories());
+                    intent.putExtra("DESCRIPTION", f.getDescription());
                     getActivity().setResult(5, intent);
                     getActivity().finish();
                 }

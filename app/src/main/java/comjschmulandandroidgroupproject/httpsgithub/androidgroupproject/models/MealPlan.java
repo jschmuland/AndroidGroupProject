@@ -4,30 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MealPlan {
-    private int id;
+public class MealPlan extends ID{
     private String planName;
     private HashMap<String, Meal> meals;
 
     public MealPlan(){
-        this.id = 0;
-        this.planName ="";
-        this.meals = new HashMap<>();
+        this("", new HashMap<String, Meal>());
     }
-    public MealPlan(String planName){
-        this.planName = planName;
 
-
-    }
     public MealPlan(String planName, HashMap<String, Meal> meals){
-        this.planName = planName;
-        this.meals = meals;
-        this.meals = new HashMap<>();
+        this(0, planName, meals);
     }
 
     public MealPlan(int id, String planName, HashMap<String, Meal> meals){
-        this(planName, meals);
-        this.id = id;
+        setId(id);
+        this.planName = planName;
+        this.meals = meals;
     }
 
     public MealPlan(MealPlan plan){
@@ -51,14 +43,6 @@ public class MealPlan {
 
     public HashMap<String, Meal> getMeals() {
         return meals;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public void setPlanName(String planName) {

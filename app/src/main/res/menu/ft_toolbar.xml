@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ft_toolbar">
+    <item
+        android:id="@+id/action_home"
+        android:orderInCategory="101"
+        android:title="@string/menu_main"
+        android:icon="@drawable/home_24px"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_sleep"
+        android:title="@string/title_activity_sleep_tracker"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_exercise"
+        android:title="@string/exercise"
+        android:orderInCategory="103"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_foodtracker"
+        android:title="@string/title_activity_food_tracker"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_mealplanner"
+        android:orderInCategory="104"
+        android:title="@string/mealTitle"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="105"
+        android:title="@string/menu_help"
+        app:showAsAction="never" />
+
+
+</menu>

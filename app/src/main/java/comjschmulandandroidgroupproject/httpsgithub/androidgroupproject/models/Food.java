@@ -2,31 +2,28 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
 
 
-public class Food {
-
+public class Food extends ID{
     private String foodName;
     private int calories;
-    private int id;
+    private String description;
 
     public Food(){
-        this.foodName = "";
-        this.calories = 0;
-        this.id = 0;
+        this("", 0, "");
     }
 
-    public Food(String foodName, int calories){
-        this();
+    public Food(String foodName, int calories, String description){
+        this(0, foodName, calories, description);
+    }
+
+    public Food(int id, String foodName, int calories, String description){
+        setId(id);
         this.foodName = foodName;
         this.calories = calories;
-    }
-
-    public Food(int id, String foodName, int calories){
-        this(foodName, calories);
-        this.id = id;
+        this.description = description;
     }
 
     public Food(Food food) {
-        this(food.getId(), food.getFoodName(), food.getCalories());
+        this(food.getId(), food.getFoodName(), food.getCalories(), food.getDescription());
     }
 
     public void setFoodName(String foodName){
@@ -37,10 +34,6 @@ public class Food {
         this.calories = calories;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getFoodName() {
         return foodName;
     }
@@ -49,8 +42,12 @@ public class Food {
         return  calories;
     }
 
-    public int getId() {
-        return id;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
