@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Meal;
+
 
 public class MealPlannerFragment extends Fragment {
 

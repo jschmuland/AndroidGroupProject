@@ -14,10 +14,15 @@ public class MealPlan {
         this.planName ="";
         this.meals = new HashMap<>();
     }
+    public MealPlan(String planName){
+        this.planName = planName;
 
+
+    }
     public MealPlan(String planName, HashMap<String, Meal> meals){
         this.planName = planName;
         this.meals = meals;
+        this.meals = new HashMap<>();
     }
 
     public MealPlan(int id, String planName, HashMap<String, Meal> meals){

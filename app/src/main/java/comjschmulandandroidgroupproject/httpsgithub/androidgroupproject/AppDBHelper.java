@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.FoodEaten;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
 
 
@@ -57,11 +58,11 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALPLAN_TABLE, KEY_ID, MEALPLAN_NAME);
     //Associative tables create
     private final static String MS_HAS_FOOD_QUERY = "CREATE TABLE " + MEALS_HAS_FOOD + " (" + KEY_ID +
-    "INTEGER PRIMARY KEY," + KEY_FOOD_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_FOOD_ID + ") REFERENCES " +FOOD_TABLE + " ("+KEY_ID+")," +
-            "FOREIGN KEY (" + KEY_MEAL_ID +") REFERENCES " +MEALS_TABLE + " (" +KEY_ID+"))";
+            "INTEGER PRIMARY KEY," + KEY_FOOD_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_FOOD_ID + ") REFERENCES " + FOOD_TABLE + " (" + KEY_ID + ")," +
+            "FOREIGN KEY (" + KEY_MEAL_ID + ") REFERENCES " + MEALS_TABLE + " (" + KEY_ID + "))";
     private final static String MP_HAS_MEALS_QUERY = "CREATE TABLE " + MEALPLAN_HAS_MEALS + " (" + KEY_ID +
-            "INTEGER PRIMARY KEY," + KEY_MP_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_MP_ID + ") REFERENCES " +MEALPLAN_TABLE + " ("+KEY_ID+")," +
-            "FOREIGN KEY (" + KEY_MEAL_ID +") REFERENCES " +MEALS_TABLE + " (" +KEY_ID+"))";
+            "INTEGER PRIMARY KEY," + KEY_MP_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_MP_ID + ") REFERENCES " + MEALPLAN_TABLE + " (" + KEY_ID + ")," +
+            "FOREIGN KEY (" + KEY_MEAL_ID + ") REFERENCES " + MEALS_TABLE + " (" + KEY_ID + "))";
     //DB name
     public final static String DATABASE_NAME = "Wellness.db";
     //Version
@@ -128,14 +129,14 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return sleepList;
     }
 
-    public boolean insertSleepSession(Sleep sleepSession){
+    public boolean insertSleepSession(Sleep sleepSession) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(HOURS_SLEPT,sleepSession.getDuration());
-        values.put(DATE,sleepSession.getDate().getTime());
+        values.put(HOURS_SLEPT, sleepSession.getDuration());
+        values.put(DATE, sleepSession.getDate().getTime());
 
-        if(db.insert(SLEEP_TABLE, null, values) >= 0){
+        if (db.insert(SLEEP_TABLE, null, values) >= 0) {
             db.close();
             return true;
         }
@@ -191,4 +192,41 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<MealPlan> getAllMealPlans() {
+        ArrayList<MealPlan> mealplans = new ArrayList<MealPlan>();
+        String selectAll = "SELECT * FROM " + MEALPLAN_TABLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectAll, null);
+
+        int id;
+        String mealplan_name;
+
+        if (c.moveToFirst()) {
+            do {
+                id = c.getInt(c.getColumnIndex(KEY_ID));
+                mealplan_name = c.getString(c.getColumnIndex(MEALPLAN_NAME));
+                MealPlan mealp = new MealPlan(mealplan_name);
+                mealplans.add(mealp);
+            } while (c.moveToNext());
+
+        }
+        return mealplans;
+    }
+
+    public boolean insertMealPlan(MealPlan mealP) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_MP_ID, mealP.getId());
+        values.put(MEALPLAN_NAME, mealP.getPlanName());
+
+        if (db.insert(MEALPLAN_TABLE, null, values) >= 0) {
+            db.close();
+            return true;
+        }
+
+        db.close();//closing resources
+        return false;
+    }
 }

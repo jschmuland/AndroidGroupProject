@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -32,10 +34,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Meal;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
+
 
 public class MealPlanner extends AppCompatActivity {
 
-    ArrayList<String> mealplan;
+    ArrayList<MealPlan> mealplan;
+    AppDBHelper helper;
+
                 @Override
                 protected void onCreate(Bundle savedInstanceState) {
                     super.onCreate(savedInstanceState);
@@ -45,13 +52,14 @@ public class MealPlanner extends AppCompatActivity {
                     Button exit = (Button) findViewById(R.id.exitbutton);
                    final EditText editText = (EditText) findViewById(R.id.editText);
                     ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                    mealplan = new ArrayList<String>();
+                    mealplan = new ArrayList<MealPlan>();
                     theList = (ListView) findViewById(R.id.theList);
                    final MealPlanAdapter adapter=new MealPlanAdapter(this);
                     theList.setAdapter(adapter);
 
                     //controls what gets changed in list
                     adapter.notifyDataSetChanged();
+
 
 
                     try{
@@ -73,9 +81,13 @@ public class MealPlanner extends AppCompatActivity {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+MealPlan mealPP=new MealPlan(editText.getText().toString());
 
-                            mealplan.add(editText.getText().toString());
-                            adapter.notifyDataSetChanged();
+                                  //insert returns true or false to make sure it inserts in DB then add to the arraylist
+                            if(helper.insertMealPlan(mealPP)){
+                                mealplan.add(mealPP);
+                                adapter.notifyDataSetChanged();
+                            }
                             editText.setText("");
                         }
                     });
@@ -233,14 +245,14 @@ public class MealPlanner extends AppCompatActivity {
                     }
             }
 
-    private class MealPlanAdapter extends ArrayAdapter<String>{
+    private class MealPlanAdapter extends ArrayAdapter<MealPlan>{
 
         public MealPlanAdapter (Context ctx) {
             super(ctx, 0);
         }
         public	int getCount(){return mealplan.size();
         }
-        public String getItem(int position){
+        public MealPlan getItem(int position){
             return mealplan.get(position);
         }
         public View getView(int position, View convertView, ViewGroup parent){
@@ -250,7 +262,7 @@ public class MealPlanner extends AppCompatActivity {
 
                 result = inflater.inflate(R.layout.food_picker_row, null);
                 TextView  fooditem= (TextView) result.findViewById(R.id.tp_foodName);
-                fooditem.setText(getItem(position)); // get the string at position
+                fooditem.setText(getItem(position).getPlanName()); // get the string at position
                 return result;
         }
 
