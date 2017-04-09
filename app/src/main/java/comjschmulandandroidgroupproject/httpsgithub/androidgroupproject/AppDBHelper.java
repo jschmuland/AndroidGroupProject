@@ -66,7 +66,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //DB name
     public final static String DATABASE_NAME = "Wellness.db";
     //Version
-    static int VERSION_NUM = 4;
+    static int VERSION_NUM = 6;
 
     public AppDBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
@@ -218,7 +218,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(KEY_MP_ID, mealP.getId());
+        values.put(KEY_ID, mealP.getId());
         values.put(MEALPLAN_NAME, mealP.getPlanName());
 
         if (db.insert(MEALPLAN_TABLE, null, values) >= 0) {

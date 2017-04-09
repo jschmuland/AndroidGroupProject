@@ -47,6 +47,9 @@ public class MealPlanner extends AppCompatActivity {
                 protected void onCreate(Bundle savedInstanceState) {
                     super.onCreate(savedInstanceState);
                     setContentView(R.layout.activity_meal_planner);
+
+                    helper = new AppDBHelper(this);
+
                     ListView theList = (ListView) findViewById(R.id.theList);
                     Button button = (Button) findViewById(R.id.mealsubmitbutton);
                     Button exit = (Button) findViewById(R.id.exitbutton);
@@ -81,7 +84,7 @@ public class MealPlanner extends AppCompatActivity {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-MealPlan mealPP=new MealPlan(editText.getText().toString());
+                            MealPlan mealPP= new MealPlan(editText.getText().toString());
 
                                   //insert returns true or false to make sure it inserts in DB then add to the arraylist
                             if(helper.insertMealPlan(mealPP)){
