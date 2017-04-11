@@ -8,12 +8,21 @@ public class MealPlan extends ID{
     private String planName;
     private HashMap<String, Meal> meals;
 
+
     public MealPlan(){
         this("", new HashMap<String, Meal>());
     }
 
+    public MealPlan(String planName){
+        this(1, planName);
+    }
+    public MealPlan(int id, String planName){
+        this(id, planName, new HashMap<String, Meal>());
+    }
+
+
     public MealPlan(String planName, HashMap<String, Meal> meals){
-        this(0, planName, meals);
+        this(1, planName, meals);
     }
 
     public MealPlan(int id, String planName, HashMap<String, Meal> meals){

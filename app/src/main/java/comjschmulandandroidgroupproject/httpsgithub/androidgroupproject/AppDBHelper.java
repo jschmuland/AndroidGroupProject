@@ -268,7 +268,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
             do {
                 id = c.getInt(c.getColumnIndex(KEY_ID));
                 mealplan_name = c.getString(c.getColumnIndex(MEALPLAN_NAME));
-                MealPlan mealp = new MealPlan(mealplan_name);
+                MealPlan mealp = new MealPlan(id, mealplan_name);
                 mealplans.add(mealp);
             } while (c.moveToNext());
 
@@ -280,7 +280,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(KEY_ID, mealP.getId());
+
         values.put(MEALPLAN_NAME, mealP.getPlanName());
 
         if (db.insert(MEALPLAN_TABLE, null, values) >= 0) {
@@ -291,5 +291,17 @@ public class AppDBHelper extends SQLiteOpenHelper {
         db.close();//closing resources
         return false;
     }
+
+    public boolean deleteMealPlan(MealPlan mealPlan){
+        SQLiteDatabase db = this.getWritableDatabase();
+Log.i("KATHLEEN",String.valueOf(mealPlan.getId()));
+        if(db.delete(MEALPLAN_TABLE, KEY_ID + "=" + String.valueOf(mealPlan.getId()), null) > 0){
+            return true;
+        }
+        return false;
+
+    }
+
+
 
 }
