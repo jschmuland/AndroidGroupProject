@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.AppDBHelper;
@@ -41,7 +40,7 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.E
 
 public class Exercise_info_class extends AppCompatActivity {
 
-    protected static final String ACTIVITY_NAME = "ExerciseRecords Info Activity";
+    protected static final String ACTIVITY_NAME = "Exercise Info";
     protected TextView exerciseInfoView, exerciseNameView, exerciseTimeView, totalCalories, textViewDate;
     protected Button exerciseDataBase;
     protected String currentDateTimeString, passedName, passedInfo, dateSubstring;
@@ -50,7 +49,7 @@ public class Exercise_info_class extends AppCompatActivity {
     protected ProgressBar bar;
     boolean isTablet;
     protected ListView listView;
-    final ArrayList<ExerciseRecords> exerciseObjArray = new ArrayList<>();
+    ArrayList<ExerciseRecords> exerciseObjArray = new ArrayList<>();
     ExerciseAdapter exerciseAdapter;
     AppDBHelper dbHelper;
     SQLiteDatabase db;
@@ -88,7 +87,7 @@ public class Exercise_info_class extends AppCompatActivity {
         sq.execute(this);
         isTablet = (findViewById(R.id.exerciseFrameLayout) != null); //find out if this is a phone or tablet
 
-        /**-----------------LISTVIEW UPDATE----------------------*/
+        /*-----------------LISTVIEW UPDATE----------------------*/
         listView = (ListView) findViewById(R.id.listViewExercise);
 
 
@@ -103,7 +102,6 @@ public class Exercise_info_class extends AppCompatActivity {
 
                 ExerciseRecords exerciseObj = messageAdapter.getItem(position);
 
-
                 Bundle bun = new Bundle();
 
                 bun.putInt("_ID", exerciseObj.getId());
@@ -112,7 +110,6 @@ public class Exercise_info_class extends AppCompatActivity {
                 bun.putString("NAME", exerciseObj.getExerciseName());
                 bun.putDouble("CALORIES", exerciseObj.getCalories());
                 bun.putDouble("DURATION", exerciseObj.getDuration());
-
 
                 if (isTablet) {
 
@@ -139,9 +136,9 @@ public class Exercise_info_class extends AppCompatActivity {
 
         /*--------------------Set values to the TextViews-------------------*/
         exerciseNameView.setText(passedName);
-        exerciseInfoView.setText("calories per minute: " + passedInfo);
-        exerciseTimeView.setText("Time spent in activity: " + timeInExercise + " minutes");
-        totalCalories.setText("You burned: " + calculateCalories(calPerMinute, timeInExercise) + " Calories");
+        exerciseInfoView.setText(getString(R.string.caloriesPerMinute) + " " + passedInfo);
+        exerciseTimeView.setText(getString(R.string.timeInExercise) + " " + timeInExercise + ": " + getString(R.string.exerciseMinutes));
+        totalCalories.setText(getString(R.string.exerciseBurn) + ": " + calculateCalories(calPerMinute, timeInExercise) + " Calories");
 
 
         /*----------------------DATE----------------------*/
@@ -166,7 +163,7 @@ public class Exercise_info_class extends AppCompatActivity {
                 secondBuilder.setView(inflater.inflate(R.layout.exercise_message_dialog, null))
 
                         // Add action buttons
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 ExerciseRecords setCurrentExercise = new ExerciseRecords(passedName, timeInExercise, dateSubstring, totalCaloriesDouble);
@@ -177,14 +174,13 @@ public class Exercise_info_class extends AppCompatActivity {
                                 exerciseObjArray.add(setCurrentExercise);
                                 messageAdapter.notifyDataSetChanged();//update the listview
 
-                                Snackbar.make(v, "Saving on Database", Snackbar.LENGTH_LONG)
+                                Snackbar.make(v, getString(R.string.exerciseSavingDatabase), Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             }
                         })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                ExerciseRecords frag = new ExerciseRecords();
-                                Snackbar.make(v, "You canceled the Action", Snackbar.LENGTH_LONG)
+                                Snackbar.make(v, getString(R.string.exerciseDialogCancel), Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
 
                             }
@@ -197,30 +193,15 @@ public class Exercise_info_class extends AppCompatActivity {
         bar = (ProgressBar) findViewById(R.id.progressBarExercise);
         bar.setMax(100);
         bar.setProgress(messageAdapter.getCount());
-        //bar.setVisibility(View.VISIBLE);
 
     }//end onCreate
-
-    protected class ExerciseQuery extends AsyncTask<Context, Integer, String> {
-
-        @Override
-        protected String doInBackground(Context... args) {
-            AppDBHelper dbHelper = new AppDBHelper(args[0]);
-            exerciseObjArray.addAll(dbHelper.getAllExerciseRecords());
-            Collections.reverse(exerciseObjArray);
-
-            dbHelper.close();
-            return "done";
-        }
-
-    }
 
     /**
      * Method used to return the total calories burned in exercise
      *
-     * @param calPerMinute
-     * @param timeInExercise
-     * @return totalCalories
+     * @param calPerMinute   receive the calories per minute
+     * @param timeInExercise receives the total time in exercises
+     * @return totalCalories return the total calories burned
      */
     public double calculateCalories(double calPerMinute, double timeInExercise) {
 
@@ -232,15 +213,15 @@ public class Exercise_info_class extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.ft_toolbar, menu);
-        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_exercise);
-        foodItem.setVisible(false);
+        MenuItem exerciseItem = menu.findItem(R.id.action_exercise);
+        exerciseItem.setVisible(false);
         return true;
     }//end onCreateOptionsMenu
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case (R.id.action_foodtracker):
                 intent = new Intent(Exercise_info_class.this, FoodTracker.class);
                 startActivity(intent);
@@ -249,15 +230,15 @@ public class Exercise_info_class extends AppCompatActivity {
                 intent = new Intent(Exercise_info_class.this, MealPlanner.class);
                 startActivity(intent);
                 return true;
-            case(R.id.action_sleep):
+            case (R.id.action_sleep):
                 intent = new Intent(Exercise_info_class.this, SleepTracker.class);
                 startActivity(intent);
                 return true;
-            case(R.id.action_home):
+            case (R.id.action_home):
                 finish();
                 return true;
-            case(R.id.action_help):
-               // Log.i(ACTIVITY_NAME, "help");
+            case (R.id.action_help):
+                Log.i(ACTIVITY_NAME, "help");
                 createHelpDialog();
                 return true;
         }
@@ -266,7 +247,7 @@ public class Exercise_info_class extends AppCompatActivity {
 
     }//end onOptionSelectedMenu
 
-    public void createHelpDialog(){
+    public void createHelpDialog() {
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         // Get the layout inflater
         LayoutInflater inflater = this.getLayoutInflater();
@@ -288,7 +269,7 @@ public class Exercise_info_class extends AppCompatActivity {
     private class ExerciseInsert extends AsyncTask<ExerciseRecords, Integer, String> {
         @Override
         protected String doInBackground(ExerciseRecords... args) {
-            dbHelper = new AppDBHelper(ctx);
+
             dbHelper.insertExerciseSession(args[0]);//update the database
             dbHelper.close();
             return "done";
@@ -297,12 +278,28 @@ public class Exercise_info_class extends AppCompatActivity {
         protected void onPostExecute(String args) {
             //notify user of constraints
             Context ct = getApplicationContext();
-            CharSequence text = "Exercise added to the Database";
+            CharSequence text = getString(R.string.exerciseAdded);
             int d2 = Toast.LENGTH_LONG;
             Toast t = Toast.makeText(ct, text, d2);
             t.show();
         }
     }//end ExerciseInsert
+
+    /**
+     * Class created to populate the exercise ArrayList
+     */
+    private class ExerciseQuery extends AsyncTask<Context, Integer, String> {
+
+        @Override
+        protected String doInBackground(Context... args) {
+
+            exerciseObjArray = dbHelper.getAllExerciseRecords();
+            dbHelper.close();
+
+            return "done";
+        }
+
+    }
 
 
     private class ExerciseAdapter extends ArrayAdapter<ExerciseRecords> {
@@ -336,11 +333,11 @@ public class Exercise_info_class extends AppCompatActivity {
 
             TextView viewDuration = (TextView) resultView.findViewById(R.id.exerciseRowDuration);
             String tempDuration = String.valueOf(tempExercise.getDuration());
-            viewDuration.setText(tempDuration + " minutes"); // get the string at position
+            viewDuration.setText(tempDuration + " " + getString(R.string.exerciseMinutes)); // get the string at position
 
             TextView viewCalories = (TextView) resultView.findViewById(R.id.exerciseRowCalories);
             String tempCalories = String.valueOf(tempExercise.getCalories());
-            viewCalories.setText(tempCalories + " calories"); // get the string at position
+            viewCalories.setText(tempCalories + " " + getString(R.string.calories)); // get the string at position
 
             return resultView;
         }
@@ -364,7 +361,6 @@ public class Exercise_info_class extends AppCompatActivity {
         exerciseObjArray.remove(arrayIndex);
         dbHelper.deleteExerciseRecords(dbKey);
         messageAdapter.notifyDataSetChanged();
-        //  }
     }
 
     public void onDestroy() {

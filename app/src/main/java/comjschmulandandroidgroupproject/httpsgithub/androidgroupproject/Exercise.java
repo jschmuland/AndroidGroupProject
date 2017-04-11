@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +34,7 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.
 public class Exercise extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static String exerciseName, exerciseCal;
-    protected static final String ACTIVITY_NAME = "ExerciseRecords";
+    protected static final String ACTIVITY_NAME = "Exercise";
     protected ListView list;
     protected String[] exercisesListArray, exercisesInfoArray;
     protected EditText setTimeInExercise;
@@ -44,28 +45,28 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
     boolean isTablet;
 
     /**
-     * @return
+     * @return exerciseName return the exercise name
      */
     public String getExerciseName() {
         return exerciseName;
     }
 
     /**
-     * @param exerciseName
+     * @param exerciseName set the exercise name
      */
     public void setExerciseName(String exerciseName) {
         this.exerciseName = exerciseName;
     }
 
     /**
-     * @return
+     * @return ExerciseCal return the exercise calories / minute
      */
     public String getExerciseCal() {
         return exerciseCal;
     }
 
     /**
-     * @param exerciseCal
+     * @param exerciseCal set the exercise calories / minute
      */
     public void setExerciseCal(String exerciseCal) {
         this.exerciseCal = exerciseCal;
@@ -130,14 +131,15 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         Toast.makeText(getApplicationContext(), exercisesListArray[position], Toast.LENGTH_LONG).show();
 
         //create a string with the calories/minute
-        String exerciseInfo = "Cal/min: " + exercisesInfoArray[position];
+        String exerciseInfo = getString(R.string.caloriesPerMinute) + " " + exercisesInfoArray[position];
+
 
         //set the exercise name and info
         setExerciseName(exercisesListArray[position]);
         setExerciseCal(exercisesInfoArray[position]);
 
         //temp string array to collect just one item
-        String[] tempExercise = {exercisesListArray[position], exerciseInfo, "Click Here"};
+        String[] tempExercise = {exercisesListArray[position], exerciseInfo, getString(R.string.exerciseClickHere)};
 
         //adapter object
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, tempExercise);
@@ -265,7 +267,7 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
                 finish();
                 return true;
             case(R.id.action_help):
-                // Log.i(ACTIVITY_NAME, "help");
+                Log.i(ACTIVITY_NAME, "help");
                 createHelpDialog();
                 return true;
         }
