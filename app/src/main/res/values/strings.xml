@@ -47,12 +47,24 @@
 
     <!-- Strings for the ExerciseRecords Activity -->
 
-
     <string name="exerciseTextView">Choose your Exercise on the List bellow</string>
     <string name="timeInMinutes">0000</string>
     <string name="timeInMinutesView">Time (in minutes) Spent doing an Exercise</string>
     <string name="okSendButtom">Save on the Database</string>
     <string name="viewMinutes">Minutes</string>
+    <string name="caloriesPerMinute">"cal/min: "</string>
+    <string name="exerciseClickHere">Click Here</string>
+    <string name="timeInExercise">Total time in Exercise</string>
+    <string name="exerciseMinutes">Minutes</string>
+    <string name="exerciseBurn">You Burned</string>
+    <string name="exerciseDialogCancel">You canceled the Action</string>
+    <string name="exerciseAdded">Exercise added to the Database</string>
+    <string name="exerciseID">Exercise ID</string>
+    <string name="exerciseName">Exercise Name</string>
+    <string name="exerciseDate">Exercise Date</string>
+    <string name="exerciseDuration">Exercise Duration</string>
+    <string name="exerciseSaveOnDatabase">Do you want to save the data on the Database?</string>
+    <string name="exerciseSavingDatabase">Saving on the Database</string>
 
     <string name="exercise_help_title">Exercise Tracker by Carlos Barroso</string>
     <string name="exercise_help_text1">First set how many minutes you spent doing

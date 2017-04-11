@@ -64,19 +64,19 @@ public class ExerciseFragment extends Fragment {
         View gui = inflater.inflate(R.layout.exercise_message_fragment,null);
 
         TextView exerciseIdView = (TextView) gui.findViewById(R.id.exerciseRowIDFragment);
-        exerciseIdView.setText("Exercise ID: " + tempArrayId);
+        exerciseIdView.setText(getString(R.string.exerciseID) + ": " + tempArrayId);
 
         TextView exerciseTextName = (TextView) gui.findViewById(R.id.exerciseRowNameFragment);
-        exerciseTextName.setText("Exercise Name: " + exerciseName);
+        exerciseTextName.setText(getString(R.string.exerciseName) + ": " + exerciseName);
 
         TextView exerciseTextDate = (TextView) gui.findViewById(R.id.exerciseRowDateFragment);
-        exerciseTextDate.setText("Exercise Date: " + date);
+        exerciseTextDate.setText(getString(R.string.exerciseDate) + ": " + date);
 
         TextView exerciseTextDuration = (TextView) gui.findViewById(R.id.exerciseRowDurationFragment);
-        exerciseTextDuration.setText("Exercise Total Time: " + tempDuration);
+        exerciseTextDuration.setText(getString(R.string.exerciseDuration) + ": " + tempDuration + " " + getString(R.string.exerciseMinutes));
 
         TextView exerciseTextCalories = (TextView) gui.findViewById(R.id.exerciseRowCaloriesFragment);
-        exerciseTextCalories.setText("Exercise Calories Burned: " + tempCalories);
+        exerciseTextCalories.setText(getString(R.string.exerciseBurn) + ": " + tempCalories + " " + getString(R.string.calories));
 
         Button buttonDelete = (Button) gui.findViewById(R.id.exerciseDeleteButton);
 
