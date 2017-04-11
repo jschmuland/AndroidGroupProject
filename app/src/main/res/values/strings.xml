@@ -54,6 +54,15 @@
     <string name="okSendButtom">Save on the Database</string>
     <string name="viewMinutes">Minutes</string>
 
+    <string name="exercise_help_title">Exercise Tracker by Carlos Barroso</string>
+    <string name="exercise_help_text1">First set how many minutes you spent doing
+    exercises today. Then, choose the exercise you were doing and click on the list</string>
+
+    <string name="exercise_help_text2">On this activity you can view how
+    many calories you did burn today. If you want to save it on the DataBase, click on the button [Save on the database].
+    If yo want to view you records, click on your ListView and you will have the possibility
+    to delete the item.</string>
+
     <string-array name="exercises_array">
         <item>Basketball</item>
         <item>Boxing</item>

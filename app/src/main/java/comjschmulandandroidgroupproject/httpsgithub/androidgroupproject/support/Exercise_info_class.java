@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,7 +32,10 @@ import java.util.Date;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.AppDBHelper;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.Exercise;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.FoodTracker;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.MealPlanner;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.SleepTracker;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.ExerciseRecords;
 
 
@@ -227,9 +231,59 @@ public class Exercise_info_class extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_help, menu);
+        getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_exercise);
+        foodItem.setVisible(false);
         return true;
     }//end onCreateOptionsMenu
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch(item.getItemId()){
+            case (R.id.action_foodtracker):
+                intent = new Intent(Exercise_info_class.this, FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(Exercise_info_class.this, MealPlanner.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(Exercise_info_class.this, SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                finish();
+                return true;
+            case(R.id.action_help):
+               // Log.i(ACTIVITY_NAME, "help");
+                createHelpDialog();
+                return true;
+        }
+
+        return false;
+
+    }//end onOptionSelectedMenu
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.exercise_info_help_layout, null);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.exercise_help_title);
+        dialog2.show();
+    }//end createHelpDialog
 
     private class ExerciseInsert extends AsyncTask<ExerciseRecords, Integer, String> {
         @Override
