@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="55dp"
+    android:layout_marginTop="10dp"
     android:layout_alignParentTop="true"
     android:layout_alignParentEnd="true">
 
@@ -70,7 +70,7 @@
 </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/exerciseDeleteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete"

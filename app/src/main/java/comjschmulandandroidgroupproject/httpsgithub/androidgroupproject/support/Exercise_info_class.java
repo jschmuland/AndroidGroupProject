@@ -1,9 +1,11 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -47,6 +49,8 @@ public class Exercise_info_class extends AppCompatActivity {
     final ArrayList<ExerciseRecords> exerciseObjArray = new ArrayList<>();
     ExerciseAdapter exerciseAdapter;
     AppDBHelper dbHelper;
+    SQLiteDatabase db;
+    ExerciseAdapter messageAdapter;
 
 
     @Override
@@ -56,6 +60,10 @@ public class Exercise_info_class extends AppCompatActivity {
         ctx = this;
         Exercise exercise = new Exercise();
         exerciseAdapter = new ExerciseAdapter(this);
+
+        dbHelper = new AppDBHelper(this);
+        db = dbHelper.getWritableDatabase();
+
 
         /*--------------------receiving values from the ExerciseRecords Class-----------*/
         passedName = getIntent().getStringExtra(exercise.getExerciseName());
@@ -80,42 +88,45 @@ public class Exercise_info_class extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listViewExercise);
 
 
-        final ExerciseAdapter messageAdapter = new ExerciseAdapter(this);
+        messageAdapter = new ExerciseAdapter(this);
         listView.setAdapter(messageAdapter);
 
 
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 ExerciseRecords exerciseObj = messageAdapter.getItem(position);
 
+
                 Bundle bun = new Bundle();
-                bun.putInt("_ID", exerciseObj.getId());//l is the database ID of selected item
+
+                bun.putInt("_ID", exerciseObj.getId());
+                bun.putInt("arrayPosition", position);
                 bun.putString("DATE", exerciseObj.getDate());
                 bun.putString("NAME", exerciseObj.getExerciseName());
                 bun.putDouble("CALORIES", exerciseObj.getCalories());
                 bun.putDouble("DURATION", exerciseObj.getDuration());
 
 
-
-                if(isTablet) {
+                if (isTablet) {
 
                     ExerciseFragment frag = new ExerciseFragment();
                     frag.setArguments(bun);
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.exerciseFrameLayout, frag).addToBackStack("ID").commit();
+                            .replace(R.id.exerciseFrameLayout, frag).addToBackStack("_ID").commit();
 
                 } else //isPhone
                 {
                     Intent intent = new Intent(Exercise_info_class.this, ExerciseMessageDetails.class);
                     intent.putExtra("_ID", exerciseObj.getId()); //pass the Database ID to next activity
+                    intent.putExtra("arrayPosition", position);
                     intent.putExtra("DATE", exerciseObj.getDate());
                     intent.putExtra("NAME", exerciseObj.getExerciseName());
                     intent.putExtra("CALORIES", exerciseObj.getCalories());
                     intent.putExtra("DURATION", exerciseObj.getDuration());
-                    startActivityForResult(intent,1,bun);
+                    startActivityForResult(intent, 1, bun);
                 }
 
             }
@@ -186,10 +197,10 @@ public class Exercise_info_class extends AppCompatActivity {
 
     }//end onCreate
 
-    protected class ExerciseQuery extends AsyncTask<Context,Integer,String>{
+    protected class ExerciseQuery extends AsyncTask<Context, Integer, String> {
 
         @Override
-        protected String doInBackground(Context...args){
+        protected String doInBackground(Context... args) {
             AppDBHelper dbHelper = new AppDBHelper(args[0]);
             exerciseObjArray.addAll(dbHelper.getAllExerciseRecords());
             Collections.reverse(exerciseObjArray);
@@ -220,21 +231,21 @@ public class Exercise_info_class extends AppCompatActivity {
         return true;
     }//end onCreateOptionsMenu
 
-    private class ExerciseInsert extends AsyncTask<ExerciseRecords,Integer,String>{
+    private class ExerciseInsert extends AsyncTask<ExerciseRecords, Integer, String> {
         @Override
-        protected String doInBackground(ExerciseRecords...args){
+        protected String doInBackground(ExerciseRecords... args) {
             dbHelper = new AppDBHelper(ctx);
             dbHelper.insertExerciseSession(args[0]);//update the database
             dbHelper.close();
             return "done";
         }
 
-        protected void onPostExecute(String args){
+        protected void onPostExecute(String args) {
             //notify user of constraints
             Context ct = getApplicationContext();
             CharSequence text = "Exercise added to the Database";
             int d2 = Toast.LENGTH_LONG;
-            Toast t = Toast.makeText(ct,text,d2);
+            Toast t = Toast.makeText(ct, text, d2);
             t.show();
         }
     }//end ExerciseInsert
@@ -251,19 +262,19 @@ public class Exercise_info_class extends AppCompatActivity {
         }
 
         @Override
-        public ExerciseRecords getItem(int position){
+        public ExerciseRecords getItem(int position) {
             return exerciseObjArray.get(position);
         }
 
         // get view, set items, return view
-        public View getView(int position, View convertView, ViewGroup parent){
+        public View getView(int position, View convertView, ViewGroup parent) {
 
             ExerciseRecords tempExercise = getItem(position);
 
             LayoutInflater inflater = Exercise_info_class.this.getLayoutInflater();
             View resultView = inflater.inflate(R.layout.exercise_row_layout, null);
 
-            TextView viewDate = (TextView)resultView.findViewById(R.id.exerciseRowDate);
+            TextView viewDate = (TextView) resultView.findViewById(R.id.exerciseRowDate);
             viewDate.setText(tempExercise.getDate());
 
             TextView viewName = (TextView) resultView.findViewById(R.id.exerciseRowName);
@@ -281,6 +292,35 @@ public class Exercise_info_class extends AppCompatActivity {
         }
     }//end ExerciseAdapter
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle bun = data.getExtras();
+                int arrayIndex = bun.getInt("arrayPosition");
+                int dbKey = bun.getInt("_ID");
+                deleteExerciseFromDb(arrayIndex, dbKey);
+            }
+        }
+    }
+
+    public void deleteExerciseFromDb(int arrayIndex, int dbKey) {
+
+        exerciseObjArray.remove(arrayIndex);
+        dbHelper.deleteExerciseRecords(dbKey);
+        messageAdapter.notifyDataSetChanged();
+        //  }
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (db != null) {
+            db.close();
+        }
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
+    }
 
 }//end Class
