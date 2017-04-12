@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import java.util.Date;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.AppDBHelper;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.Exercise;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.FoodTracker;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.MainActivity;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.MealPlanner;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.SleepTracker;
@@ -144,7 +146,7 @@ public class Exercise_info_class extends AppCompatActivity {
         /*----------------------DATE----------------------*/
         currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         Toast.makeText(getApplicationContext(), currentDateTimeString, Toast.LENGTH_LONG).show();
-        dateSubstring = currentDateTimeString.substring(0, 11);
+        dateSubstring = currentDateTimeString.substring(0, 12);
         textViewDate.setText(dateSubstring);
 
 
@@ -235,7 +237,8 @@ public class Exercise_info_class extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case (R.id.action_home):
-                finish();
+                intent = new Intent(Exercise_info_class.this, MainActivity.class);
+                startActivity(intent);;
                 return true;
             case (R.id.action_help):
                 Log.i(ACTIVITY_NAME, "help");

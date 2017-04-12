@@ -65,6 +65,7 @@
     <string name="exerciseDuration">Exercise Duration</string>
     <string name="exerciseSaveOnDatabase">Do you want to save the data on the Database?</string>
     <string name="exerciseSavingDatabase">Saving on the Database</string>
+    <string name="exerciseList">Past Exercises</string>
 
     <string name="exercise_help_title">Exercise Tracker by Carlos Barroso</string>
     <string name="exercise_help_text1">First set how many minutes you spent doing
