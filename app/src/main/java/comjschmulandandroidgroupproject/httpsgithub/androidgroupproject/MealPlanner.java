@@ -71,10 +71,7 @@ public class MealPlanner extends AppCompatActivity {
 
 
 
-                        MealPlanQuery thread =
-                                new MealPlanQuery("https://service.livestrong.com/service/food/foods/?query=mango");
-                        adapter.notifyDataSetChanged();
-                        thread.execute();
+
 
 
                     theList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -146,12 +143,12 @@ public class MealPlanner extends AppCompatActivity {
                     editText.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(getApplicationContext(),"Enter Name of Meal Plan",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),R.string.EnterName,Toast.LENGTH_SHORT).show();
                         }
                     });
 //Snackbar
 
-                    Snackbar.make(findViewById(android.R.id.content), "Make your meal plan", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(android.R.id.content), R.string.MakeMeal, Snackbar.LENGTH_LONG)
                             .show();
 
 //Custom Dialogue
