@@ -2,12 +2,17 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -70,6 +75,7 @@ ArrayList<String> meal=new ArrayList<String>();
                 startActivityForResult(intent, 5);
             }
         });
+setHasOptionsMenu(true);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,6 +87,67 @@ ArrayList<String> meal=new ArrayList<String>();
         return inflater.inflate(R.layout.meals_layout, container, false);
 
 
+    }
+
+@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+      super.onCreateOptionsMenu(menu, inflater);
+    inflater.inflate(R.menu.ft_toolbar, menu);
+      // getActivity().getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+       MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_mealplanner);
+        foodItem.setVisible(false);
+
+
+    }//end onCreateOptionsMenu
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch(item.getItemId()){
+            case (R.id.action_exercise):
+                intent = new Intent(getActivity(), Exercise.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(getActivity(), FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(getActivity(), SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                getActivity().finish();
+                return true;
+            case(R.id.action_help):
+
+                createHelpDialog();
+                return true;
+        }
+
+        return false;
+
+    }
+
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.meal_helplayout, null);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.mealplanner_title);
+        dialog2.show();
     }
     private class MealActivityAdapter extends ArrayAdapter<String> {
 

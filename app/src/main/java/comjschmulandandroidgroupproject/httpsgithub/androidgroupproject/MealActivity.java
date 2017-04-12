@@ -26,6 +26,7 @@ public class MealActivity extends AppCompatActivity {
         frag.add(R.id.frame2, mpfrag);
         frag.commit();
 
+
     }
 }
 

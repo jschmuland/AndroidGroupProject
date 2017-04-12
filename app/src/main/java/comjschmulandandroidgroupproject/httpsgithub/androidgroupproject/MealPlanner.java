@@ -33,6 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.FoodEaten;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 
 import static comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R.id.toolbar;
@@ -198,8 +199,66 @@ public void deleteMealPlan(MealPlan mealplan2, int position) {
         mealplan.remove(position);
         adapter.notifyDataSetChanged();
     }
-}
 
+
+}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_mealplanner);
+        foodItem.setVisible(false);
+        return true;
+    }//end onCreateOptionsMenu
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch(item.getItemId()){
+            case (R.id.action_exercise):
+                intent = new Intent(MealPlanner.this, Exercise.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(MealPlanner.this, FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(MealPlanner.this, SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                finish();
+                return true;
+            case(R.id.action_help):
+
+                createHelpDialog();
+                return true;
+        }
+
+        return false;
+
+    }
+
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.mealplanner_helplayout, null);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.mealplanner_title);
+        dialog2.show();
+    }
 
 
 
