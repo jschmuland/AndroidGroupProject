@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.Exercise">
+    tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.Exercise"
+    android:weightSum="1">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="120dp">
 
         <EditText
             android:id="@+id/timeEditText"
@@ -58,36 +59,38 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <ListView
-        android:layout_width="170dp"
-        android:layout_height="70dp"
-        android:id="@+id/exerciseListView"
-        android:background="#7f7c80"
-        android:layout_below="@+id/exerciseChoice"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="14dp" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/exerciseListView" />
+        android:layout_weight="0.02">
 
-    <TextView
-        android:id="@+id/exerciseChoice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/exerciseTextView"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp" />
+        <ListView
+            android:id="@+id/exerciseListView"
+            android:layout_width="170dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/exerciseChoice"
+            android:layout_marginTop="14dp"
+            android:background="#7f7c80" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/exerciseListView" />
+
+        <TextView
+            android:id="@+id/exerciseChoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/exerciseTextView"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
+
 
 </LinearLayout>
