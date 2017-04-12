@@ -15,6 +15,7 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.E
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.FoodEaten;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
 
 
 public class AppDBHelper extends SQLiteOpenHelper {
@@ -25,12 +26,12 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String MEALS_TABLE = "MEALS";
     private final static String MEALPLAN_HAS_MEALS = "MEALPLAN_HAS_MEALS";
     private final static String MEALS_HAS_FOOD = "MEALS_HAS_FOOD";
-    private final static String EXERCISE_TABLE = "EXERCISE";
+    public final static String EXERCISE_TABLE = "EXERCISE";
     protected final static String SLEEP_TABLE = "SLEEP";
     private final static String FOOD_EATEN_TABLE = "FOOD_EATEN";
     private final static String FOOD_TABLE = "FOOD";
     //Common columns
-    protected final static String KEY_ID = "_ID";
+    public final static String KEY_ID = "_ID";
     protected final static String DATE = "DATE";
     private final static String CALORIES = "CALORIES";
     private final static String FOOD_ITEM = "FOOD_ITEM";
@@ -253,6 +254,15 @@ public class AppDBHelper extends SQLiteOpenHelper {
         db.close();//closing resources
         return false;
     }
+  
+      public void deleteExerciseRecords(int key){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String tempKey = String.valueOf(key);
+        db.delete(EXERCISE_TABLE, KEY_ID + "=" + tempKey, null);
+
+    }
+
 
     public ArrayList<MealPlan> getAllMealPlans() {
         ArrayList<MealPlan> mealplans = new ArrayList<MealPlan>();
@@ -301,7 +311,5 @@ Log.i("KATHLEEN",String.valueOf(mealPlan.getId()));
         return false;
 
     }
-
-
 
 }
