@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.net.URL;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.ExerciseMessageDetails;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
 
 
@@ -94,6 +96,7 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         spin.setAdapter(exercisesArrayAdapter);
 
         isTablet = (findViewById(R.id.exerciseFrameLayout) != null); //find out if this is a phone or tablet
+
 
     }//end onCreate Method
 
