@@ -12,9 +12,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.JsonReader;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,41 +29,53 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.FoodEaten;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
+
+import static comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R.id.toolbar;
+
 
 public class MealPlanner extends AppCompatActivity {
 
-    ArrayList<String> mealplan;
+    ArrayList<MealPlan> mealplan;
+    AppDBHelper helper;
+    MealPlanAdapter adapter;
+
+
                 @Override
                 protected void onCreate(Bundle savedInstanceState) {
                     super.onCreate(savedInstanceState);
                     setContentView(R.layout.activity_meal_planner);
+
+
+
+                    helper = new AppDBHelper(this);
+
                     ListView theList = (ListView) findViewById(R.id.theList);
                     Button button = (Button) findViewById(R.id.mealsubmitbutton);
                     Button exit = (Button) findViewById(R.id.exitbutton);
                    final EditText editText = (EditText) findViewById(R.id.editText);
                     ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                    mealplan = new ArrayList<String>();
+                    mealplan = new ArrayList<MealPlan>();
                     theList = (ListView) findViewById(R.id.theList);
-                   final MealPlanAdapter adapter=new MealPlanAdapter(this);
+                   adapter=new MealPlanAdapter(this);
                     theList.setAdapter(adapter);
 
                     //controls what gets changed in list
-                    adapter.notifyDataSetChanged();
 
 
-                    try{
-                        NutritionQuery thread =
-                                new NutritionQuery("https://service.livestrong.com/service/food/foods/?query=mango");
+
+
+
+                        MealPlanQuery thread =
+                                new MealPlanQuery("https://service.livestrong.com/service/food/foods/?query=mango");
+                        adapter.notifyDataSetChanged();
                         thread.execute();
-                    }catch(Exception e){
-                        Log.d("errorforecast", e.toString());
-                    }
+
 
                     theList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                        @Override
@@ -70,12 +85,53 @@ public class MealPlanner extends AppCompatActivity {
                            startActivityForResult(intent, 5);
                             }
                         });
+
+                    theList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                            final int pos=position;
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanner.this);
+// 2. Chain together various setter methods to set the dialog characteristics
+                            builder.setMessage(R.string.Dialogue2) //Add a dialog message to strings.xml
+
+                                    .setTitle(R.string.Dialogue_Title2)
+                                    .setPositiveButton(R.string.Dialogue_Positive2, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User clicked OK button
+                                deleteMealPlan(adapter.getItem(pos), pos);
+
+
+
+
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.Dialogue_Negative2, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User cancelled the dialog
+                                        }
+                                    })
+                                    .show();
+
+
+                            return true;
+                        }
+                    }) ;
+
+
+
+
+
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            MealPlan mealPP= new MealPlan(editText.getText().toString());
 
-                            mealplan.add(editText.getText().toString());
-                            adapter.notifyDataSetChanged();
+                                  //insert returns true or false to make sure it inserts in DB then add to the arraylist
+                            if(helper.insertMealPlan(mealPP)){
+
+                                mealplan.add(mealPP);
+                                adapter.notifyDataSetChanged();
+                            }
                             editText.setText("");
                         }
                     });
@@ -132,18 +188,84 @@ public class MealPlanner extends AppCompatActivity {
                         }
 
                     });
+
+
                 }
 
 
 
+public void deleteMealPlan(MealPlan mealplan2, int position) {
+    if (helper.deleteMealPlan(mealplan2)) {
+        mealplan.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
+
+}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_mealplanner);
+        foodItem.setVisible(false);
+        return true;
+    }//end onCreateOptionsMenu
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch(item.getItemId()){
+            case (R.id.action_exercise):
+                intent = new Intent(MealPlanner.this, Exercise.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(MealPlanner.this, FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(MealPlanner.this, SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                finish();
+                return true;
+            case(R.id.action_help):
+
+                createHelpDialog();
+                return true;
+        }
+
+        return false;
+
+    }
+
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.mealplanner_helplayout, null);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.mealplanner_title);
+        dialog2.show();
+    }
 
 
 
 
 
 
-
-                private class NutritionQuery extends AsyncTask<String, Integer, String[]> {
+                private class MealPlanQuery extends AsyncTask<String, Integer, String[]> {
 
 
                     private URL url=null;
@@ -152,7 +274,7 @@ public class MealPlanner extends AppCompatActivity {
 
                     String in = "in";
 
-                    public NutritionQuery(String url) {
+                    public MealPlanQuery(String url) {
                         progressBar=(ProgressBar)findViewById(R.id.progressBar);
                         progressBar.setMax(100);
                         try {
@@ -164,60 +286,22 @@ public class MealPlanner extends AppCompatActivity {
 
                     @Override
                     protected String[] doInBackground(String... args) {
-                        String[] entries = new String[4];
-                        boolean skiptheRest = false;
+
                         publishProgress(1);
-                        try {
 
-                            HttpURLConnection conn = null;
-                            conn = (HttpURLConnection) url.openConnection();
-                            conn.setRequestProperty("Accept-Encoding", "");
-                            conn.setReadTimeout(100000);
-                            conn.setConnectTimeout(150000);
-                            conn.setRequestMethod("GET");
-                            conn.setDoInput(true);
-                            conn.connect();
-                            publishProgress(25);
-                            JsonReader reader = new JsonReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-                            reader.beginObject();
-                            while (reader.hasNext()) {
-                                String name = reader.nextName();
-                                if (name.equals("query")) {
-                                    Log.d("MEALPLANNER-API-QUERY", reader.nextString());
-                                } else if (name.equals("foods")) {
-                                    reader.beginArray();
-                                    while (reader.hasNext()) {
-                                        reader.beginObject();
-                                        while (reader.hasNext()) {
-                                            String currObj = reader.nextName();
-                                            if (currObj.equals("cals") && !skiptheRest) {
-                                                skiptheRest = true;
-                                                double calories = reader.nextDouble();
-                                                Log.d("MEALPLANNE-API-CALORIES", calories + "");
-                                                publishProgress(50);
-                                            } else {
+                        publishProgress(25);
 
-                                                reader.skipValue();
+                        mealplan=helper.getAllMealPlans();
+                        adapter.notifyDataSetChanged();
+                        publishProgress(50);
 
-                                            }
-                                        }
-                                        reader.endObject();
-                                        publishProgress(65);
-                                    }
-                                    reader.endArray();
-                                } else {
-                                    reader.skipValue();
+                        publishProgress(65);
 
-                                }
+                        publishProgress(100);
 
-                            }
-                            reader.endObject();
-                            publishProgress(100);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
-                        return entries;
+                        return null;
+
                     }
 
                     @Override
@@ -233,14 +317,14 @@ public class MealPlanner extends AppCompatActivity {
                     }
             }
 
-    private class MealPlanAdapter extends ArrayAdapter<String>{
+    private class MealPlanAdapter extends ArrayAdapter<MealPlan>{
 
         public MealPlanAdapter (Context ctx) {
             super(ctx, 0);
         }
         public	int getCount(){return mealplan.size();
         }
-        public String getItem(int position){
+        public MealPlan getItem(int position){
             return mealplan.get(position);
         }
         public View getView(int position, View convertView, ViewGroup parent){
@@ -250,7 +334,7 @@ public class MealPlanner extends AppCompatActivity {
 
                 result = inflater.inflate(R.layout.food_picker_row, null);
                 TextView  fooditem= (TextView) result.findViewById(R.id.tp_foodName);
-                fooditem.setText(getItem(position)); // get the string at position
+                fooditem.setText(getItem(position).getPlanName()); // get the string at position
                 return result;
         }
 
