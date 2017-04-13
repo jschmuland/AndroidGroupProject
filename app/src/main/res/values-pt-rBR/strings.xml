@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">Algo sobre a Vida</string>
+    <string name="sleepTitle">Dormir</string>
+    <string name="progressBarDescription">progressão de colorias diarias</string>
+    <string name="title_activity_sleep_tracker">Dormindo</string>
+    <string name="title_activity_food_tracker">Rastrear Comida</string>
+    <string name="title_activity_food_picker">Procurar Comida</string>
+    <string name="exercise">Rastrear Exercicio</string>
+    <string name="foodTitle">Alimentos</string>
+    <string name="mealTitle">Plano Alimentar</string>
+    <string name="date">Data</string>
+    <string name="time">Hora</string>
+    <string name="calories">Calorias</string>
+    <string name="food">Comida</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm_ok">OK</string>
+    <string name="menu_help">Ajuda</string>
+    <string name="search">Procurar</string>
+    <string name="menu_main">Início</string>
+    <string name="delete">Deletar?</string>
+
+    <!-- Strings for the Sleep Activity -->
+
+    <string name="Sleeping">Dormindo</string>
+    <string name="Awake">Acordado</string>
+    <string name="InputSleepTime">Horas Dormidas</string>
+    <string name="Set">Setar Horas</string>
+    <string name="enter_number_only">Digite somente Números</string>
+
+    <!--Strings for the Food Tracker Activity-->
+
+    <string name="AddFood">Adicionar Alimento</string>
+    <string name="foodHistory">Carregando histórico de Alimentos</string>
+    <string name="loadingFoodAPI">Recebendo histórico de Alimentos</string>
+    <string name="successToast">Comida Adicionada com sucesso</string>
+    <string name="enter_food">Digite um alimento</string>
+    <string name="enter_date">Digite data/hora</string>
+    <string name="enter_calories">Digite as calorias</string>
+    <string name="confirmation">Confirme sua escolha</string>
+    <string name="foodtracker_help_title">FoodTracker por James Thibaudeau</string>
+    <string name="foodtracker_help_text">Clique em comida para procurar e adicionar, uma vez adicionado escolha a data
+        e a hora. Clique em Adicionar Comida para adicionar em sua lista.  Clique em sua lista pra ler mais detalhes
+        sobre o alimento.</string>
+    <string name="descriptionTitle">Descrição</string>
+    <string name="foodDetails">Detalhes</string>
+
+
+    <!-- Strings for the ExerciseRecords Activity -->
+
+    <string name="exerciseTextView">Escolha seu exercício abaixo</string>
+    <string name="timeInMinutes">0000</string>
+    <string name="timeInMinutesView">Tempo gasto (em minutos) fazendo exercício</string>
+    <string name="okSendButtom">Salvar na Database</string>
+    <string name="viewMinutes">Minutos</string>
+    <string name="caloriesPerMinute">"cal/min: "</string>
+    <string name="exerciseClickHere">Clique Aqui</string>
+    <string name="timeInExercise">Tempo total em exercício</string>
+    <string name="exerciseMinutes">Minutos</string>
+    <string name="exerciseBurn">Você queimou</string>
+    <string name="exerciseDialogCancel">Você cancelou a ação</string>
+    <string name="exerciseAdded">Exercício adicionado a Database</string>
+    <string name="exerciseID">ID do Exercício</string>
+    <string name="exerciseName">Nome do Exercício</string>
+    <string name="exerciseDate">Data do Exercício</string>
+    <string name="exerciseDuration">Duração do Exercício</string>
+    <string name="exerciseSaveOnDatabase">Você quer salvar o item na Databasae?</string>
+    <string name="exerciseSavingDatabase">Salvando na Database</string>
+    <string name="exerciseList">Exercícios Salvos</string>
+
+    <string name="exercise_help_title">ExerciseTracker por Carlos Barroso</string>
+    <string name="exercise_help_text1">Primeiro, escolha quantos minutos foram gastos realizando
+        a atividade física hoje. Então, escolha o exercício que você estava realizando e
+        clique na lista para mais avançar.</string>
+
+    <string name="exercise_help_text2">Nesta atividade você pode ver quantas calorias foram queimadas.
+        Se você quiser, poderá salvar na Database clicando no botão [Salvar na database].
+        Para ver seu histórico, clique em qualquer item na sua lista e você poderá deletar o item em questão.</string>
+
+    <string-array name="exercises_array">
+        <item>Basquete</item>
+        <item>Boxe</item>
+        <item>Ciclismo</item>
+        <item>Corrida</item>
+        <item>Natação</item>
+        <item>Futebol</item>
+    </string-array>
+
+    <string-array name="exercises_calories_array">
+        <item>10.00</item>
+        <item>11.00</item>
+        <item>6.00</item>
+        <item>10.00</item>
+        <item>9.00</item>
+        <item>8.00</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Olá fragmento em Branco</string>
+    <string name="Dialogue">Você quer voltar para o menu principal?</string>string>
+    <string name="Dialogue_Title">Dialogo</string>string>
+    <string name="Dialogue_Positive">"Sim"</string>string>
+    <string name="Dialogue_Negative">"Não"</string>string>
+    <string name="exit">"Botão de Saída"</string>string>
+
+    <!-- Strings for the Meal Activity -->
+    <string name="mealsubmitbutton">Botão submeter a refeição</string>
+
+</resources>
