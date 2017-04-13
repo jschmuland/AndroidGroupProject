@@ -83,9 +83,9 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/calories"
-                android:inputType="number" />
-            <!--android:focusable="false"-->
-            <!--android:clickable="false"-->
+                android:inputType="number"
+            android:focusable="false"
+            android:clickable="false"/>
             <Button
                 android:id="@+id/addItemButton"
                 style="@style/Widget.AppCompat.Button"
