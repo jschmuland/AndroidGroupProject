@@ -38,9 +38,11 @@
     <string name="enter_calories">Please enter calories</string>
     <string name="confirmation">Confirm your choice</string>
     <string name="foodtracker_help_title">FoodTracker by James Thibaudeau</string>
+    <string name="foodpicker_help_title">FoodPicker by James Thibaudeau</string>
     <string name="foodtracker_help_text">Click on food to search for a food to add,
         once added choose a date and time. Click Add Food to add a food to your list. Click on
         food items in the list to see details about the food</string>
+    <string name="foodpicker_help_text">Type in food to search, click on one to add.</string>
     <string name="descriptionTitle">Description</string>
     <string name="foodDetails">Details</string>
 
