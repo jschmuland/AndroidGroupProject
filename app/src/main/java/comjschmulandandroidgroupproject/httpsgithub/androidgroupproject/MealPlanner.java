@@ -67,7 +67,11 @@ public class MealPlanner extends AppCompatActivity {
 
                     //controls what gets changed in list
 
-
+                    /*MealPlanQuery thread =
+                            new MealPlanQuery("https://service.livestrong.com/service/food/foods/?query=mango");*/
+                    MealPlanQuery thread = new MealPlanQuery("");
+                    adapter.notifyDataSetChanged();
+                    thread.execute();
 
 
 
@@ -275,8 +279,8 @@ public void deleteMealPlan(MealPlan mealplan2, int position) {
                         progressBar=(ProgressBar)findViewById(R.id.progressBar);
                         progressBar.setMax(100);
                         try {
-                            this.url = new URL(url);
-                        } catch (MalformedURLException e) {
+                            //this.url = new URL(url);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
