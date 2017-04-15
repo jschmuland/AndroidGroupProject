@@ -22,6 +22,10 @@ public class MealActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meal_layout);
         Intent callingIntent = getIntent();
         int parentId = callingIntent.getIntExtra("parentID", -1);
+        /*String nextClass = callingIntent.getStringExtra("MEAL");
+        if(nextClass.equals("MEAL")){
+            Log.d("MEALACTIVITYNEXT", " the next one is meal");
+        }*/
         Log.d("MEALACTIVITY", "Intent Meal Activity parent ID " + parentId);
         MealPlannerFragment mpfrag = new MealPlannerFragment();
         Bundle args = new Bundle();

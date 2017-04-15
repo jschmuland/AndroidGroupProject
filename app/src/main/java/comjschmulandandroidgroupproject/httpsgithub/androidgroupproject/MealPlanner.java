@@ -77,6 +77,7 @@ public class MealPlanner extends AppCompatActivity {
                 Intent intent = new Intent(MealPlanner.this, MealActivity.class);
                 MealPlan mp = adapter.getItem(position);
                 intent.putExtra("parentID", mp.getId());
+                intent.putExtra("nextClass", "MEAL");
                 Log.d("MEALPLANNER", "position: " + position + " id: " + id + " parent ID: " + mp.getId());
                 startActivityForResult(intent, 5);
             }
@@ -113,7 +114,7 @@ public class MealPlanner extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MealPlan mealPP = new MealPlan(editText.getText().toString());
+                MealPlan mealPP = new MealPlan(editText.getEditableText().toString());
                 long returnedID = helper.insertMealPlan(mealPP);
                 //if the long returned is greater or equals to zero
                 if (returnedID >= 0) {
