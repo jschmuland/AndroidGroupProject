@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,7 +28,6 @@ import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.net.URL;
 
-import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.ExerciseMessageDetails;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
 
 
@@ -41,7 +39,6 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
     protected String[] exercisesListArray, exercisesInfoArray;
     protected EditText setTimeInExercise;
     protected Double timeInExercise;
-    protected int exercisePosition;
     protected ImageView exerciseImageView;
     protected String URL;
     boolean isTablet;
@@ -97,13 +94,12 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
 
         isTablet = (findViewById(R.id.exerciseFrameLayout) != null); //find out if this is a phone or tablet
 
-
+        setTitle(getString(R.string.exerciseTitle));
     }//end onCreate Method
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        exercisePosition = position;
 
         switch (position) {
             case 0:
@@ -128,7 +124,7 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         }//end switch
 
         GetExerciseImage retrieveExerciseImage = new GetExerciseImage();
-        retrieveExerciseImage.execute(new String[]{URL});
+        retrieveExerciseImage.execute(URL);
 
         //Toast message when click on the exercise name
         Toast.makeText(getApplicationContext(), exercisesListArray[position], Toast.LENGTH_LONG).show();
@@ -245,14 +241,14 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.ft_toolbar, menu);
-        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_exercise);
-        foodItem.setVisible(false);
+        MenuItem exerciseItem = menu.findItem(R.id.action_exercise);
+        exerciseItem.setVisible(false);
         return true;
     }//end onCreateOptionsMenu
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
+        Intent intent;
         switch(item.getItemId()){
             case (R.id.action_foodtracker):
                 intent = new Intent(Exercise.this, FoodTracker.class);

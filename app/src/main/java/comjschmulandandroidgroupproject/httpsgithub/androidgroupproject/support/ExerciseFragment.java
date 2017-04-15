@@ -48,6 +48,7 @@ public class ExerciseFragment extends Fragment {
 
         exerciseRecords = new ExerciseRecords();
 
+        getActivity().setTitle(getString(R.string.exerciseTitle));
 
     }//end onCreate
 

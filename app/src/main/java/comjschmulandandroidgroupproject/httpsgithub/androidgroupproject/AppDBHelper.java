@@ -57,11 +57,11 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALPLAN_TABLE, KEY_ID, MEALPLAN_NAME);
     //Associative tables create
     private final static String MS_HAS_FOOD_QUERY = "CREATE TABLE " + MEALS_HAS_FOOD + " (" + KEY_ID +
-    "INTEGER PRIMARY KEY," + KEY_FOOD_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_FOOD_ID + ") REFERENCES " +FOOD_TABLE + " ("+KEY_ID+")," +
-            "FOREIGN KEY (" + KEY_MEAL_ID +") REFERENCES " +MEALS_TABLE + " (" +KEY_ID+"))";
+            "INTEGER PRIMARY KEY," + KEY_FOOD_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_FOOD_ID + ") REFERENCES " + FOOD_TABLE + " (" + KEY_ID + ")," +
+            "FOREIGN KEY (" + KEY_MEAL_ID + ") REFERENCES " + MEALS_TABLE + " (" + KEY_ID + "))";
     private final static String MP_HAS_MEALS_QUERY = "CREATE TABLE " + MEALPLAN_HAS_MEALS + " (" + KEY_ID +
-            "INTEGER PRIMARY KEY," + KEY_MP_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_MP_ID + ") REFERENCES " +MEALPLAN_TABLE + " ("+KEY_ID+")," +
-            "FOREIGN KEY (" + KEY_MEAL_ID +") REFERENCES " +MEALS_TABLE + " (" +KEY_ID+"))";
+            "INTEGER PRIMARY KEY," + KEY_MP_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_MP_ID + ") REFERENCES " + MEALPLAN_TABLE + " (" + KEY_ID + ")," +
+            "FOREIGN KEY (" + KEY_MEAL_ID + ") REFERENCES " + MEALS_TABLE + " (" + KEY_ID + "))";
     //DB name
     public final static String DATABASE_NAME = "Wellness.db";
     //Version
@@ -128,14 +128,14 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return sleepList;
     }
 
-    public boolean insertSleepSession(Sleep sleepSession){
+    public boolean insertSleepSession(Sleep sleepSession) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(HOURS_SLEPT,sleepSession.getDuration());
-        values.put(DATE,sleepSession.getDate().getTime());
+        values.put(HOURS_SLEPT, sleepSession.getDuration());
+        values.put(DATE, sleepSession.getDate().getTime());
 
-        if(db.insert(SLEEP_TABLE, null, values) >= 0){
+        if (db.insert(SLEEP_TABLE, null, values) >= 0) {
             db.close();
             return true;
         }
@@ -196,10 +196,10 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteFoodEaten(FoodEaten foodEaten){
+    public boolean deleteFoodEaten(FoodEaten foodEaten) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        if(db.delete(FOOD_EATEN_TABLE, KEY_ID + "=" + String.valueOf(foodEaten.getId()), null) > 0){
+        if (db.delete(FOOD_EATEN_TABLE, KEY_ID + "=" + String.valueOf(foodEaten.getId()), null) > 0) {
             return true;
         }
         return false;
@@ -237,16 +237,16 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return exerciseList;
     }
 
-    public boolean insertExerciseSession(ExerciseRecords exerciseSession){
+    public boolean insertExerciseSession(ExerciseRecords exerciseSession) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DATE,exerciseSession.getDate());
+        values.put(DATE, exerciseSession.getDate());
         values.put(EXERCISE_NAME, exerciseSession.getExerciseName());
         values.put(CALORIES, exerciseSession.getCalories());
-        values.put(EXERCISE_DURATION,exerciseSession.getDuration());
+        values.put(EXERCISE_DURATION, exerciseSession.getDuration());
 
-        if(db.insert(EXERCISE_TABLE, null, values) >= 0){
+        if (db.insert(EXERCISE_TABLE, null, values) >= 0) {
             db.close();
             return true;
         }
@@ -254,8 +254,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
         db.close();//closing resources
         return false;
     }
-  
-      public void deleteExerciseRecords(int key){
+
+    public void deleteExerciseRecords(int key) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         String tempKey = String.valueOf(key);
@@ -302,10 +302,10 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean deleteMealPlan(MealPlan mealPlan){
+    public boolean deleteMealPlan(MealPlan mealPlan) {
         SQLiteDatabase db = this.getWritableDatabase();
-Log.i("KATHLEEN",String.valueOf(mealPlan.getId()));
-        if(db.delete(MEALPLAN_TABLE, KEY_ID + "=" + String.valueOf(mealPlan.getId()), null) > 0){
+        Log.i("KATHLEEN", String.valueOf(mealPlan.getId()));
+        if (db.delete(MEALPLAN_TABLE, KEY_ID + "=" + String.valueOf(mealPlan.getId()), null) > 0) {
             return true;
         }
         return false;

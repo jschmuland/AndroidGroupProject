@@ -38,15 +38,18 @@
     <string name="enter_calories">Digite as calorias</string>
     <string name="confirmation">Confirme sua escolha</string>
     <string name="foodtracker_help_title">FoodTracker por James Thibaudeau</string>
+    <string name="foodpicker_help_title">FoodPicker por James Thibaudeau</string>
     <string name="foodtracker_help_text">Clique em comida para procurar e adicionar, uma vez adicionado escolha a data
         e a hora. Clique em Adicionar Comida para adicionar em sua lista.  Clique em sua lista pra ler mais detalhes
         sobre o alimento.</string>
+    <string name="foodpicker_help_text">Digite em Alimentos para procurar, clique em algum para adicionar</string>
     <string name="descriptionTitle">Descrição</string>
     <string name="foodDetails">Detalhes</string>
 
 
     <!-- Strings for the ExerciseRecords Activity -->
 
+    <string name="exerciseTitle">Meus Exercícios</string>
     <string name="exerciseTextView">Escolha seu exercício abaixo</string>
     <string name="timeInMinutes">0000</string>
     <string name="timeInMinutesView">Tempo gasto (em minutos) fazendo exercício</string>
@@ -104,5 +107,11 @@
 
     <!-- Strings for the Meal Activity -->
     <string name="mealsubmitbutton">Botão submeter a refeição</string>
+    <string name="mealplanner_title">Planificador alimentar, por Kathleen McNulty</string>
+    <string name="meal_title">Planificador alimentar, por Kathleen McNulty</string>
+    <string name="helpMPtext">Primeiro, escreva um nome para seu plano alimentar, então
+        clique so seu plano na Lista acima.</string>
+    <string name="helpMealText">Nomeie a sua refeição (café da manhã, aperitivo, almoço ou jantar, etc)
+        e então dê um duplo clique no nome da refeição.</string>
 
 </resources>

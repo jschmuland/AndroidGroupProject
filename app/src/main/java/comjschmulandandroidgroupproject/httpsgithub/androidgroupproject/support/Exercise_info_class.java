@@ -22,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -196,6 +195,8 @@ public class Exercise_info_class extends AppCompatActivity {
         bar.setMax(100);
         bar.setProgress(messageAdapter.getCount());
 
+        setTitle(getString(R.string.exerciseTitle));
+
     }//end onCreate
 
     /**
@@ -222,7 +223,7 @@ public class Exercise_info_class extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
+        Intent intent;
         switch (item.getItemId()) {
             case (R.id.action_foodtracker):
                 intent = new Intent(Exercise_info_class.this, FoodTracker.class);
@@ -238,7 +239,7 @@ public class Exercise_info_class extends AppCompatActivity {
                 return true;
             case (R.id.action_home):
                 intent = new Intent(Exercise_info_class.this, MainActivity.class);
-                startActivity(intent);;
+                startActivity(intent);
                 return true;
             case (R.id.action_help):
                 Log.i(ACTIVITY_NAME, "help");
@@ -276,7 +277,7 @@ public class Exercise_info_class extends AppCompatActivity {
             dbHelper.insertExerciseSession(args[0]);//update the database
             dbHelper.close();
             return "done";
-        }
+        }//end ExerciseInsert()
 
         protected void onPostExecute(String args) {
             //notify user of constraints
@@ -302,7 +303,7 @@ public class Exercise_info_class extends AppCompatActivity {
             return "done";
         }
 
-    }
+    }//end ExerciseQuery
 
 
     private class ExerciseAdapter extends ArrayAdapter<ExerciseRecords> {
@@ -357,14 +358,14 @@ public class Exercise_info_class extends AppCompatActivity {
                 deleteExerciseFromDb(arrayIndex, dbKey);
             }
         }
-    }
+    }//end onActivityResult()
 
     public void deleteExerciseFromDb(int arrayIndex, int dbKey) {
 
         exerciseObjArray.remove(arrayIndex);
         dbHelper.deleteExerciseRecords(dbKey);
         messageAdapter.notifyDataSetChanged();
-    }
+    }//end DeleteExerciseFromDb()
 
     public void onDestroy() {
         super.onDestroy();
@@ -374,6 +375,6 @@ public class Exercise_info_class extends AppCompatActivity {
         if (dbHelper != null) {
             dbHelper.close();
         }
-    }
+    }//end OnDestroy()
 
 }//end Class
