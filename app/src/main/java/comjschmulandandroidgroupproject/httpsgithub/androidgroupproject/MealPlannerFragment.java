@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v7.app.AlertDialog;
@@ -26,76 +27,97 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Meal;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 
 
 public class MealPlannerFragment extends Fragment {
 
-
-ArrayList<String> meal=new ArrayList<String>();
-
-     EditText editTextmeal;
+    int parentID;
+    ArrayList<Meal> meals = new ArrayList<Meal>();
+    EditText editTextmeal;
     ListView theListmeal;
     Button button1;
-
-
-
-
-    MealPlannerFragment.MealActivityAdapter adapter1;
+    MealActivityAdapter adapter;
+    AppDBHelper helper;
 
     public MealPlannerFragment() {
-        // Required empty public constructor
+        parentID = -1;//set it to a default that wouldn't affect db.insert later on
     }
-    public void onActivityCreated(Bundle savedTest){
+
+    public void onActivityCreated(Bundle savedTest) {
         super.onActivityCreated(savedTest);
-        adapter1 = new MealPlannerFragment.MealActivityAdapter(getActivity());
-        button1= (Button)getActivity().findViewById(R.id.submitmealbutton);
+        Log.d("MEALPLANNERFRAGMENT", "Parent Mealplan ID: " + parentID);
+        helper = new AppDBHelper(getActivity());
+        adapter = new MealPlannerFragment.MealActivityAdapter(getActivity());
+        button1 = (Button) getActivity().findViewById(R.id.submitmealbutton);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Meal myNewMeal = new Meal(editTextmeal.getText().toString());
+                //makes sure no orphan children in the database
+                if (parentID > -1) {
+                    long returnedID = helper.insertMeal(myNewMeal, parentID);
+                    if (returnedID >= 0) {
+                        myNewMeal.setId((int) returnedID);
+                        meals.add(myNewMeal);
+                        adapter.notifyDataSetChanged();
+                    }
 
-                meal.add(editTextmeal.getText().toString());
-                adapter1.notifyDataSetChanged();
-
+                }
                 editTextmeal.setText("");
             }
         });
 
-        editTextmeal= (EditText)getActivity().findViewById(R.id.editTextMeal);
-        theListmeal= (ListView)getActivity().findViewById(R.id.theListMeal);
+        //queries for all mealplans from specified mealPlanID
+        MealQuery queryThread = new MealQuery(parentID);
+        try {
+            meals = queryThread.execute().get();
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        // button1= (Button)rootView.findViewById(R.id.submitmealbutton);
-        theListmeal.setAdapter(adapter1);
+
+        editTextmeal = (EditText) getActivity().findViewById(R.id.editTextMeal);
+        theListmeal = (ListView) getActivity().findViewById(R.id.theListMeal);
+        theListmeal.setAdapter(adapter);
         //controls what gets changed in list
         // adapter1.notifyDataSetChanged();
         theListmeal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(), FoodPicker.class);
+                Intent intent = new Intent(getActivity(), FoodPicker.class);
+                Meal meal = adapter.getItem(position);
+                intent.putExtra("parentID", meal.getId());
+                Log.d("MEAL", "position: " + position + " id: " + id + " parent ID: " + meal.getId());
                 startActivityForResult(intent, 5);
             }
         });
-setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
+        savedInstanceState = getArguments();
+        if (savedInstanceState != null) {
+            parentID = savedInstanceState.getInt("parentID");
+            Log.d("MEALPLANNERFRAGMENT", " i got the parentID: " + parentID);
+        }
 
 
         return inflater.inflate(R.layout.meals_layout, container, false);
-
-
     }
 
-@Override
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-      super.onCreateOptionsMenu(menu, inflater);
-    inflater.inflate(R.menu.ft_toolbar, menu);
-      // getActivity().getMenuInflater().inflate(R.menu.ft_toolbar, menu);
-       MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_mealplanner);
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.ft_toolbar, menu);
+        // getActivity().getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_mealplanner);
         foodItem.setVisible(false);
 
 
@@ -104,7 +126,7 @@ setHasOptionsMenu(true);
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case (R.id.action_exercise):
                 intent = new Intent(getActivity(), Exercise.class);
                 startActivity(intent);
@@ -113,14 +135,14 @@ setHasOptionsMenu(true);
                 intent = new Intent(getActivity(), FoodTracker.class);
                 startActivity(intent);
                 return true;
-            case(R.id.action_sleep):
+            case (R.id.action_sleep):
                 intent = new Intent(getActivity(), SleepTracker.class);
                 startActivity(intent);
                 return true;
-            case(R.id.action_home):
+            case (R.id.action_home):
                 getActivity().finish();
                 return true;
-            case(R.id.action_help):
+            case (R.id.action_help):
 
                 createHelpDialog();
                 return true;
@@ -131,7 +153,7 @@ setHasOptionsMenu(true);
     }
 
 
-    public void createHelpDialog(){
+    public void createHelpDialog() {
         AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -149,25 +171,55 @@ setHasOptionsMenu(true);
         dialog2.setTitle(R.string.mealplanner_title);
         dialog2.show();
     }
-    private class MealActivityAdapter extends ArrayAdapter<String> {
 
-        public MealActivityAdapter (Context ctx) {
+    private class MealActivityAdapter extends ArrayAdapter<Meal> {
+
+        public MealActivityAdapter(Context ctx) {
             super(ctx, 0);
         }
-        public	int getCount(){return meal.size();
+
+        public int getCount() {
+            return meals.size();
         }
-        public String getItem(int position){
-            return meal.get(position);
+
+        public Meal getItem(int position) {
+            return meals.get(position);
         }
-        public View getView(int position, View convertView, ViewGroup parent){
+
+        public View getView(int position, View convertView, ViewGroup parent) {
             //Just specifying the chat window is going to use what layout for each item????
-            LayoutInflater inflater =getActivity().getLayoutInflater();
-            View result = null ;
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View result = null;
 
             result = inflater.inflate(R.layout.food_picker_row, null);
-            TextView mealtext= (TextView) result.findViewById(R.id.tp_foodName);
-            mealtext.setText(getItem(position)); // get the string at position
+            TextView mealtext = (TextView) result.findViewById(R.id.tp_foodName);
+            mealtext.setText(getItem(position).getMealName()); // get the string at position
             return result;
         }
 
-}}
+    }
+
+    private class MealQuery extends AsyncTask<String, Integer, ArrayList<Meal>> {
+
+        int parentID;
+
+        public MealQuery(int parentID) {
+            this.parentID = parentID;
+        }
+
+        @Override
+        protected ArrayList<Meal> doInBackground(String... args) {
+            publishProgress(1);
+            ArrayList<Meal> results = helper.getAllMeals(parentID);
+            publishProgress(100);
+            return results;
+        }
+
+        @Override
+        public void onPostExecute(ArrayList<Meal> res) {
+            super.onPostExecute(res);
+        }
+    }
+
+
+}

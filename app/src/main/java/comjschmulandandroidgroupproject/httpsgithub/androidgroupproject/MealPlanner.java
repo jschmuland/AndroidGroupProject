@@ -41,24 +41,22 @@ import static comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R
 
 public class MealPlanner extends AppCompatActivity {
 
-    ArrayList<MealPlan> mealplan;
+    ArrayList<MealPlan> mealplans;
     AppDBHelper helper;
     MealPlanAdapter adapter;
+    ListView theList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_planner);
-
-
         helper = new AppDBHelper(this);
-
-        ListView theList = (ListView) findViewById(R.id.theList);
         Button button = (Button) findViewById(R.id.mealsubmitbutton);
         Button exit = (Button) findViewById(R.id.exitbutton);
         final EditText editText = (EditText) findViewById(R.id.editText);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mealplan = new ArrayList<MealPlan>();
+        mealplans = new ArrayList<MealPlan>();
         theList = (ListView) findViewById(R.id.theList);
         adapter = new MealPlanAdapter(this);
         theList.setAdapter(adapter);
@@ -66,7 +64,7 @@ public class MealPlanner extends AppCompatActivity {
         //controls what gets changed in list
         MealPlanQuery queryThread = new MealPlanQuery();
         try {
-            mealplan = queryThread.execute().get();
+            mealplans = queryThread.execute().get();
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,6 +76,10 @@ public class MealPlanner extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MealPlanner.this, MealActivity.class);
+                MealPlan mp = adapter.getItem(position);
+                intent.putExtra("parentID", mp.getId());
+                intent.putExtra("nextClass", "MEAL");
+                Log.d("MEALPLANNER", "position: " + position + " id: " + id + " parent ID: " + mp.getId());
                 startActivityForResult(intent, 5);
             }
         });
@@ -96,7 +98,6 @@ public class MealPlanner extends AppCompatActivity {
                                 // User clicked OK button
                                 deleteMealPlan(adapter.getItem(pos), pos);
 
-
                             }
                         })
                         .setNegativeButton(R.string.Dialogue_Negative2, new DialogInterface.OnClickListener() {
@@ -114,12 +115,16 @@ public class MealPlanner extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MealPlan mealPP = new MealPlan(editText.getText().toString());
-
-                //insert returns true or false to make sure it inserts in DB then add to the arraylist
-                if (helper.insertMealPlan(mealPP)) {
-
-                    mealplan.add(mealPP);
+                MealPlan mealPP = new MealPlan(editText.getEditableText().toString());
+                long returnedID = helper.insertMealPlan(mealPP);
+                //if the long returned is greater or equals to zero
+                if (returnedID >= 0) {
+                    Log.d("MEALPLANINSERT", "ID inserted : " + returnedID);
+                    //set id of inserted mealPlan object to the one in the db
+                    mealPP.setId((int) returnedID);
+                    //add meal to the arraylist of mealplans
+                    mealplans.add(mealPP);
+                    //notify adapter of the data set change
                     adapter.notifyDataSetChanged();
                 }
                 editText.setText("");
@@ -181,7 +186,7 @@ public class MealPlanner extends AppCompatActivity {
 
     public void deleteMealPlan(MealPlan mealplan2, int position) {
         if (helper.deleteMealPlan(mealplan2)) {
-            mealplan.remove(position);
+            mealplans.remove(position);
             adapter.notifyDataSetChanged();
         }
 
@@ -282,19 +287,19 @@ public class MealPlanner extends AppCompatActivity {
         }
 
         public int getCount() {
-            return mealplan.size();
+            return mealplans.size();
         }
 
         public MealPlan getItem(int position) {
-            return mealplan.get(position);
+            return mealplans.get(position);
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
             //Just specifying the chat window is going to use what layout for each item????
             LayoutInflater inflater = MealPlanner.this.getLayoutInflater();
             View result = null;
-            result = inflater.inflate(R.layout.food_picker_row, null);
-            TextView fooditem = (TextView) result.findViewById(R.id.tp_foodName);
+            result = inflater.inflate(R.layout.mealplan_picker_row, null);
+            TextView fooditem = (TextView) result.findViewById(R.id.meal_plan_txtv);
             fooditem.setText(getItem(position).getPlanName()); // get the string at position
             return result;
         }

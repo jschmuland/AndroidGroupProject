@@ -2,44 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_meal_planner"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:windowSoftInputMode="adjustResize"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.MealPlanner"
- >
-    <LinearLayout
+    android:isScrollContainer="true"
+    tools:context="comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.MealPlanner">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <ListView
             android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/theList"
+            />
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+
+            android:text="@string/mealsubmitbutton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/heading"
-            android:text="Enter Food Item"
-            ></TextView>
-    <ListView
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:id="@+id/theList"
-
-       />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       />
-
-    <Button
-
-        android:text="@string/mealsubmitbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/mealsubmitbutton"
-        android:layout_marginTop="30dp" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/mealsubmitbutton"
+            android:layout_marginTop="30dp" />
 
         <Button
 
@@ -58,5 +54,11 @@
             android:layout_alignParentEnd="true"
             android:id="@+id/progressBar"
             android:visibility="invisible" />
-</LinearLayout>
+    </LinearLayout>
+
+
+    </ScrollView>
+
+
+
 </RelativeLayout>
