@@ -14,7 +14,9 @@ public class Meal extends ID{
     public Meal(String mealName) {
         this(mealName, new ArrayList<Food>() );
     }
-
+    public Meal(int id, String mealName){
+        this(id, mealName, new ArrayList<Food>());
+    }
     public Meal(String mealName, ArrayList<Food> foods){
         this(0, mealName, foods);
     }

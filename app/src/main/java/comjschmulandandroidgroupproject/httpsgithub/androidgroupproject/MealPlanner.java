@@ -41,7 +41,7 @@ import static comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R
 
 public class MealPlanner extends AppCompatActivity {
 
-    ArrayList<MealPlan> mealplan;
+    ArrayList<MealPlan> mealplans;
     AppDBHelper helper;
     MealPlanAdapter adapter;
 
@@ -49,16 +49,13 @@ public class MealPlanner extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_planner);
-
-
         helper = new AppDBHelper(this);
-
         ListView theList = (ListView) findViewById(R.id.theList);
         Button button = (Button) findViewById(R.id.mealsubmitbutton);
         Button exit = (Button) findViewById(R.id.exitbutton);
         final EditText editText = (EditText) findViewById(R.id.editText);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mealplan = new ArrayList<MealPlan>();
+        mealplans = new ArrayList<MealPlan>();
         theList = (ListView) findViewById(R.id.theList);
         adapter = new MealPlanAdapter(this);
         theList.setAdapter(adapter);
@@ -66,7 +63,7 @@ public class MealPlanner extends AppCompatActivity {
         //controls what gets changed in list
         MealPlanQuery queryThread = new MealPlanQuery();
         try {
-            mealplan = queryThread.execute().get();
+            mealplans = queryThread.execute().get();
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,7 +77,7 @@ public class MealPlanner extends AppCompatActivity {
                 Intent intent = new Intent(MealPlanner.this, MealActivity.class);
                 MealPlan mp = adapter.getItem(position);
                 intent.putExtra("parentID", mp.getId());
-                Log.d("MEALPLANNER", "position: "+position+" id: "+id+" parent ID: "+mp.getId());
+                Log.d("MEALPLANNER", "position: " + position + " id: " + id + " parent ID: " + mp.getId());
                 startActivityForResult(intent, 5);
             }
         });
@@ -117,19 +114,15 @@ public class MealPlanner extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MealPlan mealPP = new MealPlan(editText.getText().toString());
-
-                //insert returns true or false to make sure it inserts in DB then add to the arraylist
-               /* if (helper.insertMealPlanID(mealPP)) {
-
-                    mealplan.add(mealPP);
-                    adapter.notifyDataSetChanged();
-                }
-                editText.setText("");*/
-               long returnedID = helper.insertMealPlanID(mealPP);
-                if(returnedID >= 0){
-                    Log.d("MEALPLANINSERT", "ID inserted : "+returnedID);
-                    mealPP.setId((int)returnedID);
-                    mealplan.add(mealPP);
+                long returnedID = helper.insertMealPlan(mealPP);
+                //if the long returned is greater or equals to zero
+                if (returnedID >= 0) {
+                    Log.d("MEALPLANINSERT", "ID inserted : " + returnedID);
+                    //set id of inserted mealPlan object to the one in the db
+                    mealPP.setId((int) returnedID);
+                    //add meal to the arraylist of mealplans
+                    mealplans.add(mealPP);
+                    //notify adapter of the data set change
                     adapter.notifyDataSetChanged();
                 }
                 editText.setText("");
@@ -191,7 +184,7 @@ public class MealPlanner extends AppCompatActivity {
 
     public void deleteMealPlan(MealPlan mealplan2, int position) {
         if (helper.deleteMealPlan(mealplan2)) {
-            mealplan.remove(position);
+            mealplans.remove(position);
             adapter.notifyDataSetChanged();
         }
 
@@ -292,11 +285,11 @@ public class MealPlanner extends AppCompatActivity {
         }
 
         public int getCount() {
-            return mealplan.size();
+            return mealplans.size();
         }
 
         public MealPlan getItem(int position) {
-            return mealplan.get(position);
+            return mealplans.get(position);
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {

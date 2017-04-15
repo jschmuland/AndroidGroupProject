@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v7.app.AlertDialog;
@@ -26,42 +27,61 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Meal;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 
 
 public class MealPlannerFragment extends Fragment {
 
     int parentID;
-    ArrayList<String> meal = new ArrayList<String>();
+    ArrayList<Meal> meals = new ArrayList<Meal>();
     EditText editTextmeal;
     ListView theListmeal;
     Button button1;
-
-
-    MealPlannerFragment.MealActivityAdapter adapter1;
+    MealActivityAdapter adapter;
+    AppDBHelper helper;
 
     public MealPlannerFragment() {
-        // Required empty public constructor
+        parentID = -1;
     }
 
     public void onActivityCreated(Bundle savedTest) {
         super.onActivityCreated(savedTest);
-        adapter1 = new MealPlannerFragment.MealActivityAdapter(getActivity());
+        Log.d("MEALPLANNERFRAGMENT", "Is parent really id?: " + parentID);
+        helper = new AppDBHelper(getActivity());
+        adapter = new MealPlannerFragment.MealActivityAdapter(getActivity());
         button1 = (Button) getActivity().findViewById(R.id.submitmealbutton);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Meal myNewMeal = new Meal(editTextmeal.getText().toString());
+                //makes sure no orphan children in the database
+                if (parentID > -1) {
+                    long returnedID = helper.insertMeal(myNewMeal, parentID);
+                    if (returnedID >= 0) {
+                        myNewMeal.setId((int) returnedID);
+                        meals.add(myNewMeal);
+                        adapter.notifyDataSetChanged();
+                    }
 
-                meal.add(editTextmeal.getText().toString());
-                adapter1.notifyDataSetChanged();
-
+                }
                 editTextmeal.setText("");
             }
         });
 
+        //controls what gets changed in list
+        MealQuery queryThread = new MealQuery(parentID);
+        try {
+            meals = queryThread.execute().get();
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         editTextmeal = (EditText) getActivity().findViewById(R.id.editTextMeal);
         theListmeal = (ListView) getActivity().findViewById(R.id.theListMeal);
         // button1= (Button)rootView.findViewById(R.id.submitmealbutton);
-        theListmeal.setAdapter(adapter1);
+        theListmeal.setAdapter(adapter);
         //controls what gets changed in list
         // adapter1.notifyDataSetChanged();
         theListmeal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -69,19 +89,23 @@ public class MealPlannerFragment extends Fragment {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), FoodPicker.class);
+                Meal meal = adapter.getItem(position);
+                intent.putExtra("parentID", meal.getId());
+                Log.d("MEAL", "position: " + position + " id: " + id + " parent ID: " + meal.getId());
                 startActivityForResult(intent, 5);
             }
         });
         setHasOptionsMenu(true);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         savedInstanceState = getArguments();
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             parentID = savedInstanceState.getInt("parentID");
-            Log.d("MEALPLANNERFRAGMENT", " i got the parentID: "+parentID);
+            Log.d("MEALPLANNERFRAGMENT", " i got the parentID: " + parentID);
         }
 
 
@@ -149,18 +173,18 @@ public class MealPlannerFragment extends Fragment {
         dialog2.show();
     }
 
-    private class MealActivityAdapter extends ArrayAdapter<String> {
+    private class MealActivityAdapter extends ArrayAdapter<Meal> {
 
         public MealActivityAdapter(Context ctx) {
             super(ctx, 0);
         }
 
         public int getCount() {
-            return meal.size();
+            return meals.size();
         }
 
-        public String getItem(int position) {
-            return meal.get(position);
+        public Meal getItem(int position) {
+            return meals.get(position);
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -170,9 +194,34 @@ public class MealPlannerFragment extends Fragment {
 
             result = inflater.inflate(R.layout.food_picker_row, null);
             TextView mealtext = (TextView) result.findViewById(R.id.tp_foodName);
-            mealtext.setText(getItem(position)); // get the string at position
+            mealtext.setText(getItem(position).getMealName()); // get the string at position
             return result;
         }
 
     }
+
+    private class MealQuery extends AsyncTask<String, Integer, ArrayList<Meal>> {
+
+        //ProgressBar progressBar;
+        int parentID;
+
+        public MealQuery(int parentID) {
+            this.parentID = parentID;
+        }
+
+        @Override
+        protected ArrayList<Meal> doInBackground(String... args) {
+            publishProgress(1);
+            ArrayList<Meal> results = helper.getAllMeals(parentID);
+            publishProgress(100);
+            return results;
+        }
+
+        @Override
+        public void onPostExecute(ArrayList<Meal> res) {
+            super.onPostExecute(res);
+        }
+    }
+
+
 }
