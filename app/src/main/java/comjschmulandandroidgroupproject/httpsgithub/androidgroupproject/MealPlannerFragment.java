@@ -30,14 +30,11 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.M
 
 public class MealPlannerFragment extends Fragment {
 
-
-ArrayList<String> meal=new ArrayList<String>();
-
-     EditText editTextmeal;
+    int parentID;
+    ArrayList<String> meal = new ArrayList<String>();
+    EditText editTextmeal;
     ListView theListmeal;
     Button button1;
-
-
 
 
     MealPlannerFragment.MealActivityAdapter adapter1;
@@ -45,10 +42,11 @@ ArrayList<String> meal=new ArrayList<String>();
     public MealPlannerFragment() {
         // Required empty public constructor
     }
-    public void onActivityCreated(Bundle savedTest){
+
+    public void onActivityCreated(Bundle savedTest) {
         super.onActivityCreated(savedTest);
         adapter1 = new MealPlannerFragment.MealActivityAdapter(getActivity());
-        button1= (Button)getActivity().findViewById(R.id.submitmealbutton);
+        button1 = (Button) getActivity().findViewById(R.id.submitmealbutton);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,9 +58,8 @@ ArrayList<String> meal=new ArrayList<String>();
             }
         });
 
-        editTextmeal= (EditText)getActivity().findViewById(R.id.editTextMeal);
-        theListmeal= (ListView)getActivity().findViewById(R.id.theListMeal);
-
+        editTextmeal = (EditText) getActivity().findViewById(R.id.editTextMeal);
+        theListmeal = (ListView) getActivity().findViewById(R.id.theListMeal);
         // button1= (Button)rootView.findViewById(R.id.submitmealbutton);
         theListmeal.setAdapter(adapter1);
         //controls what gets changed in list
@@ -71,31 +68,33 @@ ArrayList<String> meal=new ArrayList<String>();
             @Override
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(), FoodPicker.class);
+                Intent intent = new Intent(getActivity(), FoodPicker.class);
                 startActivityForResult(intent, 5);
             }
         });
-setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
+        savedInstanceState = getArguments();
+        if(savedInstanceState != null){
+            parentID = savedInstanceState.getInt("parentID");
+            Log.d("MEALPLANNERFRAGMENT", " i got the parentID: "+parentID);
+        }
 
 
         return inflater.inflate(R.layout.meals_layout, container, false);
-
-
     }
 
-@Override
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-      super.onCreateOptionsMenu(menu, inflater);
-    inflater.inflate(R.menu.ft_toolbar, menu);
-      // getActivity().getMenuInflater().inflate(R.menu.ft_toolbar, menu);
-       MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_mealplanner);
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.ft_toolbar, menu);
+        // getActivity().getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_mealplanner);
         foodItem.setVisible(false);
 
 
@@ -104,7 +103,7 @@ setHasOptionsMenu(true);
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case (R.id.action_exercise):
                 intent = new Intent(getActivity(), Exercise.class);
                 startActivity(intent);
@@ -113,14 +112,14 @@ setHasOptionsMenu(true);
                 intent = new Intent(getActivity(), FoodTracker.class);
                 startActivity(intent);
                 return true;
-            case(R.id.action_sleep):
+            case (R.id.action_sleep):
                 intent = new Intent(getActivity(), SleepTracker.class);
                 startActivity(intent);
                 return true;
-            case(R.id.action_home):
+            case (R.id.action_home):
                 getActivity().finish();
                 return true;
-            case(R.id.action_help):
+            case (R.id.action_help):
 
                 createHelpDialog();
                 return true;
@@ -131,7 +130,7 @@ setHasOptionsMenu(true);
     }
 
 
-    public void createHelpDialog(){
+    public void createHelpDialog() {
         AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -149,25 +148,31 @@ setHasOptionsMenu(true);
         dialog2.setTitle(R.string.mealplanner_title);
         dialog2.show();
     }
+
     private class MealActivityAdapter extends ArrayAdapter<String> {
 
-        public MealActivityAdapter (Context ctx) {
+        public MealActivityAdapter(Context ctx) {
             super(ctx, 0);
         }
-        public	int getCount(){return meal.size();
+
+        public int getCount() {
+            return meal.size();
         }
-        public String getItem(int position){
+
+        public String getItem(int position) {
             return meal.get(position);
         }
-        public View getView(int position, View convertView, ViewGroup parent){
+
+        public View getView(int position, View convertView, ViewGroup parent) {
             //Just specifying the chat window is going to use what layout for each item????
-            LayoutInflater inflater =getActivity().getLayoutInflater();
-            View result = null ;
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View result = null;
 
             result = inflater.inflate(R.layout.food_picker_row, null);
-            TextView mealtext= (TextView) result.findViewById(R.id.tp_foodName);
+            TextView mealtext = (TextView) result.findViewById(R.id.tp_foodName);
             mealtext.setText(getItem(position)); // get the string at position
             return result;
         }
 
-}}
+    }
+}

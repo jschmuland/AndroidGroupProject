@@ -48,13 +48,14 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String EXERCISE_DURATION = "DURATION";
     //Meal Plan table columns
     private final static String MEALPLAN_NAME = "MEALPLAN_NAME";
+    private final static String FK_KEY_ID = "PARENT_ID";
     //Create table queries
     private final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
     private final static String FOOD_EATEN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER, %s TEXT);", FOOD_EATEN_TABLE, KEY_ID, DATE, FOOD_ITEM, CALORIES, DESCRIPTION);
     private final static String EXERCISE_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s REAL, %s REAL);", EXERCISE_TABLE, KEY_ID, DATE, EXERCISE_NAME, CALORIES, EXERCISE_DURATION);
-    private final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", FOOD_TABLE, KEY_ID, FOOD_ITEM, CALORIES);
-    private final static String MEALS_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALS_TABLE, KEY_ID, MEAL_NAME);
-    private final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALPLAN_TABLE, KEY_ID, MEALPLAN_NAME);
+    private final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER, %s);", FOOD_TABLE, KEY_ID, FOOD_ITEM, CALORIES, FK_KEY_ID);
+    private final static String MEALS_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", MEALS_TABLE, KEY_ID, MEAL_NAME, FK_KEY_ID);
+    private final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", MEALPLAN_TABLE, KEY_ID, MEALPLAN_NAME, FK_KEY_ID);
     //Associative tables create
     private final static String MS_HAS_FOOD_QUERY = "CREATE TABLE " + MEALS_HAS_FOOD + " (" + KEY_ID +
     "INTEGER PRIMARY KEY," + KEY_FOOD_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_FOOD_ID + ") REFERENCES " +FOOD_TABLE + " ("+KEY_ID+")," +
@@ -65,7 +66,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //DB name
     public final static String DATABASE_NAME = "Wellness.db";
     //Version
-    static int VERSION_NUM = 6;
+    static int VERSION_NUM = 7;
 
     public AppDBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
@@ -297,19 +298,25 @@ public class AppDBHelper extends SQLiteOpenHelper {
             db.close();
             return true;
         }
-
         db.close();//closing resources
         return false;
+    }
+    public long insertMealPlanID(MealPlan mealP) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(MEALPLAN_NAME, mealP.getPlanName());
+        long res = db.insert(MEALPLAN_TABLE, null, values);//insert statement returns id of element
+        db.close();//closing resources
+        return res;
     }
 
     public boolean deleteMealPlan(MealPlan mealPlan){
         SQLiteDatabase db = this.getWritableDatabase();
-Log.i("KATHLEEN",String.valueOf(mealPlan.getId()));
+        Log.i("KATHLEEN",String.valueOf(mealPlan.getId()));
         if(db.delete(MEALPLAN_TABLE, KEY_ID + "=" + String.valueOf(mealPlan.getId()), null) > 0){
             return true;
         }
         return false;
-
     }
 
 }

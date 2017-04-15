@@ -78,6 +78,9 @@ public class MealPlanner extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MealPlanner.this, MealActivity.class);
+                MealPlan mp = adapter.getItem(position);
+                intent.putExtra("parentID", mp.getId());
+                Log.d("MEALPLANNER", "position: "+position+" id: "+id+" parent ID: "+mp.getId());
                 startActivityForResult(intent, 5);
             }
         });
@@ -95,7 +98,6 @@ public class MealPlanner extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User clicked OK button
                                 deleteMealPlan(adapter.getItem(pos), pos);
-
 
                             }
                         })
@@ -117,8 +119,16 @@ public class MealPlanner extends AppCompatActivity {
                 MealPlan mealPP = new MealPlan(editText.getText().toString());
 
                 //insert returns true or false to make sure it inserts in DB then add to the arraylist
-                if (helper.insertMealPlan(mealPP)) {
+               /* if (helper.insertMealPlanID(mealPP)) {
 
+                    mealplan.add(mealPP);
+                    adapter.notifyDataSetChanged();
+                }
+                editText.setText("");*/
+               long returnedID = helper.insertMealPlanID(mealPP);
+                if(returnedID >= 0){
+                    Log.d("MEALPLANINSERT", "ID inserted : "+returnedID);
+                    mealPP.setId((int)returnedID);
                     mealplan.add(mealPP);
                     adapter.notifyDataSetChanged();
                 }
