@@ -41,12 +41,12 @@ public class MealPlannerFragment extends Fragment {
     AppDBHelper helper;
 
     public MealPlannerFragment() {
-        parentID = -1;
+        parentID = -1;//set it to a default that wouldn't affect db.insert later on
     }
 
     public void onActivityCreated(Bundle savedTest) {
         super.onActivityCreated(savedTest);
-        Log.d("MEALPLANNERFRAGMENT", "Is parent really id?: " + parentID);
+        Log.d("MEALPLANNERFRAGMENT", "Parent Mealplan ID: " + parentID);
         helper = new AppDBHelper(getActivity());
         adapter = new MealPlannerFragment.MealActivityAdapter(getActivity());
         button1 = (Button) getActivity().findViewById(R.id.submitmealbutton);
@@ -68,7 +68,7 @@ public class MealPlannerFragment extends Fragment {
             }
         });
 
-        //controls what gets changed in list
+        //queries for all mealplans from specified mealPlanID
         MealQuery queryThread = new MealQuery(parentID);
         try {
             meals = queryThread.execute().get();
@@ -80,7 +80,6 @@ public class MealPlannerFragment extends Fragment {
 
         editTextmeal = (EditText) getActivity().findViewById(R.id.editTextMeal);
         theListmeal = (ListView) getActivity().findViewById(R.id.theListMeal);
-        // button1= (Button)rootView.findViewById(R.id.submitmealbutton);
         theListmeal.setAdapter(adapter);
         //controls what gets changed in list
         // adapter1.notifyDataSetChanged();
@@ -202,7 +201,6 @@ public class MealPlannerFragment extends Fragment {
 
     private class MealQuery extends AsyncTask<String, Integer, ArrayList<Meal>> {
 
-        //ProgressBar progressBar;
         int parentID;
 
         public MealQuery(int parentID) {
