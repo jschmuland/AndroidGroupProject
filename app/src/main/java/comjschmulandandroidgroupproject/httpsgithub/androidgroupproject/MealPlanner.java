@@ -44,13 +44,14 @@ public class MealPlanner extends AppCompatActivity {
     ArrayList<MealPlan> mealplans;
     AppDBHelper helper;
     MealPlanAdapter adapter;
+    ListView theList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_planner);
         helper = new AppDBHelper(this);
-        ListView theList = (ListView) findViewById(R.id.theList);
         Button button = (Button) findViewById(R.id.mealsubmitbutton);
         Button exit = (Button) findViewById(R.id.exitbutton);
         final EditText editText = (EditText) findViewById(R.id.editText);
@@ -297,8 +298,8 @@ public class MealPlanner extends AppCompatActivity {
             //Just specifying the chat window is going to use what layout for each item????
             LayoutInflater inflater = MealPlanner.this.getLayoutInflater();
             View result = null;
-            result = inflater.inflate(R.layout.food_picker_row, null);
-            TextView fooditem = (TextView) result.findViewById(R.id.tp_foodName);
+            result = inflater.inflate(R.layout.mealplan_picker_row, null);
+            TextView fooditem = (TextView) result.findViewById(R.id.meal_plan_txtv);
             fooditem.setText(getItem(position).getPlanName()); // get the string at position
             return result;
         }
