@@ -12,8 +12,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,16 +40,78 @@ public class FoodPicker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_picker);
 
-        Bundle extras = getIntent().getExtras();
+        //toolbar
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
 
         FoodPickerFragment fragment = new FoodPickerFragment();
-        fragment.setArguments(extras);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         ft.add(R.id.food_picker_frame_layout, fragment);
         ft.commit();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch(item.getItemId()){
+            case (R.id.action_exercise):
+                intent = new Intent(this, Exercise.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(this, MealPlanner.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(this, SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_foodtracker):
+                intent = new Intent(this, FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_help):
+                Log.i(ACTIVITY_NAME, "help");
+                createHelpDialog();
+                return true;
+        }
+
+        return false;
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        return true;
+    }//end onCreateOptionsMenu
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.food_tracker_help_layout, null);
+        TextView helpText = (TextView) dialogView.findViewById(R.id.ftHelp);
+        helpText.setText(R.string.foodpicker_help_text);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.foodpicker_help_title);
+        dialog2.show();
     }
 
 
@@ -123,6 +188,7 @@ public class FoodPicker extends AppCompatActivity {
                     Intent intent = new Intent(getActivity(), FoodTracker.class);
                     intent.putExtra("FOOD", f.getFoodName());
                     intent.putExtra("CALORIES", f.getCalories());
+                    intent.putExtra("DESCRIPTION", f.getDescription());
                     getActivity().setResult(5, intent);
                     getActivity().finish();
                 }

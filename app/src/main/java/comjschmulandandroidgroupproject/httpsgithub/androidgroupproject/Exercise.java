@@ -1,16 +1,22 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,13 +29,14 @@ import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.net.URL;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.ExerciseMessageDetails;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
 
 
 public class Exercise extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static String exerciseName, exerciseCal;
-    protected static final String ACTIVITY_NAME = "ExerciseRecords";
+    protected static final String ACTIVITY_NAME = "Exercise";
     protected ListView list;
     protected String[] exercisesListArray, exercisesInfoArray;
     protected EditText setTimeInExercise;
@@ -40,28 +47,28 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
     boolean isTablet;
 
     /**
-     * @return
+     * @return exerciseName return the exercise name
      */
     public String getExerciseName() {
         return exerciseName;
     }
 
     /**
-     * @param exerciseName
+     * @param exerciseName set the exercise name
      */
     public void setExerciseName(String exerciseName) {
         this.exerciseName = exerciseName;
     }
 
     /**
-     * @return
+     * @return ExerciseCal return the exercise calories / minute
      */
     public String getExerciseCal() {
         return exerciseCal;
     }
 
     /**
-     * @param exerciseCal
+     * @param exerciseCal set the exercise calories / minute
      */
     public void setExerciseCal(String exerciseCal) {
         this.exerciseCal = exerciseCal;
@@ -89,6 +96,7 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         spin.setAdapter(exercisesArrayAdapter);
 
         isTablet = (findViewById(R.id.exerciseFrameLayout) != null); //find out if this is a phone or tablet
+
 
     }//end onCreate Method
 
@@ -126,14 +134,15 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         Toast.makeText(getApplicationContext(), exercisesListArray[position], Toast.LENGTH_LONG).show();
 
         //create a string with the calories/minute
-        String exerciseInfo = "Cal/min: " + exercisesInfoArray[position];
+        String exerciseInfo = getString(R.string.caloriesPerMinute) + " " + exercisesInfoArray[position];
+
 
         //set the exercise name and info
         setExerciseName(exercisesListArray[position]);
         setExerciseCal(exercisesInfoArray[position]);
 
         //temp string array to collect just one item
-        String[] tempExercise = {exercisesListArray[position], exerciseInfo, "Click Here"};
+        String[] tempExercise = {exercisesListArray[position], exerciseInfo, getString(R.string.exerciseClickHere)};
 
         //adapter object
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, tempExercise);
@@ -172,14 +181,6 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
     public void onNothingSelected(AdapterView<?> parent) {
 
     }//end onNothingSelected
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_help, menu);
-        return true;
-    }//end onCreateOptionsMenu
-
 
     /**
      * Private class created to retrieve and image icon and set it to the Sport bitmap
@@ -240,6 +241,62 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
 
     }//end getExerciseImage class
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_exercise);
+        foodItem.setVisible(false);
+        return true;
+    }//end onCreateOptionsMenu
 
-}//end ExerciseRecords Class
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch(item.getItemId()){
+            case (R.id.action_foodtracker):
+                intent = new Intent(Exercise.this, FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(Exercise.this, MealPlanner.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(Exercise.this, SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                finish();
+                return true;
+            case(R.id.action_help):
+                Log.i(ACTIVITY_NAME, "help");
+                createHelpDialog();
+                return true;
+        }
+
+        return false;
+
+    }//end onOptionSelectedMenu
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.exercise_help_layout, null);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.exercise_help_title);
+        dialog2.show();
+    }//end createHelpDialog
+
+}//end Exercise Class
 

@@ -4,6 +4,7 @@
     <string name="progressBarDescription">daily calorie progress bar</string>
     <string name="title_activity_sleep_tracker">Sleep Tracker</string>
     <string name="title_activity_food_tracker">Food Tracker</string>
+    <string name="title_activity_food_picker">Search for Food</string>
     <string name="exercise">Exercise Tracker</string>
     <string name="foodTitle">Food</string>
     <string name="mealTitle">Meal Planner</string>
@@ -13,9 +14,10 @@
     <string name="food">Food</string>
     <string name="cancel">Cancel</string>
     <string name="confirm_ok">OK</string>
-    <string name="menu_help">HELP</string>
+    <string name="menu_help">Help</string>
     <string name="search">Search</string>
     <string name="menu_main">Home</string>
+    <string name="delete">Delete?</string>
 
     <!-- Strings for the Sleep Activity -->
 
@@ -35,16 +37,46 @@
     <string name="enter_date">Please enter a date/time</string>
     <string name="enter_calories">Please enter calories</string>
     <string name="confirmation">Confirm your choice</string>
+    <string name="foodtracker_help_title">FoodTracker by James Thibaudeau</string>
+    <string name="foodpicker_help_title">FoodPicker by James Thibaudeau</string>
+    <string name="foodtracker_help_text">Click on food to search for a food to add,
+        once added choose a date and time. Click Add Food to add a food to your list. Click on
+        food items in the list to see details about the food</string>
+    <string name="foodpicker_help_text">Type in food to search, click on one to add.</string>
+    <string name="descriptionTitle">Description</string>
+    <string name="foodDetails">Details</string>
 
 
     <!-- Strings for the ExerciseRecords Activity -->
-
 
     <string name="exerciseTextView">Choose your Exercise on the List bellow</string>
     <string name="timeInMinutes">0000</string>
     <string name="timeInMinutesView">Time (in minutes) Spent doing an Exercise</string>
     <string name="okSendButtom">Save on the Database</string>
     <string name="viewMinutes">Minutes</string>
+    <string name="caloriesPerMinute">"cal/min: "</string>
+    <string name="exerciseClickHere">Click Here</string>
+    <string name="timeInExercise">Total time in Exercise</string>
+    <string name="exerciseMinutes">Minutes</string>
+    <string name="exerciseBurn">You Burned</string>
+    <string name="exerciseDialogCancel">You canceled the Action</string>
+    <string name="exerciseAdded">Exercise added to the Database</string>
+    <string name="exerciseID">Exercise ID</string>
+    <string name="exerciseName">Exercise Name</string>
+    <string name="exerciseDate">Exercise Date</string>
+    <string name="exerciseDuration">Exercise Duration</string>
+    <string name="exerciseSaveOnDatabase">Do you want to save the data on the Database?</string>
+    <string name="exerciseSavingDatabase">Saving on the Database</string>
+    <string name="exerciseList">Past Exercises</string>
+
+    <string name="exercise_help_title">Exercise Tracker by Carlos Barroso</string>
+    <string name="exercise_help_text1">First set how many minutes you spent doing
+    exercises today. Then, choose the exercise you were doing and click on the list</string>
+
+    <string name="exercise_help_text2">On this activity you can view how
+    many calories you did burn today. If you want to save it on the DataBase, click on the button [Save on the database].
+    If yo want to view you records, click on your ListView and you will have the possibility
+    to delete the item.</string>
 
     <string-array name="exercises_array">
         <item>Basketball</item>
@@ -71,8 +103,16 @@
     <string name="Dialogue_Positive">"Yes"</string>string>
     <string name="Dialogue_Negative">"No"</string>string>
     <string name="exit">"Exit Button"</string>string>
+    <string name="Dialogue2">Do you want to delete this meal plan?</string>string>
+    <string name="Dialogue_Title2">Dialogue</string>string>
+    <string name="Dialogue_Positive2">"Yes"</string>string>
+    <string name="Dialogue_Negative2">"No"</string>string>
+
 
     <!-- Strings for the Meal Activity -->
     <string name="mealsubmitbutton">Meal Submit Button</string>
-
+    <string name="mealplanner_title">Meal Planner By Kathleen McNulty</string>
+    <string name="meal_title">Meal By Kathleen McNulty</string>
+    <string name="helpMPtext">First name your meal plan, then click your meal plan.</string>
+<string name="helpMealText">Name your meal (breakfast, snack, lunch or dinner) then double click the meal name.</string>
 </resources>

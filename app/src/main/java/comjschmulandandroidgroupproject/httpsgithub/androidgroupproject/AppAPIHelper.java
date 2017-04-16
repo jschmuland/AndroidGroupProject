@@ -52,20 +52,23 @@ public class AppAPIHelper {
         String name = "";
         String foodName = "";
         int calories = 0;
+        String description = "";
 
         reader.beginObject();
         while (reader.hasNext()) {
             name = reader.nextName();
             if(name.equals("item_title")) {
                 foodName = reader.nextString();
-            } else if (name.equals("cals")){
+            } else if (name.equals("cals")) {
                 calories = reader.nextInt();
+            } else if (name.equals("item_desc")){
+                description = reader.nextString();
             } else{
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return new Food(foodName, calories);
+        return new Food(foodName, calories, description);
     }
 
     public ArrayList<Food> makeFoodArray(JsonReader reader) throws IOException {

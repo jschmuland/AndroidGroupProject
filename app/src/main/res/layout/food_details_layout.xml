@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:id="@+id/LinearTitles"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/FoodNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/food"
+            android:textAlignment="viewStart"
+            tools:layout_margin="10dp" />
+
+        <TextView
+            android:id="@+id/FoodNameValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            tools:text="@string/food" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/LinearTitles"
+        android:layout_marginStart="63dp">
+
+        <TextView
+            android:id="@+id/CaloriesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/calories"
+            android:textAlignment="viewStart"
+            tools:layout_margin="10dp"
+            tools:text="@string/calories" />
+
+        <TextView
+            android:id="@+id/CaloriesValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="TextView"
+            tools:text="@string/calories" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/LinearTitles"
+        android:layout_below="@+id/LinearTitles"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/FoodDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/descriptionTitle" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignStart="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/DescriptionValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+</RelativeLayout>
