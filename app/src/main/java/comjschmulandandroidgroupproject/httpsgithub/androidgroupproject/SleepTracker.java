@@ -41,6 +41,7 @@ public class SleepTracker extends AppCompatActivity {
     final ArrayList<Sleep> sleepObjArray = new ArrayList<>();
     private SQLiteDatabase db;
     private Cursor results;
+    SleepAdapter messageAdapter;
     Context ctx;
     int tempSleepDuration;
     int sleepTarget = 7*60*60;
@@ -57,7 +58,7 @@ public class SleepTracker extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //getting Sleep array in Async Task
-        SleepQuery sq = new SleepQuery();
+        SleepQueryAsync sq = new SleepQueryAsync();
         sq.execute(this);
 
         //getting listview
@@ -65,7 +66,7 @@ public class SleepTracker extends AppCompatActivity {
 
 
         //create a message adapter from inner class
-        final SleepAdapter messageAdapter = new SleepAdapter(this);
+        messageAdapter = new SleepAdapter(this);
         listView.setAdapter(messageAdapter);
 
         //list menu on item listner
@@ -74,13 +75,17 @@ public class SleepTracker extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Sleep sleepObj = messageAdapter.getItem(position);
 
+
+                Log.i(TAG, "onItemClick: Id put into budle "+messageAdapter.getItemId(position));
                 Bundle bun = new Bundle();
                 bun.putLong("Date",sleepObj.getDate().getTime());
                 bun.putInt("Duration",sleepObj.getDuration());
-                bun.putInt("ID",sleepObj.getId());
+                bun.putInt("ID",(int)messageAdapter.getItemId(position));
                 bun.putInt("Target",sleepTarget);
 
                 SleepFragment frag = new SleepFragment();
+                Log.i(TAG, "onItemClick: sleepobj added to frag "+sleepObj);
+                frag.passData(sleepObj);
                 frag.setArguments(bun);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.sleepFragmentHolder, frag)
@@ -112,13 +117,6 @@ public class SleepTracker extends AppCompatActivity {
                     minNumberPicker.setMinValue(0);
                     minNumberPicker.setWrapSelectorWheel(true);
 
-                    //if you want to consistently update
-//                    hourNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-//                        @Override
-//                        public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-//                            Log.d(TAG, "onValueChange: ");
-//                        }
-//                    });
 
                     d.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                         @Override
@@ -193,8 +191,12 @@ public class SleepTracker extends AppCompatActivity {
 
     }// end onCreate
 
+    public void updateList(int id){
+        sleepObjArray.remove(id);
+        messageAdapter.notifyDataSetChanged();
+    }
 
-    protected class SleepQuery extends AsyncTask<Context,Integer,String>{
+    protected class SleepQueryAsync extends AsyncTask<Context,Integer,String>{
 
         @Override
         protected String doInBackground(Context...args){
@@ -226,6 +228,26 @@ public class SleepTracker extends AppCompatActivity {
             t.show();
         }
     }
+
+    private class SleepRowIdAsync extends AsyncTask<Sleep,Integer,String>{
+        @Override
+        protected String doInBackground(Sleep...args){
+            AppDBHelper dbHelper = new AppDBHelper(ctx);
+            dbHelper.insertSleepSession(args[0]);//update the database
+            dbHelper.close();
+            return "done";
+        }
+
+        protected void onPostExecute(String args){
+            //notify user of constraints
+            Context ct = getApplicationContext();
+            CharSequence text = "Sleep added to the Database";
+            int d2 = Toast.LENGTH_LONG;
+            Toast t = Toast.makeText(ct,text,d2);
+            t.show();
+        }
+    }
+
 
     /*inner class for array adapter*/
     private class SleepAdapter extends ArrayAdapter<Sleep>{

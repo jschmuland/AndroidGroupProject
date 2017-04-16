@@ -32,7 +32,8 @@
         android:minWidth="50dp"
         android:layout_alignTop="@id/day_of_week"
         android:layout_alignBottom="@id/day_of_week"
-        android:layout_marginEnd="125dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/start_time"
         android:textAlignment="textEnd" />
 
@@ -43,6 +44,8 @@
         android:layout_alignEnd="@+id/end_time"
         android:layout_below="@+id/end_time"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="5dp"
+        android:layout_alignStart="@id/end_time"
         android:textAlignment="textEnd" />
 
     <ProgressBar
@@ -53,4 +56,12 @@
         android:layout_alignBottom="@+id/sleep_duration"
         android:layout_alignEnd="@+id/start_time"
         android:layout_alignStart="@id/day_of_week"/>
+
+    <Button
+        android:id="@+id/dlt_sleep_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
