@@ -24,8 +24,6 @@ public class SleepFragment extends Fragment {
     int durr,id,target;
     long dateLong;
     Date dateEnd, dateStart;
-    SimpleDateFormat formatDate = new SimpleDateFormat("h:mm");
-    SimpleDateFormat formatDay = new SimpleDateFormat("EEEE, MMM dd");
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -49,6 +47,9 @@ public class SleepFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle savedInstanceState){
         super.onCreateView(inflater,containter,savedInstanceState);
+
+        SimpleDateFormat formatDate = new SimpleDateFormat("h:mm");
+        SimpleDateFormat formatDay = new SimpleDateFormat("EEEE, MMM dd");
         View gui = inflater.inflate(R.layout.sleep_detail_frag,null);
 
         TextView durText = (TextView) gui.findViewById(R.id.sleep_duration);
@@ -58,7 +59,7 @@ public class SleepFragment extends Fragment {
         startText.setText(formatDate.format(dateStart));
 
         TextView endText = (TextView) gui.findViewById(R.id.end_time);
-        endText.setText("till " +formatDate.format(dateEnd));
+        endText.setText("until " +formatDate.format(dateEnd));
 
         TextView dayText = (TextView) gui.findViewById(R.id.day_of_week);
         dayText.setText(formatDay.format(dateEnd));
