@@ -3,12 +3,17 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * MealPlan is the model that represents a meal plan, a meal plan
+ * contains meals organized in a HashMap for easy lookup by the name of the meal
+ */
 
 public class MealPlan extends ID{
+    //String for meal plan name, HashMap<String, Meal> for storing meals
     private String planName;
     private HashMap<String, Meal> meals;
 
-
+    //Constructors
     public MealPlan(){
         this("", new HashMap<String, Meal>());
     }
@@ -35,10 +40,12 @@ public class MealPlan extends ID{
         this(plan.getId(), plan.getPlanName(), plan.getMeals());
     }
 
+    //addMeal(String mealName, Meal meal)
     public void addMeal(String mealName, Meal meal){
         meals.put(mealName, meal);
     }
 
+    //removeMeal(String mealName) checks if a meal by that name exists and removes it
     public void removeMeal(String mealName) {
         Meal temp = meals.get(mealName);
         if(temp != null) {
@@ -46,6 +53,7 @@ public class MealPlan extends ID{
         }
     }
 
+    //getters and setters
     public Meal getMeal(String mealName) {
         return meals.get(mealName);
     }
