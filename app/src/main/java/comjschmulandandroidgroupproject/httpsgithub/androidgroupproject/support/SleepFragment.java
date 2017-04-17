@@ -20,9 +20,6 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.SleepTracker;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
 
-/**
- * Created by user on 4/4/2017.
- */
 
 public class SleepFragment extends Fragment {
     private static final String TAG = "SleepFragment";

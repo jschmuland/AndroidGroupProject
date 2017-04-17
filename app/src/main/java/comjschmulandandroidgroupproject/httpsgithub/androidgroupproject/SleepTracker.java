@@ -3,8 +3,6 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -41,18 +39,18 @@ import static android.os.SystemClock.elapsedRealtime;
 
 public class SleepTracker extends AppCompatActivity {
     private final String TAG = "SleepTracker";
-    final ArrayList<Sleep> sleepObjArray = new ArrayList<>();
+    final ArrayList<Sleep> sleepObjArray = new ArrayList<>();//for listview
     SleepAdapter messageAdapter;
     Context ctx;
     int tempSleepDuration;
-    int sleepTarget = 8*60*60*60;
+    int sleepTarget = 8*216000;//preset sleep target first number is hours
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ctx = this;
-
         setContentView(R.layout.activity_template);
+
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,18 +71,18 @@ public class SleepTracker extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //getting the object
                 Sleep sleepObj = messageAdapter.getItem(position);
 
-
-                Log.i(TAG, "onItemClick: Id put into budle "+messageAdapter.getItemId(position));
+                //puting the things I need into a bundle
                 Bundle bun = new Bundle();
                 bun.putLong("Date",sleepObj.getDate().getTime());
                 bun.putInt("Duration",sleepObj.getDuration());
                 bun.putInt("ID",(int)messageAdapter.getItemId(position));
                 bun.putInt("Target",sleepTarget);
 
+                //making the frag and adding it.
                 SleepFragment frag = new SleepFragment();
-                Log.i(TAG, "onItemClick: sleepobj added to frag "+sleepObj);
                 frag.passData(sleepObj);
                 frag.setArguments(bun);
                 getFragmentManager().beginTransaction()
@@ -101,23 +99,26 @@ public class SleepTracker extends AppCompatActivity {
             public void onClick(View v) {
                 try {
 
+                    //building the custom alert box
                     final AlertDialog.Builder d = new AlertDialog.Builder(SleepTracker.this);
                     LayoutInflater inflater = getLayoutInflater();
                     View dialogView = inflater.inflate(R.layout.dialog_num_picker, null);
                     d.setTitle("Set Sleep");
                     d.setMessage("How long did you sleep");
                     d.setView(dialogView);
+                    //number picker for hours
                     final NumberPicker hourNumberPicker = (NumberPicker) dialogView.findViewById(R.id.dialog_number_picker_hr);
                     hourNumberPicker.setMaxValue(16);
                     hourNumberPicker.setMinValue(0);
                     hourNumberPicker.setWrapSelectorWheel(true);
 
+                    //number picker for min
                     final NumberPicker minNumberPicker = (NumberPicker) dialogView.findViewById(R.id.dialog_number_picker_min);
                     minNumberPicker.setMaxValue(60);
                     minNumberPicker.setMinValue(0);
                     minNumberPicker.setWrapSelectorWheel(true);
 
-
+                    //setting positive button
                     d.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -137,6 +138,7 @@ public class SleepTracker extends AppCompatActivity {
                             messageAdapter.notifyDataSetChanged();//update the listview
                         }
                     });
+                    //setting negative button
                     d.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -193,7 +195,7 @@ public class SleepTracker extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
+        Intent intent;
         switch(item.getItemId()){
             case (R.id.action_exercise):
                 intent = new Intent(this, Exercise.class);
@@ -220,9 +222,7 @@ public class SleepTracker extends AppCompatActivity {
                 createHelpDialog();
                 return true;
         }
-
         return false;
-
     }
 
     public void createHelpDialog(){
@@ -249,7 +249,7 @@ public class SleepTracker extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         this.getMenuInflater().inflate(R.menu.ft_toolbar, menu);
-        MenuItem sleepItem = (MenuItem) menu.findItem(R.id.action_sleep);
+        MenuItem sleepItem = menu.findItem(R.id.action_sleep);
         sleepItem.setVisible(false);
         return true;
     }//end onCreateOptionsMenu
@@ -259,7 +259,8 @@ public class SleepTracker extends AppCompatActivity {
         messageAdapter.notifyDataSetChanged();
     }
 
-    protected class SleepQueryAsync extends AsyncTask<Context,Integer,String>{
+    //async task to get the array of sleep objects in the database
+    private class SleepQueryAsync extends AsyncTask<Context,Integer,String>{
 
         @Override
         protected String doInBackground(Context...args){
@@ -270,9 +271,9 @@ public class SleepTracker extends AppCompatActivity {
             dbHelper.close();
             return "done";
         }
-
     }
 
+    //asyncTask to insert a sleep object into the database
     private class SleepInsert extends AsyncTask<Sleep,Integer,String>{
         @Override
         protected String doInBackground(Sleep...args){
@@ -291,26 +292,6 @@ public class SleepTracker extends AppCompatActivity {
             t.show();
         }
     }
-
-    private class SleepRowIdAsync extends AsyncTask<Sleep,Integer,String>{
-        @Override
-        protected String doInBackground(Sleep...args){
-            AppDBHelper dbHelper = new AppDBHelper(ctx);
-            dbHelper.insertSleepSession(args[0]);//update the database
-            dbHelper.close();
-            return "done";
-        }
-
-        protected void onPostExecute(String args){
-            //notify user of constraints
-            Context ct = getApplicationContext();
-            CharSequence text = "Sleep added to the Database";
-            int d2 = Toast.LENGTH_LONG;
-            Toast t = Toast.makeText(ct,text,d2);
-            t.show();
-        }
-    }
-
 
     /*inner class for array adapter*/
     private class SleepAdapter extends ArrayAdapter<Sleep>{

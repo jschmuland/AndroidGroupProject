@@ -8,7 +8,6 @@
         android:id="@+id/start_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start time"
         android:layout_alignBaseline="@+id/day_of_week"
         android:layout_alignBottom="@+id/day_of_week"
         android:layout_toEndOf="@id/day_of_week"
@@ -23,7 +22,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
-        android:text="Day of the week" />
+        android:text="@string/day_o_week" />
 
     <TextView
         android:id="@+id/end_time"
@@ -61,7 +60,7 @@
         android:id="@+id/dlt_sleep_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/delete"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

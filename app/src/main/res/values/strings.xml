@@ -31,7 +31,8 @@
     If you missed a sleep session you can add it later by clicking on the set sleep button.
     Clicking on any of the items in the list will bring up more details and let you delete that item as well.</string>
     <string name="sleeptracker_help_title">Sleep Tracker by Joel Schmuland</string>
-
+    <string name="day_o_week">Day of the week</string>
+    
     <!--Strings for the Food Tracker Activity-->
 
     <string name="AddFood">Add Food</string>
