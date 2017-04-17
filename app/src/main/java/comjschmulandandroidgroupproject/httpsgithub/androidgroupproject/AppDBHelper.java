@@ -17,6 +17,10 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.M
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
 
+/**
+ * AppDBHelper extends SQLiteOpenHelper and serves as a way to access the database.
+ * There are functions that make it easy to query, insert and delete records from all tables
+ */
 
 public class AppDBHelper extends SQLiteOpenHelper {
     //Activity name
@@ -67,10 +71,12 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //Version
     static int VERSION_NUM = 6;
 
+    //Constructor
     public AppDBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
     }
 
+    //OnCreate
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i(ACTIVITY_NAME, "Calling onCreate");
@@ -84,6 +90,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
         db.execSQL(MP_HAS_MEALS_QUERY);
     }
 
+    //onUpgrade() drops all the tables and calls onCreate
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(ACTIVITY_NAME, "Calling onUpgrade, oldVersion=" + oldVersion + " newVersion=" + newVersion);
@@ -99,6 +106,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //getAllSleep() gets all sleep records from the db
     public ArrayList<Sleep> getAllSleep() {
         Log.i(ACTIVITY_NAME, "Called getAllSleep()");
         ArrayList<Sleep> sleepList = new ArrayList<Sleep>();
@@ -128,6 +136,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return sleepList;
     }
 
+    //insertSleepSession(Sleep sleepSession) takes a Sleep object and inserts it in the database
+    //returns true if successful, false if not
     public boolean insertSleepSession(Sleep sleepSession){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -144,6 +154,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    //getAllFoodEaten() queries the database and returns an ArrayList<FoodEaten> with all the food
     public ArrayList<FoodEaten> getAllFoodEaten() {
         Log.i(ACTIVITY_NAME, "Called getAllFoodEaten()");
         ArrayList<FoodEaten> foodEatenList = new ArrayList<FoodEaten>();
@@ -178,6 +189,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return foodEatenList;
     }
 
+    //insertFoodEaten(FoodEaten foodEaten) takes a FoodEaten object and inserts it into
+    // the database, returns true if successful, false if not
     public boolean insertFoodEaten(FoodEaten foodEaten) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -196,6 +209,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
+    //deleteFoodEaten(FoodEaten foodEaten) takes a FoodEaten object and deletes it from the db,
+    //returns true if successful, false if not
     public boolean deleteFoodEaten(FoodEaten foodEaten){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -206,6 +221,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
+    //getAllExerciseRecords() returns an ArrayList<ExerciseRecords> with all the exercise
+    // records in the db
     public ArrayList<ExerciseRecords> getAllExerciseRecords() {
         Log.i(ACTIVITY_NAME, "Called getAllExerciseRecords()");
         ArrayList<ExerciseRecords> exerciseList = new ArrayList<>();
@@ -237,6 +254,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return exerciseList;
     }
 
+    //insertExerciseSession(ExerciseRecords exerciseSession) inserts an exercise record into the db,
+    // returns true if successful, false if not
     public boolean insertExerciseSession(ExerciseRecords exerciseSession){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -254,8 +273,9 @@ public class AppDBHelper extends SQLiteOpenHelper {
         db.close();//closing resources
         return false;
     }
-  
-      public void deleteExerciseRecords(int key){
+
+    //deleteExercise(int key) takes in an int key and deletes the corresponding record from the db
+    public void deleteExerciseRecords(int key){
 
         SQLiteDatabase db = this.getWritableDatabase();
         String tempKey = String.valueOf(key);
@@ -263,7 +283,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
-
+    //getAllMealPlans() returns an ArrayList<MealPlan> with all the meal plans from the db
     public ArrayList<MealPlan> getAllMealPlans() {
         ArrayList<MealPlan> mealplans = new ArrayList<MealPlan>();
         String selectAll = "SELECT * FROM " + MEALPLAN_TABLE;
@@ -286,6 +306,8 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return mealplans;
     }
 
+    //insertMealPlan(MealPlan mealP) takes a meal plan and inserts it into the db, returns true
+    // if successful, false if not
     public boolean insertMealPlan(MealPlan mealP) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -302,9 +324,11 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    //deleteMealPlan(MealPlan mealPlan) takes a meal plan object and deletes that from the db,
+    // returns true if successful, false if not
     public boolean deleteMealPlan(MealPlan mealPlan){
         SQLiteDatabase db = this.getWritableDatabase();
-Log.i("KATHLEEN",String.valueOf(mealPlan.getId()));
+        Log.i("KATHLEEN",String.valueOf(mealPlan.getId()));
         if(db.delete(MEALPLAN_TABLE, KEY_ID + "=" + String.valueOf(mealPlan.getId()), null) > 0){
             return true;
         }

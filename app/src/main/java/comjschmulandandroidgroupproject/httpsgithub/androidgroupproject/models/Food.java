@@ -1,12 +1,16 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
-
+/**
+ * Food class is the model for food used in meal plans
+ */
 
 public class Food extends ID{
+    //String for food name, int for calories and String for food description
     private String foodName;
     private int calories;
     private String description;
 
+    //Constructors
     public Food(){
         this("", 0, "");
     }
@@ -26,6 +30,7 @@ public class Food extends ID{
         this(food.getId(), food.getFoodName(), food.getCalories(), food.getDescription());
     }
 
+    //Getters and setters
     public void setFoodName(String foodName){
         this.foodName = foodName;
     }
@@ -50,6 +55,7 @@ public class Food extends ID{
         this.description = description;
     }
 
+    //toString returns the food name and calories
     @Override
     public String toString() {
         return foodName + " " + calories;
