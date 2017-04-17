@@ -2,6 +2,7 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,14 +42,10 @@ import static android.os.SystemClock.elapsedRealtime;
 public class SleepTracker extends AppCompatActivity {
     private final String TAG = "SleepTracker";
     final ArrayList<Sleep> sleepObjArray = new ArrayList<>();
-    private SQLiteDatabase db;
-    private Cursor results;
     SleepAdapter messageAdapter;
     Context ctx;
     int tempSleepDuration;
-    int sleepTarget = 7*60*60;
-
-    private int idColumn,dateColumn,durationColumn;
+    int sleepTarget = 8*60*60*60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +53,7 @@ public class SleepTracker extends AppCompatActivity {
         ctx = this;
 
         setContentView(R.layout.activity_template);
+        //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -190,6 +190,69 @@ public class SleepTracker extends AppCompatActivity {
         });
 
     }// end onCreate
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch(item.getItemId()){
+            case (R.id.action_exercise):
+                intent = new Intent(this, Exercise.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(this, MealPlanner.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(this, SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_foodtracker):
+                intent = new Intent(this, FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_help):
+                Log.i(TAG, "help");
+                createHelpDialog();
+                return true;
+        }
+
+        return false;
+
+    }
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.sleep_help_layout, null);
+        TextView helpText = (TextView) dialogView.findViewById(R.id.ftHelp);
+        helpText.setText(R.string.sleeptracker_help_text);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.sleeptracker_help_title);
+        dialog2.show();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem sleepItem = (MenuItem) menu.findItem(R.id.action_sleep);
+        sleepItem.setVisible(false);
+        return true;
+    }//end onCreateOptionsMenu
 
     public void updateList(int id){
         sleepObjArray.remove(id);
