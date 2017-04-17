@@ -45,148 +45,163 @@ public class MealPlanner extends AppCompatActivity {
     AppDBHelper helper;
     MealPlanAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meal_planner);
+
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+                    setContentView(R.layout.activity_meal_planner);
 
 
-        helper = new AppDBHelper(this);
 
-        ListView theList = (ListView) findViewById(R.id.theList);
-        Button button = (Button) findViewById(R.id.mealsubmitbutton);
-        Button exit = (Button) findViewById(R.id.exitbutton);
-        final EditText editText = (EditText) findViewById(R.id.editText);
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mealplan = new ArrayList<MealPlan>();
-        theList = (ListView) findViewById(R.id.theList);
-        adapter = new MealPlanAdapter(this);
-        theList.setAdapter(adapter);
+                    helper = new AppDBHelper(this);
 
-        //controls what gets changed in list
-        MealPlanQuery queryThread = new MealPlanQuery();
-        try {
-            mealplan = queryThread.execute().get();
-            adapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    ListView theList = (ListView) findViewById(R.id.theList);
+                    Button button = (Button) findViewById(R.id.mealsubmitbutton);
+                    Button exit = (Button) findViewById(R.id.exitbutton);
+                   final EditText editText = (EditText) findViewById(R.id.editText);
+                    ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                    mealplan = new ArrayList<MealPlan>();
+                    theList = (ListView) findViewById(R.id.theList);
+                   adapter=new MealPlanAdapter(this);
+                    theList.setAdapter(adapter);
+
+                    //controls what gets changed in list
 
 
-        theList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
 
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MealPlanner.this, MealActivity.class);
-                startActivityForResult(intent, 5);
-            }
-        });
 
-        theList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final int pos = position;
-                AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanner.this);
-                // 2. Chain together various setter methods to set the dialog characteristics
-                builder.setMessage(R.string.Dialogue2) //Add a dialog message to strings.xml
 
-                        .setTitle(R.string.Dialogue_Title2)
-                        .setPositiveButton(R.string.Dialogue_Positive2, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User clicked OK button
+                        MealPlanQuery thread =
+                                new MealPlanQuery("https://service.livestrong.com/service/food/foods/?query=mango");
+                        adapter.notifyDataSetChanged();
+                        thread.execute();
+
+
+                    theList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                       @Override
+
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                           Intent intent=new Intent(MealPlanner.this, MealActivity.class);
+                           startActivityForResult(intent, 5);
+                            }
+                        });
+
+                    theList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                            final int pos=position;
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanner.this);
+// 2. Chain together various setter methods to set the dialog characteristics
+                            builder.setMessage(R.string.Dialogue2) //Add a dialog message to strings.xml
+
+                                    .setTitle(R.string.Dialogue_Title2)
+                                    .setPositiveButton(R.string.Dialogue_Positive2, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User clicked OK button
                                 deleteMealPlan(adapter.getItem(pos), pos);
 
 
+
+
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.Dialogue_Negative2, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User cancelled the dialog
+                                        }
+                                    })
+                                    .show();
+
+
+                            return true;
+                        }
+                    }) ;
+
+
+
+
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MealPlan mealPP= new MealPlan(editText.getText().toString());
+
+                                  //insert returns true or false to make sure it inserts in DB then add to the arraylist
+                            if(helper.insertMealPlan(mealPP)){
+
+                                mealplan.add(mealPP);
+                                adapter.notifyDataSetChanged();
                             }
-                        })
-                        .setNegativeButton(R.string.Dialogue_Negative2, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        })
-                        .show();
+                            editText.setText("");
+                        }
+                    });
+//My Toast
+
+                    Context context = getApplicationContext();
+                    CharSequence text;
+                    int duration = Toast.LENGTH_SHORT;
 
 
-                return true;
-            }
-        });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MealPlan mealPP = new MealPlan(editText.getText().toString());
+                    editText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(),"Enter Name of Meal Plan",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+//Snackbar
 
-                //insert returns true or false to make sure it inserts in DB then add to the arraylist
-                if (helper.insertMealPlan(mealPP)) {
+                    Snackbar.make(findViewById(android.R.id.content), "Make your meal plan", Snackbar.LENGTH_LONG)
+                            .show();
 
-                    mealplan.add(mealPP);
-                    adapter.notifyDataSetChanged();
+//Custom Dialogue
+
+
+                    exit.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            //Intent myIntent = new Intent(view.getContext(), agones.class);
+                            //startActivityForResult(myIntent, 0);
+
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanner.this);
+// 2. Chain together various setter methods to set the dialog characteristics
+                    builder.setMessage(R.string.Dialogue) //Add a dialog message to strings.xml
+
+                            .setTitle(R.string.Dialogue_Title)
+                            .setPositiveButton(R.string.Dialogue_Positive, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User clicked OK button
+
+                                    Intent resultIntent = new Intent(  );
+                                    resultIntent.putExtra("Response", "My information to share");
+                                    setResult(Activity.RESULT_OK, resultIntent);
+                                    finish();//you don't have to set it up to pass it between activities because it finishes and goes back to the previous activity
+
+                                }
+                            })
+                            .setNegativeButton(R.string.Dialogue_Negative, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                }
+                            })
+                            .show();
+                        }
+
+                    });
+
+
                 }
-                editText.setText("");
-            }
-        });
-        //My Toast
-
-        Context context = getApplicationContext();
-        CharSequence text;
-        int duration = Toast.LENGTH_SHORT;
-
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), R.string.EnterName, Toast.LENGTH_SHORT).show();
-            }
-        });
-        //Snackbar
-
-        Snackbar.make(findViewById(android.R.id.content), R.string.MakeMeal, Snackbar.LENGTH_LONG)
-                .show();
-
-        //Custom Dialogue
-
-        exit.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //Intent myIntent = new Intent(view.getContext(), agones.class);
-                //startActivityForResult(myIntent, 0);
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MealPlanner.this);
-                // 2. Chain together various setter methods to set the dialog characteristics
-                builder.setMessage(R.string.Dialogue) //Add a dialog message to strings.xml
 
-                        .setTitle(R.string.Dialogue_Title)
-                        .setPositiveButton(R.string.Dialogue_Positive, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User clicked OK button
-
-                                Intent resultIntent = new Intent();
-                                resultIntent.putExtra("Response", "My information to share");
-                                setResult(Activity.RESULT_OK, resultIntent);
-                                finish();//you don't have to set it up to pass it between activities because it finishes and goes back to the previous activity
-
-                            }
-                        })
-                        .setNegativeButton(R.string.Dialogue_Negative, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        })
-                        .show();
-            }
-
-        });
-
-
+public void deleteMealPlan(MealPlan mealplan2, int position) {
+    if (helper.deleteMealPlan(mealplan2)) {
+        mealplan.remove(position);
+        adapter.notifyDataSetChanged();
     }
 
-    public void deleteMealPlan(MealPlan mealplan2, int position) {
-        if (helper.deleteMealPlan(mealplan2)) {
-            mealplan.remove(position);
-            adapter.notifyDataSetChanged();
-        }
 
-    }
-
+}
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -199,7 +214,7 @@ public class MealPlanner extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
-        switch (item.getItemId()) {
+        switch(item.getItemId()){
             case (R.id.action_exercise):
                 intent = new Intent(MealPlanner.this, Exercise.class);
                 startActivity(intent);
@@ -208,25 +223,25 @@ public class MealPlanner extends AppCompatActivity {
                 intent = new Intent(MealPlanner.this, FoodTracker.class);
                 startActivity(intent);
                 return true;
-            case (R.id.action_sleep):
+            case(R.id.action_sleep):
                 intent = new Intent(MealPlanner.this, SleepTracker.class);
                 startActivity(intent);
                 return true;
-            case (R.id.action_home):
+            case(R.id.action_home):
                 finish();
                 return true;
-            case (R.id.action_help):
+            case(R.id.action_help):
 
                 createHelpDialog();
                 return true;
-            default:
-                return false;
         }
+
+        return false;
 
     }
 
 
-    public void createHelpDialog() {
+    public void createHelpDialog(){
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         // Get the layout inflater
         LayoutInflater inflater = this.getLayoutInflater();
@@ -245,60 +260,88 @@ public class MealPlanner extends AppCompatActivity {
         dialog2.show();
     }
 
-    private class MealPlanQuery extends AsyncTask<String, Integer, ArrayList<MealPlan>> {
 
-        ProgressBar progressBar;
 
-        public MealPlanQuery() {
-            progressBar = (ProgressBar) findViewById(R.id.progressBar);
-            progressBar.setMax(100);
-        }
 
-        @Override
-        protected ArrayList<MealPlan> doInBackground(String... args) {
-            publishProgress(1);
-            ArrayList<MealPlan> results = helper.getAllMealPlans();
-            publishProgress(100);
-            return results;
-        }
 
-        @Override
-        protected void onProgressUpdate(Integer... prog) {
-            progressBar.setProgress(prog[0]);
-            progressBar.setVisibility(View.VISIBLE);
-        }
 
-        @Override
-        public void onPostExecute(ArrayList<MealPlan> res) {
-            super.onPostExecute(res);
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-    }
+                private class MealPlanQuery extends AsyncTask<String, Integer, String[]> {
 
-    private class MealPlanAdapter extends ArrayAdapter<MealPlan> {
 
-        public MealPlanAdapter(Context ctx) {
+                    private URL url=null;
+                    ProgressBar progressBar;
+
+
+                    String in = "in";
+
+                    public MealPlanQuery(String url) {
+                        progressBar=(ProgressBar)findViewById(R.id.progressBar);
+                        progressBar.setMax(100);
+                        try {
+                            this.url = new URL(url);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    protected String[] doInBackground(String... args) {
+
+                        publishProgress(1);
+
+                        publishProgress(25);
+
+                        mealplan=helper.getAllMealPlans();
+                        adapter.notifyDataSetChanged();
+                        publishProgress(50);
+
+                        publishProgress(65);
+
+                        publishProgress(100);
+
+
+                        return null;
+
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(Integer... prog) {
+                           progressBar.setProgress(prog[0]);
+                         progressBar.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onPostExecute(String[] res) {
+                        super.onPostExecute(res);
+                         progressBar.setVisibility(View.INVISIBLE);
+                    }
+            }
+
+    private class MealPlanAdapter extends ArrayAdapter<MealPlan>{
+
+        public MealPlanAdapter (Context ctx) {
             super(ctx, 0);
         }
-
-        public int getCount() {
-            return mealplan.size();
+        public	int getCount(){return mealplan.size();
         }
-
-        public MealPlan getItem(int position) {
+        public MealPlan getItem(int position){
             return mealplan.get(position);
         }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent){
             //Just specifying the chat window is going to use what layout for each item????
             LayoutInflater inflater = MealPlanner.this.getLayoutInflater();
-            View result = null;
-            result = inflater.inflate(R.layout.food_picker_row, null);
-            TextView fooditem = (TextView) result.findViewById(R.id.tp_foodName);
-            fooditem.setText(getItem(position).getPlanName()); // get the string at position
-            return result;
+            View result = null ;
+
+                result = inflater.inflate(R.layout.food_picker_row, null);
+                TextView  fooditem= (TextView) result.findViewById(R.id.tp_foodName);
+                fooditem.setText(getItem(position).getPlanName()); // get the string at position
+                return result;
         }
+
+
+
     }
+
 
 }
 

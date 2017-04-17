@@ -55,7 +55,7 @@ ArrayList<String> meal=new ArrayList<String>();
 
                 meal.add(editTextmeal.getText().toString());
                 adapter1.notifyDataSetChanged();
-
+                Log.d("KATHLEEN","this worked");
                 editTextmeal.setText("");
             }
         });
