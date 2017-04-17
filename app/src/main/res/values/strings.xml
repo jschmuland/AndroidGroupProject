@@ -115,6 +115,4 @@
     <string name="meal_title">Meal By Kathleen McNulty</string>
     <string name="helpMPtext">First name your meal plan, then click your meal plan.</string>
 <string name="helpMealText">Name your meal (breakfast, snack, lunch or dinner) then double click the meal name.</string>
-    <string name="EnterName">"Enter Name of Meal Plan"</string>
-    <string name="MakeMeal">"Make your meal plan"</string>
 </resources>

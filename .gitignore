@@ -7,6 +7,3 @@
 /build
 /captures
 .externalNativeBuild
-.idea/misc.xml
-build.gradle
-gradle/wrapper/graddle-wrapper.jar
