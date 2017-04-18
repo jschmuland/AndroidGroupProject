@@ -21,7 +21,6 @@
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@id/sleep_target_made"
         android:minWidth="80dp"
-        android:text="9hr13min"
         android:layout_centerVertical="true"
         android:textAppearance="@android:style/TextAppearance.Holo.Large"
         android:textAlignment="textEnd"/>
@@ -35,8 +34,7 @@
         android:layout_marginStart="10dp"
         android:layout_toStartOf="@id/sleepTime"
         android:layout_centerVertical="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:text="Test"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
 
 </RelativeLayout>
