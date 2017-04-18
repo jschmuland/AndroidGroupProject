@@ -95,6 +95,34 @@ public class MealPlannerFragment extends Fragment {
             }
         });
         setHasOptionsMenu(true);
+
+        theListmeal.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final int pos = position;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                // 2. Chain together various setter methods to set the dialog characteristics
+                builder.setMessage(R.string.Dialogue2) //Add a dialog message to strings.xml
+
+                        .setTitle(R.string.Dialogue_Title2)
+                        .setPositiveButton(R.string.Dialogue_Positive2, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User clicked OK button
+                              //deleteMeal(adapter.getItem(pos), pos);
+
+                            }
+                        })
+                        .setNegativeButton(R.string.Dialogue_Negative2, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        })
+                        .show();
+
+
+                return true;
+            }
+        });
     }
 
 
