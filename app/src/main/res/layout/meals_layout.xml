@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/headingMeal"
             android:text="Enter Meal"
-            ></TextView>
+            />
         <ListView
             android:layout_width="250dp"
             android:layout_height="70dp"
