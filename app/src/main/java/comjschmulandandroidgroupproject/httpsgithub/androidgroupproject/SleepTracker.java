@@ -2,8 +2,7 @@ package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -12,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,26 +39,24 @@ import static android.os.SystemClock.elapsedRealtime;
 
 public class SleepTracker extends AppCompatActivity {
     private final String TAG = "SleepTracker";
-    final ArrayList<Sleep> sleepObjArray = new ArrayList<>();
-    private SQLiteDatabase db;
-    private Cursor results;
+    final ArrayList<Sleep> sleepObjArray = new ArrayList<>();//for listview
+    SleepAdapter messageAdapter;
     Context ctx;
     int tempSleepDuration;
-    int sleepTarget = 7*60*60;
-
-    private int idColumn,dateColumn,durationColumn;
+    int sleepTarget = 8*216000;//preset sleep target first number is hours
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ctx = this;
-
         setContentView(R.layout.activity_template);
+
+        //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //getting Sleep array in Async Task
-        SleepQuery sq = new SleepQuery();
+        SleepQueryAsync sq = new SleepQueryAsync();
         sq.execute(this);
 
         //getting listview
@@ -65,22 +64,26 @@ public class SleepTracker extends AppCompatActivity {
 
 
         //create a message adapter from inner class
-        final SleepAdapter messageAdapter = new SleepAdapter(this);
+        messageAdapter = new SleepAdapter(this);
         listView.setAdapter(messageAdapter);
 
         //list menu on item listner
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //getting the object
                 Sleep sleepObj = messageAdapter.getItem(position);
 
+                //puting the things I need into a bundle
                 Bundle bun = new Bundle();
                 bun.putLong("Date",sleepObj.getDate().getTime());
                 bun.putInt("Duration",sleepObj.getDuration());
-                bun.putInt("ID",sleepObj.getId());
+                bun.putInt("ID",(int)messageAdapter.getItemId(position));
                 bun.putInt("Target",sleepTarget);
 
+                //making the frag and adding it.
                 SleepFragment frag = new SleepFragment();
+                frag.passData(sleepObj);
                 frag.setArguments(bun);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.sleepFragmentHolder, frag)
@@ -96,30 +99,26 @@ public class SleepTracker extends AppCompatActivity {
             public void onClick(View v) {
                 try {
 
+                    //building the custom alert box
                     final AlertDialog.Builder d = new AlertDialog.Builder(SleepTracker.this);
                     LayoutInflater inflater = getLayoutInflater();
                     View dialogView = inflater.inflate(R.layout.dialog_num_picker, null);
                     d.setTitle("Set Sleep");
                     d.setMessage("How long did you sleep");
                     d.setView(dialogView);
+                    //number picker for hours
                     final NumberPicker hourNumberPicker = (NumberPicker) dialogView.findViewById(R.id.dialog_number_picker_hr);
                     hourNumberPicker.setMaxValue(16);
                     hourNumberPicker.setMinValue(0);
                     hourNumberPicker.setWrapSelectorWheel(true);
 
+                    //number picker for min
                     final NumberPicker minNumberPicker = (NumberPicker) dialogView.findViewById(R.id.dialog_number_picker_min);
                     minNumberPicker.setMaxValue(60);
                     minNumberPicker.setMinValue(0);
                     minNumberPicker.setWrapSelectorWheel(true);
 
-                    //if you want to consistently update
-//                    hourNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-//                        @Override
-//                        public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-//                            Log.d(TAG, "onValueChange: ");
-//                        }
-//                    });
-
+                    //setting positive button
                     d.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -139,6 +138,7 @@ public class SleepTracker extends AppCompatActivity {
                             messageAdapter.notifyDataSetChanged();//update the listview
                         }
                     });
+                    //setting negative button
                     d.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -193,7 +193,74 @@ public class SleepTracker extends AppCompatActivity {
 
     }// end onCreate
 
-    protected class SleepQuery extends AsyncTask<Context,Integer,String>{
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch(item.getItemId()){
+            case (R.id.action_exercise):
+                intent = new Intent(this, Exercise.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_mealplanner):
+                intent = new Intent(this, MealPlanner.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_sleep):
+                intent = new Intent(this, SleepTracker.class);
+                startActivity(intent);
+                return true;
+            case (R.id.action_foodtracker):
+                intent = new Intent(this, FoodTracker.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_home):
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case(R.id.action_help):
+                Log.i(TAG, "help");
+                createHelpDialog();
+                return true;
+        }
+        return false;
+    }
+
+    public void createHelpDialog(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.sleep_help_layout, null);
+        TextView helpText = (TextView) dialogView.findViewById(R.id.ftHelp);
+        helpText.setText(R.string.sleeptracker_help_text);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder2.setView(dialogView)
+                // Add action buttons
+                .setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog2 = builder2.create();
+        dialog2.setTitle(R.string.sleeptracker_help_title);
+        dialog2.show();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.getMenuInflater().inflate(R.menu.ft_toolbar, menu);
+        MenuItem sleepItem = menu.findItem(R.id.action_sleep);
+        sleepItem.setVisible(false);
+        return true;
+    }//end onCreateOptionsMenu
+
+    public void updateList(int id){
+        sleepObjArray.remove(id);
+        messageAdapter.notifyDataSetChanged();
+    }
+
+    //async task to get the array of sleep objects in the database
+    private class SleepQueryAsync extends AsyncTask<Context,Integer,String>{
 
         @Override
         protected String doInBackground(Context...args){
@@ -204,9 +271,9 @@ public class SleepTracker extends AppCompatActivity {
             dbHelper.close();
             return "done";
         }
-
     }
 
+    //asyncTask to insert a sleep object into the database
     private class SleepInsert extends AsyncTask<Sleep,Integer,String>{
         @Override
         protected String doInBackground(Sleep...args){

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Meal extends ID{
     private String mealName;
     private ArrayList<Food> foods;
+    private int mealPlanId; //id to help join the mealplan table and meal table
 
     public Meal(){
         this("");
@@ -13,7 +14,9 @@ public class Meal extends ID{
     public Meal(String mealName) {
         this(mealName, new ArrayList<Food>() );
     }
-
+    public Meal(int id, String mealName){
+        this(id, mealName, new ArrayList<Food>());
+    }
     public Meal(String mealName, ArrayList<Food> foods){
         this(0, mealName, foods);
     }
@@ -53,4 +56,9 @@ public class Meal extends ID{
     public void setMealName(String mealName) {
         this.mealName = mealName;
     }
+
+    public void setMealPlanId(int id){
+        this.mealPlanId = id;
+    }
+    public int getMealPlanId(){ return mealPlanId; }
 }

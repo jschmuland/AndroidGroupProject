@@ -13,6 +13,7 @@ import java.util.Date;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.ExerciseRecords;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.FoodEaten;
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Meal;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Sleep;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
@@ -48,13 +49,14 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String EXERCISE_DURATION = "DURATION";
     //Meal Plan table columns
     private final static String MEALPLAN_NAME = "MEALPLAN_NAME";
+    private final static String FK_KEY_ID = "PARENT_ID";
     //Create table queries
-    private final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
+    private final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
     private final static String FOOD_EATEN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER, %s TEXT);", FOOD_EATEN_TABLE, KEY_ID, DATE, FOOD_ITEM, CALORIES, DESCRIPTION);
     private final static String EXERCISE_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s REAL, %s REAL);", EXERCISE_TABLE, KEY_ID, DATE, EXERCISE_NAME, CALORIES, EXERCISE_DURATION);
-    private final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", FOOD_TABLE, KEY_ID, FOOD_ITEM, CALORIES);
-    private final static String MEALS_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALS_TABLE, KEY_ID, MEAL_NAME);
-    private final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT);", MEALPLAN_TABLE, KEY_ID, MEALPLAN_NAME);
+    private final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER, %s);", FOOD_TABLE, KEY_ID, FOOD_ITEM, CALORIES, FK_KEY_ID);
+    private final static String MEALS_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", MEALS_TABLE, KEY_ID, MEAL_NAME, FK_KEY_ID);
+    private final static String MEALPLAN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER);", MEALPLAN_TABLE, KEY_ID, MEALPLAN_NAME, FK_KEY_ID);
     //Associative tables create
     private final static String MS_HAS_FOOD_QUERY = "CREATE TABLE " + MEALS_HAS_FOOD + " (" + KEY_ID +
             "INTEGER PRIMARY KEY," + KEY_FOOD_ID + " INTEGER, " + KEY_MEAL_ID + " INTEGER, FOREIGN KEY (" + KEY_FOOD_ID + ") REFERENCES " + FOOD_TABLE + " (" + KEY_ID + ")," +
@@ -65,7 +67,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //DB name
     public final static String DATABASE_NAME = "Wellness.db";
     //Version
-    static int VERSION_NUM = 6;
+    static int VERSION_NUM = 7;
 
     public AppDBHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
@@ -143,6 +145,20 @@ public class AppDBHelper extends SQLiteOpenHelper {
         db.close();//closing resources
         return false;
     }
+
+    public boolean deleteSleepSession(Sleep sleepobj){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if(db.delete(SLEEP_TABLE, KEY_ID + "=" + String.valueOf(sleepobj.getId()), null) > 0){
+            db.close();
+            return true;
+        }
+        db.close();
+        return false;
+
+    }
+
+
 
     public ArrayList<FoodEaten> getAllFoodEaten() {
         Log.i(ACTIVITY_NAME, "Called getAllFoodEaten()");
@@ -263,6 +279,27 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<Meal> getAllMeals(int parentid) {
+        ArrayList<Meal> meals = new ArrayList<Meal>();
+        String selectAll = "SELECT * FROM " + MEALS_TABLE + " where " + FK_KEY_ID + "=" + parentid;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectAll, null);
+
+        int id;
+        String meal_name;
+
+        if (c.moveToFirst()) {
+            do {
+                id = c.getInt(c.getColumnIndex(KEY_ID));
+                meal_name = c.getString(c.getColumnIndex(MEAL_NAME));
+                Log.d("APPDBHELPER-MEAL", "the parent id is: " + c.getString(c.getColumnIndex(FK_KEY_ID)));
+                Meal meal = new Meal(id, meal_name);
+                meals.add(meal);
+            } while (c.moveToNext());
+
+        }
+        return meals;
+    }
 
     public ArrayList<MealPlan> getAllMealPlans() {
         ArrayList<MealPlan> mealplans = new ArrayList<MealPlan>();
@@ -286,20 +323,13 @@ public class AppDBHelper extends SQLiteOpenHelper {
         return mealplans;
     }
 
-    public boolean insertMealPlan(MealPlan mealP) {
+    public long insertMealPlan(MealPlan mealP) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
-
         values.put(MEALPLAN_NAME, mealP.getPlanName());
-
-        if (db.insert(MEALPLAN_TABLE, null, values) >= 0) {
-            db.close();
-            return true;
-        }
-
+        long res = db.insert(MEALPLAN_TABLE, null, values);//insert statement returns id of element
         db.close();//closing resources
-        return false;
+        return res;
     }
 
     public boolean deleteMealPlan(MealPlan mealPlan) {
@@ -309,7 +339,25 @@ public class AppDBHelper extends SQLiteOpenHelper {
             return true;
         }
         return false;
+    }
 
+    public long insertMeal(Meal meals, int parentID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(MEAL_NAME, meals.getMealName());
+        values.put(FK_KEY_ID, parentID);
+        long res = db.insert(MEALS_TABLE, null, values);//insert statement returns id of element
+        db.close();//closing resources
+        return res;
+    }
+
+    public boolean deleteMeal(Meal meals) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.i("KATHLEEN", String.valueOf(meals.getId()));
+        if (db.delete(MEALS_TABLE, KEY_ID + "=" + String.valueOf(meals.getId()), null) > 0) {
+            return true;
+        }
+        return false;
     }
 
 }

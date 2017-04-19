@@ -1,5 +1,8 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
+/**
+ * ID Class - abstract class to improve code reuse
+ */
 public abstract class ID {
     private int id;
 

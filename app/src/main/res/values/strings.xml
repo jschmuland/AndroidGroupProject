@@ -21,12 +21,18 @@
 
     <!-- Strings for the Sleep Activity -->
 
+
     <string name="Sleeping">Sleeping</string>
     <string name="Awake">Awake</string>
     <string name="InputSleepTime">Input Sleep Time</string>
     <string name="Set">Set New Sleep</string>
     <string name="enter_number_only">Please enter only a number</string>
-
+    <string name="sleeptracker_help_text">You can track you sleep toggeling the awake/sleeping button,
+    If you missed a sleep session you can add it later by clicking on the set sleep button.
+    Clicking on any of the items in the list will bring up more details and let you delete that item as well.</string>
+    <string name="sleeptracker_help_title">Sleep Tracker by Joel Schmuland</string>
+    <string name="day_o_week">Day of the week</string>
+    
     <!--Strings for the Food Tracker Activity-->
 
     <string name="AddFood">Add Food</string>
@@ -117,4 +123,6 @@
     <string name="meal_title">Meal By Kathleen McNulty</string>
     <string name="helpMPtext">First name your meal plan, then click your meal plan.</string>
     <string name="helpMealText">Name your meal (breakfast, snack, lunch or dinner) then double click the meal name.</string>
+    <string name="EnterName">"Enter Name of Meal Plan"</string>
+
 </resources>

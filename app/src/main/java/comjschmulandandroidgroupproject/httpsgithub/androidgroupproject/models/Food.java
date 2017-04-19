@@ -6,6 +6,7 @@ public class Food extends ID{
     private String foodName;
     private int calories;
     private String description;
+    private int parentID;
 
     public Food(){
         this("", 0, "");
