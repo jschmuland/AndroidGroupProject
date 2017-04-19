@@ -5,7 +5,7 @@
     <string name="title_activity_sleep_tracker">Dormindo</string>
     <string name="title_activity_food_tracker">Rastrear Comida</string>
     <string name="title_activity_food_picker">Procurar Comida</string>
-    <string name="exercise">Rastrear Exercicio</string>
+    <string name="exercise">Rastrear Exercício</string>
     <string name="foodTitle">Alimentos</string>
     <string name="mealTitle">Plano Alimentar</string>
     <string name="date">Data</string>
@@ -26,6 +26,9 @@
     <string name="InputSleepTime">Horas Dormidas</string>
     <string name="Set">Setar Horas</string>
     <string name="enter_number_only">Digite somente Números</string>
+    <string name="sleeptracker_help_text">Você pode rastrear suas horas dormidas pressionando os botões abaixo,    Se você perdeu alguma sessão, você pode adicionar depois clicando no botão (Dormir). Clicando em qualquer um dos itens salvos, uma lista com mais informações vai aparecer e será possível deletar.</string>
+    <string name="sleeptracker_help_title">Rastreador do Sono por Joel Schmuland</string>
+    <string name="day_o_week">Dia da semana</string>
 
     <!--Strings for the Food Tracker Activity-->
 
@@ -38,9 +41,11 @@
     <string name="enter_calories">Digite as calorias</string>
     <string name="confirmation">Confirme sua escolha</string>
     <string name="foodtracker_help_title">FoodTracker por James Thibaudeau</string>
+    <string name="foodpicker_help_title">FoodPicker por James Thibaudeau</string>
     <string name="foodtracker_help_text">Clique em comida para procurar e adicionar, uma vez adicionado escolha a data
         e a hora. Clique em Adicionar Comida para adicionar em sua lista.  Clique em sua lista pra ler mais detalhes
         sobre o alimento.</string>
+    <string name="foodpicker_help_text">Digite em Alimentos para procurar, clique em algum para adicionar</string>
     <string name="descriptionTitle">Descrição</string>
     <string name="foodDetails">Detalhes</string>
 
@@ -66,6 +71,8 @@
     <string name="exerciseSaveOnDatabase">Você quer salvar o item na Databasae?</string>
     <string name="exerciseSavingDatabase">Salvando na Database</string>
     <string name="exerciseList">Exercícios Salvos</string>
+    <string name="exerciseInformation">Dados do Exercício:</string>
+    <string name="exerciseImageDescription">Descrição da Imagem</string>
 
     <string name="exercise_help_title">ExerciseTracker por Carlos Barroso</string>
     <string name="exercise_help_text1">Primeiro, escolha quantos minutos foram gastos realizando
@@ -101,8 +108,23 @@
     <string name="Dialogue_Positive">"Sim"</string>string>
     <string name="Dialogue_Negative">"Não"</string>string>
     <string name="exit">"Botão de Saída"</string>string>
+    <string name="Dialogue2">Você quer deletar este plano alimentar?</string>
+    <string name="Dialogue_Negative2">Não</string>
+    <string name="Dialogue_Positive2">Sim</string>
+    <string name="Dialogue_Title2">Dialogo</string>
 
     <!-- Strings for the Meal Activity -->
     <string name="mealsubmitbutton">Botão submeter a refeição</string>
+    <string name="mealplanner_title">Planificador alimentar, por Kathleen McNulty</string>
+    <string name="meal_title">Planificador alimentar, por Kathleen McNulty</string>
+    <string name="helpMPtext">Primeiro, escreva um nome para seu plano alimentar, então
+        clique so seu plano na Lista acima.</string>
+    <string name="helpMealText">Nomeie a sua refeição (café da manhã, aperitivo, almoço ou jantar, etc)
+        e então dê um duplo clique no nome da refeição.</string>
+    <string name="EnterName">"Coloque o nome da refeição"</string>
+    <string name="MakeMeal">"Crie seu plano alimentar"</string>
+
+
+
 
 </resources>

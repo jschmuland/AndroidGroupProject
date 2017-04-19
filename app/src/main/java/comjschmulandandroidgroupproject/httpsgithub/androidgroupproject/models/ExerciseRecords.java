@@ -1,12 +1,10 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
-
 import java.util.Date;
 
 /**
  * ExerciseRecords is the model for exercise data
  */
-
 public class ExerciseRecords extends ID{
     //Strings for exerciseName and date, doubles for duration and calories
     private String exerciseName, date;
@@ -63,6 +61,4 @@ public class ExerciseRecords extends ID{
         this.date = date;
     }
 
-
-
-}
+}//end class

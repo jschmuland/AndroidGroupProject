@@ -68,6 +68,8 @@
     <string name="exerciseSaveOnDatabase">Do you want to save the data on the Database?</string>
     <string name="exerciseSavingDatabase">Saving on the Database</string>
     <string name="exerciseList">Past Exercises</string>
+    <string name="exerciseInformation">Exercise Information:</string>
+    <string name="exerciseImageDescription">Image Description</string>
 
     <string name="exercise_help_title">Exercise Tracker by Carlos Barroso</string>
     <string name="exercise_help_text1">First set how many minutes you spent doing
@@ -114,7 +116,8 @@
     <string name="mealplanner_title">Meal Planner By Kathleen McNulty</string>
     <string name="meal_title">Meal By Kathleen McNulty</string>
     <string name="helpMPtext">First name your meal plan, then click your meal plan.</string>
-<string name="helpMealText">Name your meal (breakfast, snack, lunch or dinner) then double click the meal name.</string>
+    <string name="helpMealText">Name your meal (breakfast, snack, lunch or dinner) then double click the meal name.</string>
     <string name="EnterName">"Enter Name of Meal Plan"</string>
-    <string name="MakeMeal">"Make your meal plan"</string>
+    <string name="MakeMeal">\"Make your Meal Plan\"</string>
+
 </resources>
