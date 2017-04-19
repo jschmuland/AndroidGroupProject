@@ -51,7 +51,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     private final static String MEALPLAN_NAME = "MEALPLAN_NAME";
     private final static String FK_KEY_ID = "PARENT_ID";
     //Create table queries
-    private final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
+    private final static String SLEEP_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s INTEGER, %s INTEGER);", SLEEP_TABLE, KEY_ID, DATE, HOURS_SLEPT);
     private final static String FOOD_EATEN_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER, %s TEXT, %s INTEGER, %s TEXT);", FOOD_EATEN_TABLE, KEY_ID, DATE, FOOD_ITEM, CALORIES, DESCRIPTION);
     private final static String EXERCISE_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s REAL, %s REAL);", EXERCISE_TABLE, KEY_ID, DATE, EXERCISE_NAME, CALORIES, EXERCISE_DURATION);
     private final static String FOOD_QUERY = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s INTEGER, %s);", FOOD_TABLE, KEY_ID, FOOD_ITEM, CALORIES, FK_KEY_ID);
@@ -134,10 +134,10 @@ public class AppDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(HOURS_SLEPT, sleepSession.getDuration());
-        values.put(DATE, sleepSession.getDate().getTime());
+        values.put(HOURS_SLEPT,sleepSession.getDuration());
+        values.put(DATE,sleepSession.getDate().getTime());
 
-        if (db.insert(SLEEP_TABLE, null, values) >= 0) {
+        if(db.insert(SLEEP_TABLE, null, values) >= 0){
             db.close();
             return true;
         }
@@ -145,6 +145,20 @@ public class AppDBHelper extends SQLiteOpenHelper {
         db.close();//closing resources
         return false;
     }
+
+    public boolean deleteSleepSession(Sleep sleepobj){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if(db.delete(SLEEP_TABLE, KEY_ID + "=" + String.valueOf(sleepobj.getId()), null) > 0){
+            db.close();
+            return true;
+        }
+        db.close();
+        return false;
+
+    }
+
+
 
     public ArrayList<FoodEaten> getAllFoodEaten() {
         Log.i(ACTIVITY_NAME, "Called getAllFoodEaten()");
@@ -198,7 +212,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteFoodEaten(FoodEaten foodEaten) {
+    public boolean deleteFoodEaten(FoodEaten foodEaten){
         SQLiteDatabase db = this.getWritableDatabase();
 
         if (db.delete(FOOD_EATEN_TABLE, KEY_ID + "=" + String.valueOf(foodEaten.getId()), null) > 0) {

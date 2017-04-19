@@ -25,7 +25,7 @@
         android:layout_centerVertical="true"
         android:textAppearance="@android:style/TextAppearance.Holo.Large"
         android:textAlignment="textEnd"/>
-
+<!--textview-->
     <TextView
         android:id="@+id/sleepDate"
         android:layout_width="wrap_content"
