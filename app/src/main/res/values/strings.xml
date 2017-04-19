@@ -26,6 +26,9 @@
     <string name="InputSleepTime">Input Sleep Time</string>
     <string name="Set">Set New Sleep</string>
     <string name="enter_number_only">Please enter only a number</string>
+    <string name="sleeptracker_help_text">You can add a new sleep session by clicking on set sleep. also you can click on the list view to make itgo into a detailed fragment.
+    this will popup a delete that will remove it from the database.</string>
+    <string name="sleeptracker_help_title">Made by Joel Schmuland</string>
 
     <!--Strings for the Food Tracker Activity-->
 
