@@ -5,7 +5,7 @@
     <string name="title_activity_sleep_tracker">Dormindo</string>
     <string name="title_activity_food_tracker">Rastrear Comida</string>
     <string name="title_activity_food_picker">Procurar Comida</string>
-    <string name="exercise">Rastrear Exercicio</string>
+    <string name="exercise">Rastrear Exercício</string>
     <string name="foodTitle">Alimentos</string>
     <string name="mealTitle">Plano Alimentar</string>
     <string name="date">Data</string>
@@ -49,7 +49,6 @@
 
     <!-- Strings for the ExerciseRecords Activity -->
 
-    <string name="exerciseTitle">Meus Exercícios</string>
     <string name="exerciseTextView">Escolha seu exercício abaixo</string>
     <string name="timeInMinutes">0000</string>
     <string name="timeInMinutesView">Tempo gasto (em minutos) fazendo exercício</string>
@@ -69,6 +68,8 @@
     <string name="exerciseSaveOnDatabase">Você quer salvar o item na Databasae?</string>
     <string name="exerciseSavingDatabase">Salvando na Database</string>
     <string name="exerciseList">Exercícios Salvos</string>
+    <string name="exerciseInformation">Dados do Exercício:</string>
+    <string name="exerciseImageDescription">Descrição da Imagem</string>
 
     <string name="exercise_help_title">ExerciseTracker por Carlos Barroso</string>
     <string name="exercise_help_text1">Primeiro, escolha quantos minutos foram gastos realizando
@@ -113,5 +114,7 @@
         clique so seu plano na Lista acima.</string>
     <string name="helpMealText">Nomeie a sua refeição (café da manhã, aperitivo, almoço ou jantar, etc)
         e então dê um duplo clique no nome da refeição.</string>
+    <string name="EnterName">"Coloque o nome da refeição"</string>
+    <string name="MakeMeal">"Crie seu plano alimentar"</string>
 
 </resources>

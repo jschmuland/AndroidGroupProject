@@ -1,8 +1,8 @@
 package comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models;
 
-
-import java.util.Date;
-
+/**
+ * Created by carlo on 4/5/2017. Exercise Records Class for the Exercise Activity
+ */
 public class ExerciseRecords extends ID{
     private String exerciseName, date;
     private double duration, calories;
@@ -56,6 +56,4 @@ public class ExerciseRecords extends ID{
         this.date = date;
     }
 
-
-
-}
+}//end class
