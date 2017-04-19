@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -62,7 +62,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="48dp"
             android:text="@string/okSendButtom"
-            android:layout_above="@+id/exerciseListView2"
             android:layout_centerHorizontal="true" />
 
         <ProgressBar
@@ -88,7 +87,7 @@
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text=""
             android:layout_marginBottom="25dp"
             android:layout_alignBottom="@+id/progressBarExercise"
             android:layout_centerHorizontal="true" />
