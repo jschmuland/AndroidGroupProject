@@ -32,7 +32,7 @@
             android:layout_marginTop="27dp"
             android:text="@string/timeInMinutesView"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
@@ -45,7 +45,6 @@
             android:layout_alignEnd="@+id/exerciseImageView" />
 
         <ImageView
-            android:contentDescription="@string/exerciseImageDescription"
             android:id="@+id/exerciseImageView"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -86,7 +85,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/exerciseTextView"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
     </RelativeLayout>

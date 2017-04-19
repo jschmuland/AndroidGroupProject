@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,11 +29,10 @@ import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.net.URL;
 
+import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.ExerciseMessageDetails;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.support.Exercise_info_class;
 
-/**
- * Created by carlo on 4/5/2017. Main Exercise Activity class
- */
+
 public class Exercise extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static String exerciseName, exerciseCal;
@@ -41,6 +41,7 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
     protected String[] exercisesListArray, exercisesInfoArray;
     protected EditText setTimeInExercise;
     protected Double timeInExercise;
+    protected int exercisePosition;
     protected ImageView exerciseImageView;
     protected String URL;
     boolean isTablet;
@@ -73,46 +74,37 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         this.exerciseCal = exerciseCal;
     }
 
-    /**
-     * onCreate method
-     * @param savedInstanceState bundle object
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
-        /*---------------find and create the objects references-------------*/
+        /*---------------find the objects references-------------*/
         list = (ListView) findViewById(R.id.exerciseListView);
         exerciseImageView = (ImageView) findViewById(R.id.exerciseImageView);
         Spinner spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(this);
+
         exercisesListArray = getResources().getStringArray(R.array.exercises_array);
         exercisesInfoArray = getResources().getStringArray(R.array.exercises_calories_array);
 
-        //Creating the ArrayAdapter instance having the exercises list array
+        //Creating the ArrayAdapter instance having the country list
         ArrayAdapter exercisesArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, exercisesListArray);
         exercisesArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spin.setAdapter(exercisesArrayAdapter);
 
-        spin.setAdapter(exercisesArrayAdapter);     //Setting the ArrayAdapter data on the Spinner
-
-        //find out if this is a phone or tablet
         isTablet = (findViewById(R.id.exerciseFrameLayout) != null); //find out if this is a phone or tablet
 
-        setTitle(getString(R.string.exercise));     //set the activity title
+
     }//end onCreate Method
 
-    /**
-     * sets the image image to the exercise Name
-     * @param parent   parent object
-     * @param view     view object
-     * @param position object position
-     * @param id       id
-     */
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        exercisePosition = position;
 
-        // swicth created to change the exercise's image
         switch (position) {
             case 0:
                 URL = "http://icons.iconarchive.com/icons/icons-land/sport/64/Basketball-Ball-icon.png";
@@ -135,10 +127,8 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
 
         }//end switch
 
-        //create the reference to a method that collects the image from the internet
         GetExerciseImage retrieveExerciseImage = new GetExerciseImage();
-        //retrieve the exercise image
-        retrieveExerciseImage.execute(URL);
+        retrieveExerciseImage.execute(new String[]{URL});
 
         //Toast message when click on the exercise name
         Toast.makeText(getApplicationContext(), exercisesListArray[position], Toast.LENGTH_LONG).show();
@@ -146,7 +136,8 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         //create a string with the calories/minute
         String exerciseInfo = getString(R.string.caloriesPerMinute) + " " + exercisesInfoArray[position];
 
-        //set the exercise name and calories
+
+        //set the exercise name and info
         setExerciseName(exercisesListArray[position]);
         setExerciseCal(exercisesInfoArray[position]);
 
@@ -154,51 +145,38 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
         String[] tempExercise = {exercisesListArray[position], exerciseInfo, getString(R.string.exerciseClickHere)};
 
         //adapter object
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tempExercise);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, tempExercise);
 
-        list.setAdapter(adapter);       //set the listview adapter
-        list.setOnItemClickListener(onListClick);     //set the list view listener
+        //display the exercise in the list view
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(onListClick);
 
     }//end onItemSelected
 
-    //Adapter view for the Exercise clicked
+    /**
+     *
+     */
     private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            setTimeInExercise = (EditText) findViewById(R.id.timeEditText);      //get the editText reference
+            setTimeInExercise = (EditText) findViewById(R.id.timeEditText);
 
             try {
-
-                if (Double.valueOf(setTimeInExercise.getText().toString()) >= 0) {
-                    //get the values from the setTimeinExercise and store it in a double file
-                    timeInExercise = Double.valueOf(setTimeInExercise.getText().toString());
-
-                } else {
-                    timeInExercise = 0.00;  //if the number is negative, set the exercise time to zero
-
-                }
+                timeInExercise = Double.valueOf(setTimeInExercise.getText().toString());
             } catch (NumberFormatException e) {
-                e.printStackTrace(); //print the issue
-                timeInExercise = 0.00;    //if it's not a number, set the exercise time to zero
-            }//end catch
+                timeInExercise = 0.00;
+            }
 
-            //create the intent file and add values
             Intent i = new Intent(Exercise.this, Exercise_info_class.class);
-            i.putExtra("exerciseCal", getExerciseCal());
-            i.putExtra("exerciseName", getExerciseName());
+            i.putExtra(exerciseCal, getExerciseCal());
+            i.putExtra(exerciseName, getExerciseName());
             i.putExtra("setTime", timeInExercise);
-
-            //start the new activity
             startActivity(i);
         }
     };
 
-    /**
-     * no actions for this method
-     * @param parent object
-     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
@@ -209,60 +187,45 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
      */
     private class GetExerciseImage extends AsyncTask<String, Void, Bitmap> {
 
-        /**
-         * doInBackGround method to get the bitmap
-         * @param urls objct
-         * @return the bitmap
-         */
         @Override
         protected Bitmap doInBackground(String... urls) {
-
-            Bitmap map = null; //set bitmap value to null
-
-            //get the downloaded image;
+            Bitmap map = null;
             for (String url : urls) {
                 map = downloadImage(url);
             }
-            return map; //return the bitmap
+            return map;
         }//end doInBackGround
 
-        /**
-         * Sets the Bitmap returned by doInBackground
-         *
-         * @param result bitmap result
-         */
+        // Sets the Bitmap returned by doInBackground
         @Override
         protected void onPostExecute(Bitmap result) {
-
-            exerciseImageView.setImageBitmap(result);        //set the image bitmap
+            exerciseImageView.setImageBitmap(result);
         }//end onPostExecute
 
         private Bitmap downloadImage(String url) {
-
-            Bitmap bitmap = null;       //set bitmap value to null
-            InputStream stream;         //create the InputStream Object
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();  //create a BitMapFactory
+            Bitmap bitmap = null;
+            InputStream stream;
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 
             try {
-                stream = getHttpConnection(url);        //get the connection
+                stream = getHttpConnection(url);
                 bitmap = BitmapFactory.
-                        decodeStream(stream, null, bmOptions);  //get the image
-                stream.close();                                 //close the stream
+                        decodeStream(stream, null, bmOptions);
+                stream.close();
             } catch (IOException e1) {
-                e1.printStackTrace();                           //print the issue
+                e1.printStackTrace();
             }
-            return bitmap;                  //return the bitmap object
+            return bitmap;
         }
 
-        // Create HttpURLConnection and returns InputStream
+        // Makes HttpURLConnection and returns InputStream
         private InputStream getHttpConnection(String urlString)
                 throws IOException {
-            InputStream stream = null;              //set inputStream to null
-            URL url = new URL(urlString);           //create a new URL object
-            URLConnection connection = url.openConnection();    //create a new URL connection and open it
+            InputStream stream = null;
+            URL url = new URL(urlString);
+            URLConnection connection = url.openConnection();
 
             try {
-                //create a new HttpURL Connection and use the method GET
                 HttpURLConnection httpConnection = (HttpURLConnection) connection;
                 httpConnection.setRequestMethod("GET");
                 httpConnection.connect();
@@ -273,34 +236,24 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return stream;    //return the strem
+            return stream;
         }
 
     }//end getExerciseImage class
 
-    /**
-     * method to create a menu option
-     * @param menu Menu object
-     * @return true
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.ft_toolbar, menu);
-        MenuItem exerciseItem = menu.findItem(R.id.action_exercise);
-        exerciseItem.setVisible(false);
+        MenuItem foodItem = (MenuItem) menu.findItem(R.id.action_exercise);
+        foodItem.setVisible(false);
         return true;
     }//end onCreateOptionsMenu
 
-    /**
-     * method created to create a menu item
-     * @param item menuItem object
-     * @return true or false
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
+        Intent intent = null;
+        switch(item.getItemId()){
             case (R.id.action_foodtracker):
                 intent = new Intent(Exercise.this, FoodTracker.class);
                 startActivity(intent);
@@ -309,14 +262,14 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
                 intent = new Intent(Exercise.this, MealPlanner.class);
                 startActivity(intent);
                 return true;
-            case (R.id.action_sleep):
+            case(R.id.action_sleep):
                 intent = new Intent(Exercise.this, SleepTracker.class);
                 startActivity(intent);
                 return true;
-            case (R.id.action_home):
+            case(R.id.action_home):
                 finish();
                 return true;
-            case (R.id.action_help):
+            case(R.id.action_help):
                 Log.i(ACTIVITY_NAME, "help");
                 createHelpDialog();
                 return true;
@@ -326,10 +279,7 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
 
     }//end onOptionSelectedMenu
 
-    /**
-     * method to create a new help dialog
-     */
-    public void createHelpDialog() {
+    public void createHelpDialog(){
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         // Get the layout inflater
         LayoutInflater inflater = this.getLayoutInflater();
@@ -343,7 +293,6 @@ public class Exercise extends AppCompatActivity implements AdapterView.OnItemSel
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
-        //create a new alert dialog and show the message
         AlertDialog dialog2 = builder2.create();
         dialog2.setTitle(R.string.exercise_help_title);
         dialog2.show();

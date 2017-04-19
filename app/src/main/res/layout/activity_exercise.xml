@@ -10,8 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_weight="0.10">
+        android:layout_height="120dp">
 
         <EditText
             android:id="@+id/timeEditText"
@@ -34,7 +33,7 @@
             android:layout_marginTop="27dp"
             android:text="@string/timeInMinutesView"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
@@ -49,13 +48,12 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:contentDescription="@string/exerciseImageDescription"
             android:id="@+id/exerciseImageView"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:srcCompat="@android:drawable/sym_def_app_icon"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignTop="@+id/textViewMinutes"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
 
     </RelativeLayout>
 
@@ -89,7 +87,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/exerciseTextView"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
     </RelativeLayout>

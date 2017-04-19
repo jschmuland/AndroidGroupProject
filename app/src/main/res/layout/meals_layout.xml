@@ -18,8 +18,6 @@
             android:id="@+id/headingMeal"
             android:text="Enter Meal"
             ></TextView>
-
-
         <ListView
             android:layout_width="250dp"
             android:layout_height="70dp"
@@ -29,13 +27,13 @@
 
         <EditText
             android:id="@+id/editTextMeal"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
 
         <Button
 
-            android:text="Add Food to Meal"
+            android:text="Submit Name of Meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
