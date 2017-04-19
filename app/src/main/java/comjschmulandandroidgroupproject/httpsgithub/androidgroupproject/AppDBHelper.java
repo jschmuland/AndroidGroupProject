@@ -69,7 +69,7 @@ public class AppDBHelper extends SQLiteOpenHelper {
     //DB name
     public final static String DATABASE_NAME = "Wellness.db";
     //Version
-    static int VERSION_NUM = 6;
+    static int VERSION_NUM = 7;
 
     //Constructor
     public AppDBHelper(Context ctx) {
