@@ -26,7 +26,7 @@ public class Sleep extends ID {
     public Sleep(int id, Date date, int duration){
         this.date = date;
         this.duration = duration;
-        setId(id);
+        setId(0);
     }
 
     //getters and setters
