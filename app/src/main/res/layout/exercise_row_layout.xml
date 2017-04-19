@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,17 +10,14 @@
         android:id="@+id/exerciseRowDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:text="Date"
+        android:text="@string/exerciseDate"
 />
 
     <TextView
         android:id="@+id/exerciseRowName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="Name"
+        android:text="@string/exerciseName"
         android:textAlignment="textEnd"
  />
 
@@ -28,15 +25,13 @@
         android:id="@+id/exerciseRowDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Duration"
-        android:layout_alignParentStart="true" />
+        android:text="@string/exerciseDuration"
+ />
 
 
     <TextView
         android:id="@+id/exerciseRowCalories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/exerciseRowDate"
-        android:text="Calories"/>
+        android:text="@string/calories"/>
 </LinearLayout>
