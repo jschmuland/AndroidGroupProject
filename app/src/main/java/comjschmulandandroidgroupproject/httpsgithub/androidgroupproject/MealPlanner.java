@@ -37,7 +37,7 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.F
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 
 import static comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R.id.toolbar;
-
+//Author:Kathleen McNulty
 
 public class MealPlanner extends AppCompatActivity {
    //Creating objects
