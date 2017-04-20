@@ -5,9 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Sleep is a model that represents a nights sleep with a date and a duration for time slept
- */
 
 public class Sleep extends ID {
     //Date for date and int for duration
@@ -26,7 +23,7 @@ public class Sleep extends ID {
     public Sleep(int id, Date date, int duration){
         this.date = date;
         this.duration = duration;
-        setId(0);
+        setId(id);
     }
 
     //getters and setters

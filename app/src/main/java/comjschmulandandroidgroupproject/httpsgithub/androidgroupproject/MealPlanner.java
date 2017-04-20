@@ -37,19 +37,21 @@ import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.F
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
 
 import static comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R.id.toolbar;
-
+//Author:Kathleen McNulty
 
 public class MealPlanner extends AppCompatActivity {
+
  //Creating objects
     ArrayList<MealPlan> mealplans;
     AppDBHelper helper;
     MealPlanAdapter adapter;
     ListView theList;
 
-
+//Create activity if not already loaded
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+           //Creating objects
         setContentView(R.layout.activity_meal_planner);
          //Creating objects
         helper = new AppDBHelper(this);
@@ -85,6 +87,7 @@ public class MealPlanner extends AppCompatActivity {
                 startActivityForResult(intent, 5);
             }
         });
+
 //Deleting MealPlans with long click from database
         theList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -113,6 +116,7 @@ public class MealPlanner extends AppCompatActivity {
                 return true;
             }
         });
+
   //Submitting mealplan
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +153,7 @@ public class MealPlanner extends AppCompatActivity {
         Snackbar.make(findViewById(android.R.id.content), R.string.MakeMeal, Snackbar.LENGTH_LONG)
                 .show();
 
-        //Custom Dialogue
+          //Custom Dialogue on exit button
 
         exit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -185,6 +189,7 @@ public class MealPlanner extends AppCompatActivity {
 
 
     }
+
   //Method to delete mealplan from database used in onlongclick
     public void deleteMealPlan(MealPlan mealplan2, int position) {
         if (helper.deleteMealPlan(mealplan2)) {
@@ -202,7 +207,7 @@ public class MealPlanner extends AppCompatActivity {
         foodItem.setVisible(false);
         return true;
     }//end onCreateOptionsMenu
-
+//Help menu options to go to each of the other activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
@@ -251,6 +256,7 @@ public class MealPlanner extends AppCompatActivity {
         dialog2.setTitle(R.string.mealplanner_title);
         dialog2.show();
     }
+
 //AsynchTask to retrieve meals from database on background thread
     private class MealPlanQuery extends AsyncTask<String, Integer, ArrayList<MealPlan>> {
 
@@ -281,6 +287,7 @@ public class MealPlanner extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
+
   //Private class to retrieve information from the array
     private class MealPlanAdapter extends ArrayAdapter<MealPlan> {
 
