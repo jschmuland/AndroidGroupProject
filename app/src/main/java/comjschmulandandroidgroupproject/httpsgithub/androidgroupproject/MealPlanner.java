@@ -40,7 +40,7 @@ import static comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.R
 
 
 public class MealPlanner extends AppCompatActivity {
-
+ //Creating objects
     ArrayList<MealPlan> mealplans;
     AppDBHelper helper;
     MealPlanAdapter adapter;
@@ -51,6 +51,7 @@ public class MealPlanner extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_planner);
+         //Creating objects
         helper = new AppDBHelper(this);
         Button button = (Button) findViewById(R.id.mealsubmitbutton);
         Button exit = (Button) findViewById(R.id.exitbutton);
@@ -58,6 +59,7 @@ public class MealPlanner extends AppCompatActivity {
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
         mealplans = new ArrayList<MealPlan>();
         theList = (ListView) findViewById(R.id.theList);
+          //Creating adapter for listview
         adapter = new MealPlanAdapter(this);
         theList.setAdapter(adapter);
 
@@ -70,7 +72,7 @@ public class MealPlanner extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+//Passing to meal class when clicking on MealPlan Item
         theList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
 
@@ -83,7 +85,7 @@ public class MealPlanner extends AppCompatActivity {
                 startActivityForResult(intent, 5);
             }
         });
-
+//Deleting MealPlans with long click from database
         theList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,7 +113,7 @@ public class MealPlanner extends AppCompatActivity {
                 return true;
             }
         });
-
+  //Submitting mealplan
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,7 +185,7 @@ public class MealPlanner extends AppCompatActivity {
 
 
     }
-
+  //Method to delete mealplan from database used in onlongclick
     public void deleteMealPlan(MealPlan mealplan2, int position) {
         if (helper.deleteMealPlan(mealplan2)) {
             mealplans.remove(position);
@@ -191,7 +193,7 @@ public class MealPlanner extends AppCompatActivity {
         }
 
     }
-
+//Help menu options to go to each of the other activities
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -230,7 +232,7 @@ public class MealPlanner extends AppCompatActivity {
 
     }
 
-
+//Dialogue from help menu
     public void createHelpDialog() {
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         // Get the layout inflater
@@ -249,11 +251,11 @@ public class MealPlanner extends AppCompatActivity {
         dialog2.setTitle(R.string.mealplanner_title);
         dialog2.show();
     }
-
+//AsynchTask to retrieve meals from database on background thread
     private class MealPlanQuery extends AsyncTask<String, Integer, ArrayList<MealPlan>> {
 
         ProgressBar progressBar;
-
+//progress bar update
         public MealPlanQuery() {
             progressBar = (ProgressBar) findViewById(R.id.progressBar);
             progressBar.setMax(100);
@@ -279,7 +281,7 @@ public class MealPlanner extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
-
+  //Private class to retrieve information from the array
     private class MealPlanAdapter extends ArrayAdapter<MealPlan> {
 
         public MealPlanAdapter(Context ctx) {
@@ -294,8 +296,8 @@ public class MealPlanner extends AppCompatActivity {
             return mealplans.get(position);
         }
 
+        //Inflating textview items in listview
         public View getView(int position, View convertView, ViewGroup parent) {
-            //Just specifying the chat window is going to use what layout for each item????
             LayoutInflater inflater = MealPlanner.this.getLayoutInflater();
             View result = null;
             result = inflater.inflate(R.layout.mealplan_picker_row, null);
