@@ -46,7 +46,7 @@ public class MealPlanner extends AppCompatActivity {
     MealPlanAdapter adapter;
     ListView theList;
 
-
+//Create activity if not already loaded
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
