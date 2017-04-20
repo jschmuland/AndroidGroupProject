@@ -28,10 +28,10 @@ import java.util.ArrayList;
 
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.Meal;
 import comjschmulandandroidgroupproject.httpsgithub.androidgroupproject.models.MealPlan;
-
-
+//Author Kathleen McNulty
+//Fragment to display meals
 public class MealPlannerFragment extends Fragment {
-
+//Creating objects
     int parentID;
     ArrayList<Meal> meals = new ArrayList<Meal>();
     EditText editTextmeal;
@@ -43,10 +43,10 @@ public class MealPlannerFragment extends Fragment {
     public MealPlannerFragment() {
         parentID = -1;//set it to a default that wouldn't affect db.insert later on
     }
-
+   //Submitting to database and instantiating async task
     public void onActivityCreated(Bundle savedTest) {
         super.onActivityCreated(savedTest);
-        Log.d("MEALPLANNERFRAGMENT", "Parent Mealplan ID: " + parentID);
+        //Creating objects
         helper = new AppDBHelper(getActivity());
         adapter = new MealPlannerFragment.MealActivityAdapter(getActivity());
         button1 = (Button) getActivity().findViewById(R.id.submitmealbutton);
@@ -68,7 +68,7 @@ public class MealPlannerFragment extends Fragment {
             }
         });
 
-        //queries for all mealplans from specified mealPlanID
+        //Queries for all mealplans from specified mealPlanID
         MealQuery queryThread = new MealQuery(parentID);
         try {
             meals = queryThread.execute().get();
@@ -81,8 +81,9 @@ public class MealPlannerFragment extends Fragment {
         editTextmeal = (EditText) getActivity().findViewById(R.id.editTextMeal);
         theListmeal = (ListView) getActivity().findViewById(R.id.theListMeal);
         theListmeal.setAdapter(adapter);
-        //controls what gets changed in list
-        // adapter1.notifyDataSetChanged();
+        
+        
+         //To go to the food picker
         theListmeal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
 
@@ -95,7 +96,7 @@ public class MealPlannerFragment extends Fragment {
             }
         });
         setHasOptionsMenu(true);
-
+//To delete meal
         theListmeal.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -125,7 +126,7 @@ public class MealPlannerFragment extends Fragment {
         });
     }
 
-
+//To create the fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ public class MealPlannerFragment extends Fragment {
 
         return inflater.inflate(R.layout.meals_layout, container, false);
     }
-
+ //Method to create options in menu
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
@@ -150,7 +151,7 @@ public class MealPlannerFragment extends Fragment {
 
 
     }//end onCreateOptionsMenu
-
+   //Options in help menu to go to each of the other activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
@@ -180,7 +181,7 @@ public class MealPlannerFragment extends Fragment {
 
     }
 
-
+//Creates dialogue in help menu
     public void createHelpDialog() {
         AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
@@ -199,7 +200,7 @@ public class MealPlannerFragment extends Fragment {
         dialog2.setTitle(R.string.mealplanner_title);
         dialog2.show();
     }
-
+    //Inflates listview and connects to array
     private class MealActivityAdapter extends ArrayAdapter<Meal> {
 
         public MealActivityAdapter(Context ctx) {
@@ -226,7 +227,7 @@ public class MealPlannerFragment extends Fragment {
         }
 
     }
-
+  //AsyncTask to retrieve all meals from database
     private class MealQuery extends AsyncTask<String, Integer, ArrayList<Meal>> {
 
         int parentID;
